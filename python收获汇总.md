@@ -1,0 +1,955 @@
+## 4.18
+
+### enumerate返回类型为tuple元组
+
+### py中的生成器和next函数的联合使用
+
+当我们需要在迭代过程中动态生成值序列时，Python 中的**生成器表达式**就变得非常有用。生成器表达式类似于列表推导，但是它使用圆括号而不是方括号，并且**生成的是一个生成器对象**而不是一个列表。生成器对象可以逐个地生成值，而不是一次性生成所有值，因此在内存使用上更加高效。
+
+生成器表达式的一般形式是：
+
+```python
+(expression for item in iterable)
+```
+
+其中，`expression` 是生成每个值的表达式，`item` 是迭代的元素，`iterable` 是可迭代的对象，如列表、元组、集合等。
+
+下面是一个简单的示例，演示了如何使用生成器表达式生成一个包含 1 到 5 的平方的生成器对象：
+
+```python
+squares_generator = (x ** 2 for x in range(1, 6))
+```
+
+生成器对象 `squares_generator` 可以通过迭代逐个生成值。可以使用 `next` 函数来获取生成器对象的下一个值。
+
+```python
+print(next(squares_generator))  # 输出：1
+print(next(squares_generator))  # 输出：4
+print(next(squares_generator))  # 输出：9
+```
+
+`next` 函数用于获取生成器对象的下一个值。每次调用 `next` 函数时，生成器都会继续执行，直到生成一个新的值。当生成器耗尽时，即没有更多的值可供生成时，会触发 `StopIteration` 异常。因此，通常会将 `next` 函数用在循环中，以便在生成器耗尽之前遍历所有值。
+
+例如：
+
+```python
+for square in squares_generator:
+    print(square)
+```
+
+这样会打印出生成器对象的所有剩余值。
+
+总之，生成器表达式和 `next` 函数是 Python 中用于处理惰性计算的强大工具，能够有效地处理大型数据集，节省内存并提高性能。
+
+
+
+### py3中的bitsect_right函数
+
+`bisect_right` 函数是 Python 标准库中 `bisect` 模块提供的一个功能，**用于在已排序的序列中查找元素应该插入的位置，以保持序列的有序性**。
+
+该函数的一般形式是：
+
+```python
+bisect_right(a, x, lo=0, hi=len(a))
+```
+
+其中，参数含义如下：
+
+- `a`：已排序的序列，可以是列表、元组或其他支持索引操作的序列。
+- `x`：要插入的元素。
+- `lo`：可选参数，用于指定搜索的起始位置，默认值为 0。
+- `hi`：可选参数，用于指定搜索的结束位置，默认值为序列的长度。
+
+函数返回值是一个整数，表示将元素 `x` 插入到序列 `a` 中的位置，具体来说，返回的位置是在保持序列有序的前提下，将 `x` 插入到已排序序列中大于等于 `x` 的元素之后的位置。
+
+下面是一个简单示例，演示了如何使用 `bisect_right` 函数：
+
+```python
+from bisect import bisect_right
+
+a = [1, 3, 5, 7, 9]
+x = 6
+
+insert_index = bisect_right(a, x)
+print(insert_index)  # 输出：3
+```
+
+在这个示例中，列表 `a` 已经按升序排列。元素 `x` 的值为 6。使用 `bisect_right` 函数，找到了将元素 6 插入到列表 `a` 中的位置，这个位置是在索引 3 处。
+
+需要注意的是，如果序列中存在与 `x` 相等的元素，则 `bisect_right` 函数会返回将 `x` **插入到相等元素之后**的位置。
+
+## 4.19
+
+1. 获取字符串的长度`n=len(s)`
+2. py中键值对字典的生成格式：`dict={'index':'val','index':'val',...}`
+3. `enumerate()`函数的返回是index, val。可以用于遍历字符串
+4. `list()`返回所有单个元素，也可用于遍历字符串
+5. 逆向思维节省了步骤，包括获取长度、判别溢出等
+
+## 4.20
+
+1. py中函数递归自我调用需要用到关键词self
+2. 定义函数时括号内： `名称：类型名称`  返回值是在def的最后`->返回类型`
+3. py中判别同类型元素是否完全一致可以使用关键词`is`
+4. py的return语句可以包含逻辑判断关键词如and，or等；and关键词二者全为真时才返回；or关键词返回第一个为真的语句的结果
+5. py中使用`deque(em1,em2)`创建双线队列即双端队列，输入输出无限制的队列。
+   1. Deque ()创建双端队列
+   2.  insert (item)向队首插入项
+   3. append (item)向队尾插入项
+   4. popFront()返回队首的项，并从双端队列中删除该项
+   5. pop()返回队尾的项，并从双端队列中删除该项
+   6.  isEmpty ()判断双端队列是否为空
+   7. size ()返回双端队列中项的个数
+   8.  get (index)返回对列中的对象
+
+## 4.21
+
+1. py中字符串和数字都是不可变对象，无法通过下标形式修改对应元素。对字符串的操作可以是split切割、+拼接、.join等
+
+2. 若想用下标来存储或修改元素，则类型应该是字典或者列表，最后返回结果则用`.join(列表)`来获取字符串
+
+3. `enumerate()`函数会返回从零开始的索引值和对应元素的值
+
+4. `list()`函数直接返回每一个元素的值
+
+5. `zip()`函数接收两个可迭代对象作为参数，返回一个元组列表。对元组列表的列进行访问可以是`[列序号]`。
+
+6. py自带的排序函数是`sorted()`而不是想当然的`sort`。参数中先要传入被排序元组/列表，然后可以用key关键字确定排序依据
+
+7. `lambda` 是创建匿名函数的一种简洁方式。匿名函数是一种无需定义标识符（函数名）的函数或子程序。它们通常用于编写简单的函数，这些函数不会被重复调用。
+
+   下面是对 `lambda x : x[0]` 的详细解释：
+
+   1. `lambda` 关键字：这告诉 Python 解释器，接下来的代码将是一个匿名函数。
+   2. `x`：这是传递给匿名函数的参数。在这个上下文中，`x` 是一个元组。
+   3. `:`：冒号后面是匿名函数的主体，即函数要执行的表达式。
+   4. `x[0]`：这是匿名函数的返回值，即参数 `x` 中的第一个元素。在这个上下文中，`x` 是通过 `zip(indices, s)` 创建的元组，其中 `x[0]` 就是 `indices` 中的元素。
+
+8. 初始化列表需要中括号关键符号`[]`
+
+## 4.22
+
+1. 哈希表实际上是一个字典，内容都是键值对：`key:val` 但是在python中键值对之间是靠冒号链接的，C++中则是大括号里面用逗号分隔
+2. `dict.get(key, default=None)`函数返回返回指定键的值，如果值不在字典中返回default值。因此方法三中都是把num的val映射到对应的索引上去，可以直接依赖key来等效查找val
+3. 在对数组生成哈希表时，可以使用`enumerate`枚举函数把index和nums都映射到表中。`hashmap[num]=index`
+4. 在py中不需要声明一个类型的变量，编译器会根据数据类型自动确认类型。本题中也不需要result的创建，因为可以直接返回一个用中括号包起来的整数对来表示list类型的结果。
+
+## 4.23
+
+### 字典相关
+
+#### 创建字典
+
+1. 直接指定key和value：
+   `dic={'name':'try2love','date':'2024_4_24'}`键值对之间用逗号隔开
+2. 字典推导式
+   `dic={f'key{i}': i**2 for i in range(1,4)}`
+   得到结果：`{'key1': 1, 'key2': 4, 'key3': 9}`
+   `dic = {char: 0 for char in string.asii_lowercase}`对应的输出结果：`{'a': 0, 'b': 0, 'c': 0, ..., 'z': 0}`.其中，`string.ascii_lowercase` 是一个字符串常量，包含了所有小写字母。
+3. 内置函数
+   `dic=dict(name='try2love',date='2024_4_24')`或者使用元组`dic=dict([('name','try2love'),('date','2024_4_24')])`
+4. 使用`dict.fromkeys()`
+   `keys=['a','b','c']``dic=dict.fromkeys(keys,'try2love')`前者规定了键，后者初始会对应的值均为'try2love'
+5. 修改
+   `my_dict['new_key'] = 'new_value'  *# 添加键值对* ` 
+   `my_dict['new_key'] = 'updated_value'  *# 更新键的值*`
+   当一次性修改多个键值对时，使用update(): `dic.update({'b':2,'c':3})`把对应键值对进行了修改。也可以直接使用关键字参数：`dic.update(a=4,d=5)`直接修改已存在的键值对的值并生成不存在的键值对
+6. 访问
+   直接通过键来访问值`dic['new_key'] #输出updated_value`
+7. 删除键值对
+   使用del语句或者pop语句：`del dic['new_key']#删除键new_key`  `value=dic.pop('new_key',None)#返回键new_key的值并删除。若键不存在则返回默认的none`
+8. 遍历字典
+   遍历键：`for key in dic:`
+   遍历值：`for val in dic.values():`
+   遍历键值对：`for key,val in dic.items():` 
+
+### 统计字符串中字符的出现次数
+
+1. 使用内置的 `count()` 方法
+
+字符串对象有一个 `count()` 方法，可以用来统计指定字符出现的次数：
+
+```
+text = "example string"
+char = "e"
+count = text.count(char)
+print(f"字符 '{char}' 出现了 {count} 次。")
+```
+
+2. 使用字典
+
+可以遍历字符串中的每个字符，并使用字典来计数：
+
+```
+text = "example string"
+char_count = {}
+
+for char in text:
+    if char in char_count:
+        char_count[char] += 1
+    else:
+        char_count[char] = 1
+
+print(char_count)
+```
+
+3. 使用 `collections.Counter`
+
+`collections` 模块的 `Counter` 类是一个专门的工具，用于快速计数：
+
+```
+from collections import Counter
+
+text = "example string"
+counter = Counter(text)
+
+print(counter)
+```
+
+`Counter` 对象返回的是一个字典，其中键是字符，值是该字符出现的次数。
+
+4. 使用列表推导式和 `sum()`
+
+列表推导式可以与 `sum()` 函数结合使用来统计字符出现的次数：
+
+```
+text = "example string"
+char = "e"
+count = sum(char == current_char for current_char in text)
+print(f"字符 '{char}' 出现了 {count} 次。")
+```
+
+5. 使用 `numpy` 或 `pandas`
+
+如果你已经安装了 `numpy` 或 `pandas`，这些库提供了更高效的计数方法：
+
+```
+import numpy as np
+
+text = np.array("example string")
+unique, counts = np.unique(text, return_counts=True)
+char_count = dict(zip(unique, counts))
+
+print(char_count)
+```
+
+或者使用 `pandas`：
+
+```
+import pandas as pd
+
+text = pd.Series(list("example string"))
+char_count = text.value_counts()
+
+print(char_count)
+```
+
+选择哪种方法？
+
+- 如果你只需要统计一个字符，使用 `count()` 方法就足够了。
+- 如果需要统计整个字符串中所有唯一字符的出现次数，`collections.Counter` 是一个非常方便的选择。
+- 如果你处理的是非常大的数据集，并且需要更高效的计数，可以考虑使用 `numpy` 或 `pandas`。
+
+## 4.24
+
+1. python中数据变量一般都是小数，做索引时要先把它int化。在py的二分法时，出现了一个错误就是直接`middle=(i+j)/2`，得到的middle是一个float类型，无法用于索引，加一个强制转换为int即可。或者是使用py中的整数除法`\\`这样得到的middle值为整数。`middle=(i+j)//2`.这样可能会有i+j溢出的风险，因此参考答案的解法更值得记忆：`mid=(j-i)//2+i`因为i和j不可能溢出，而i+j可能溢出。
+
+2. python连续初始化并不能用逗号连接，在二分法中，我曾尝试`i=0,j=length-1`这样来赋值，但是报错了。若想在一行内完成多个变量的初始化赋值，需要分号连接。改为`i=0;j=length-1`即可成功运行。
+
+3. 对list类型数据的原始操作：
+
+   - 尾部插入数据`list.append(val)`
+   - 指定索引处插入数据（index取0标志首部插入数据）`list.insert(index,val)`
+   - 通过值删除元素`list.remove(val)`
+   - 通过索引删除元素`del list[index]`
+   - 通过索引进行切片操作(左闭右开)`sub_list=list[begin:end]`
+   - 排序（默认升序，降序可选）`list.sort([reverse=True])`
+   - 快速创建列表推导`sq_list=[x**2 for x in list]`
+   - 列表连接，用加号`combine_list=list+[val1,val2]`
+   - 列表本体连接`list.extend(another_list)`
+   - 列表元素计数`count=list.count(val)`统计val在列表中出现的次数
+   - 列表反转`list.reverse()`
+   - 查找元素索引`index=list.index(val)`查找第一个val的索引值
+   - 列表去重（使用集合的方法）`unique_list=list(set(list))`原理是把列表转化为集合后自动去除重复元素
+   - 列表排序+去重`unique_sorted_list=sorted(set(list))`先去重后排序，因为sorted()返回一个列表类型数据
+
+4. `bisect`是py标准库中的模块，可以完成二分插入和二分搜索。常见函数有
+
+   - `bisect_left(a, x, lo=0, hi=None)`
+     这个函数将 `x` 插入到数组 `a` 中，以保持数组的有序性，并且返回`x`在数组中的插入点索引。如果数组中已经存在与`x`相等的元素，则会返回最左边（即索引最小的）那个相等元素的索引。如果没有指定 `lo` 和 `hi`，则在整个数组中进行搜索。
+
+   - `bisect_right(a, x, lo=0, hi=None)`
+     与 `bisect_left` 类似，但是返回最右边的那个相等元素的索引。如果没有相等元素，则返回`x`应该插入的位置，该位置会大于所有小于`x`的元素的索引。
+
+   - `insort_left(a, x, lo=0, hi=None)`
+     在 `a` 中插入 `x`，保持有序性，并返回插入后的数组。如果没有指定 `lo` 和 `hi`，则在整个数组中进行插入。
+
+   - `insort_right(a, x, lo=0, hi=None)`
+
+     与 `insort_left` 类似，但是插入后 `x` 会是右侧插入点相等元素中的第一个。
+
+
+## 4.25
+
+巩固了对list类型数据操作的记忆，学了双指针的操作
+
+## 4.26
+
+循环数组没必要根据下标，直接循环本身即可。
+
+## 4.27
+
+### np中的argmax和argmin
+
+这两个函数是np中的函数，返回的是当前列表中最大/最小元素的索引值。这个知识点是在学机器学习的时候积累的。但是本题使用这个做法没有意义。
+
+### py中的滑动窗口
+
+py中实现更为简单，使用enumerate会很方便。
+
+## 4.28
+
+### py初始化二维数组
+
+`result=[[]*n]*m`得到一个m行n列的二维数组。比如创建`result=[[0]*4]*4`实际上创建了一个包含4个对同一个列表引用的列表。这意味着当你修改 `result[0][0]` 的值时，所有其他行的第一个元素也会被修改，因为它们都是同一个对象的引用。这就是为什么你不会得到预期的结果 `[[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]`。
+
+对二维数组的修改和访问直接调用下标即可。
+
+初始化真正独立的二维数组的方式：
+
+方法一：使用列表推导式和map：
+
+`result=list(map(lambda _: [0]*n,range(n)))`这里的map函数把一个匿名函数`lambda _:[0]*n`应用到`range(n)`生成的序列上，创建了四个独立的列表。
+
+方法二：使用两层循环
+
+```python
+result=[]
+for _ in range(n):
+    result.append([0]*n)
+```
+
+参考答案生成的result二维数组实际上是使用双层for：`result=[[0 for _ in range(n)] for _ in range(n)]`先生成内层列表，再生成外层
+
+### try和except
+
+在Python中，`try` 和 `except` 是异常处理的关键组成部分，它们允许程序在遇到错误时以更可控的方式响应，而不是直接崩溃。异常处理是一种结构化的方法，用于捕获程序执行中出现的异常（错误）。
+
+#### try 语句
+
+`try` 语句使程序员能够标记一个代码块，在该代码块中，可能会发生异常。`try` 块让你可以测试代码以查找错误，而不会立即让程序崩溃。
+
+#### except 语句
+
+`except` 语句用于捕获 `try` 块中发生的异常。你可以为 `except` 指定一个或多个异常类型，以确定应该处理哪些类型的异常。
+
+#### 基本用法
+
+```python
+try:
+    # 尝试执行的代码
+    pass
+except ExceptionType:
+    # 当特定类型的异常发生时执行的代码
+    pass
+```
+
+#### 详细解释
+
+1. **try 块**：`try` 关键字后面跟着一个代码块，这个代码块包含了可能会引发异常的代码。
+
+2. **except 块**：如果 `try` 块中的代码抛出了一个异常，程序的执行将立即跳转到 `except` 块。`except` 块可以捕获并处理特定的异常类型。
+
+3. **异常类型**：在 `except` 后面，你可以指定一个异常类型，以捕获特定类型的异常。你也可以捕获所有类型的异常，使用 `except Exception`（其中 `Exception` 是所有非系统退出类异常的基类）。
+
+4. **多个 except 块**：你可以有多个 `except` 块来处理不同类型的异常。
+
+5. **finally 块**：`finally` 块用于执行无论是否发生异常都要执行的代码，比如清理资源。
+
+6. **else 块**：`else` 块用于当 `try` 块中没有异常发生时执行的代码。
+
+#### 示例
+
+```python
+try:
+    # 尝试读取文件
+    with open('file.txt', 'r') as f:
+        data = f.read()
+except FileNotFoundError:
+    # 如果文件不存在，打印错误信息
+    print("文件未找到。")
+except Exception as e:
+    # 捕获其他类型的异常
+    print(f"发生了一个错误：{e}")
+else:
+    # 如果没有异常发生，处理数据
+    print("文件读取成功，数据为：", data)
+finally:
+    # 无论是否发生异常，都会执行
+    print("这是 finally 块。")
+```
+
+在这个例子中，如果 `file.txt` 文件不存在，将引发 `FileNotFoundError` 并被第一个 `except` 块捕获。如果发生了其他类型的异常，它将被第二个 `except` 块捕获。无论是否发生异常，`finally` 块中的代码都将执行。
+
+通过使用 `try` 和 `except`，你可以创建更加健壮和用户友好的程序，因为它允许你优雅地处理错误情况。
+
+## 4.29
+
+###  py定义链表
+
+```python
+class ListNode:
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+```
+
+py判断节点是否为空不用 `p!=none`这样的写法，直接`if !p`即可，这样就完成了对p节点是否为空的判断。
+
+py无需手动删除不需要节点的内存空间，它会自动删除。因此和C++不同，有节点pre和后继p，删除p：`pre.next=p.next;p=p.next`就可以了，不用像C++那样定义一个tmp在对其进行delete操作。
+
+### 创建和释放链表的节点
+
+在Python中，创建和释放链表节点通常涉及到类的定义和引用计数的管理。Python本身并没有内置的链表数据结构，但可以通过类来模拟链表的行为。下面是一个简单的单链表节点类的定义，以及如何创建和释放节点的示例。
+
+#### 单链表节点类的定义
+
+```python
+class ListNode:
+    def __init__(self, value=0, next=None):
+        self.value = value  # 节点存储的值
+        self.next = next    # 指向下一个节点的指针
+```
+
+在这个类中，每个节点包含一个值（`value`）和一个指向下一个节点的指针（`next`）。`next` 默认为 `None`，表示链表的末尾。
+
+#### 创建链表节点
+
+创建链表节点非常简单，只需要实例化 `ListNode` 类：
+
+```python
+# 创建头节点（可以不存储实际数据）
+head = ListNode()
+
+# 创建其他节点
+node1 = ListNode(1)
+node2 = ListNode(2)
+node3 = ListNode(3)
+
+# 构建链表
+head.next = node1
+node1.next = node2
+node2.next = node3
+```
+
+#### 释放链表节点
+
+在Python中，内存管理是自动的，使用了引用计数和垃圾回收机制。当一个对象的引用计数降到0时，Python解释器会自动调用对象的 `__del__` 方法并释放内存。但是，对于链表这种包含多个对象引用的场景，我们需要手动将不再使用的节点的引用设置为 `None`，以避免循环引用导致的内存泄漏。
+
+```python
+# 假设我们要释放 node2
+node2.next = None  # 断开对下一个节点的引用
+
+# 由于 node2 没有其他引用指向它，它的引用计数变为0，Python会自动垃圾回收
+node3 = None  # 同样，释放 node3
+```
+
+#### 注意事项
+
+- **循环引用**：在链表中，如果不注意，可能会形成循环引用，导致引用计数永远不会降到0，从而造成内存泄漏。因此，当链表节点不再需要时，应手动将相关引用设置为 `None`。
+- ** `__del__` 方法**：虽然Python会自动管理内存，但如果你想要自定义销毁链表节点时的行为（比如释放外部资源），可以为 `ListNode` 类定义一个 `__del__` 方法。
+- **内存管理**：在Python中，通常不需要手动管理内存，但是对于复杂的数据结构，如链表，了解引用计数和垃圾回收的原理是有益的。
+
+#### 使用上下文管理器
+
+为了更安全地管理链表节点的生命周期，可以使用Python的上下文管理器：
+
+```python
+class ListNode:
+    def __init__(self, value=0):
+        self.value = value
+        self.next = None
+
+    def __del__(self, value=None):
+        print(f"ListNode({self.value}) has been deleted.")
+
+# 使用 with 语句
+with ListNode(1) as node:
+    print(node.value)
+# 输出: ListNode(1) has been deleted.
+```
+
+使用 `with` 语句和上下文管理器可以确保即使发生异常，链表节点也能被正确地清理。这是一种编写更安全代码的方法，尤其是在涉及到资源管理时。
+
+## 4.30
+
+### py中不同类之间的调用
+
+在Python中，不同类之间的调用通常涉及以下几个方面：
+
+#### 1. 创建实例
+
+你可以创建另一个类的实例，即使这个类是在另一个类定义的内部。
+
+```python
+class OuterClass:
+    def __init__(self):
+        self.inner = InnerClass()
+
+class InnerClass:
+    def say_hello(self):
+        return "Hello from InnerClass"
+
+# 创建 OuterClass 的实例
+outer = OuterClass()
+
+# 通过 outer 实例调用 InnerClass 的方法
+print(outer.inner.say_hello())  # 输出: Hello from InnerClass
+```
+
+#### 2. 作为属性或方法的返回值
+
+一个类的对象可以作为另一个类的属性或方法的返回值。
+
+```python
+class Engine:
+    def start(self):
+        return "Engine started"
+
+class Car:
+    def __init__(self):
+        self.engine = Engine()
+
+    def start_car(self):
+        return self.engine.start()
+
+# 创建 Car 的实例并调用方法
+my_car = Car()
+print(my_car.start_car())  # 输出: Engine started
+```
+
+#### 3. 作为参数传递
+
+一个类的对象可以作为参数传递给另一个类的构造函数或方法。
+
+```python
+class NavigationSystem:
+    def give_directions(self):
+        return "Giving directions to the destination"
+
+class Car:
+    def __init__(self, navigation_system):
+        self.navigation = navigation_system
+
+    def start_trip(self):
+        return self.navigation.give_directions()
+
+# 创建 NavigationSystem 的实例
+nav_system = NavigationSystem()
+
+# 将 nav_system 实例作为参数传递给 Car 的构造函数
+my_car = Car(nav_system)
+
+# 调用方法
+print(my_car.start_trip())  # 输出: Giving directions to the destination
+```
+
+#### 4. 继承
+
+一个类可以通过继承另一个类来复用其功能，这允许派生类访问基类的属性和方法。
+
+```python
+class Vehicle:
+    def start(self):
+        return "Vehicle started"
+
+class Car(Vehicle):
+    def start_engine(self):
+        super().start()
+        print("Engine roar")
+
+# 创建 Car 的实例并调用方法
+my_car = Car()
+my_car.start_engine()  # 输出: Vehicle started 和 Engine roar
+```
+
+#### 5. 组合
+
+组合是指一个类的对象作为另一个类的属性，这与继承不同，因为组合是一种“has-a”关系。
+
+```python
+class Tire:
+    def inflate(self):
+        return "Tire inflated"
+
+class Car:
+    def __init__(self):
+        self.tires = [Tire(), Tire(), Tire(), Tire()]
+
+    def inflate_tires(self):
+        for tire in self.tires:
+            print(tire.inflate())
+
+# 创建 Car 的实例并调用方法
+my_car = Car()
+my_car.inflate_tires()  # 输出四次 Tire inflated
+```
+
+#### 6. 多态
+
+多态是指对象可以有多种形式，允许你将不同类型的对象视为同一类的对象。
+
+```python
+class Vehicle:
+    def start(self):
+        pass
+
+class Car(Vehicle):
+    def start(self):
+        return "Car started"
+
+class Motorcycle(Vehicle):
+    def start(self):
+        return "Motorcycle started"
+
+def start_vehicle(vehicle):
+    print(vehicle.start())
+
+# 创建不同类型的实例
+car = Car()
+motorcycle = Motorcycle()
+
+# 使用多态通过基类类型引用调用派生类的方法
+start_vehicle(car)        # 输出: Car started
+start_vehicle(motorcycle)  # 输出: Motorcycle started
+```
+
+在Python中，类的调用和交互非常灵活，支持面向对象编程的所有基本特性，如封装、继承和多态。通过这些机制，你可以构建复杂的程序结构，同时保持代码的清晰和可维护性。
+
+### py中类的self如何使用
+
+在Python中，`self` 是一个约定俗成的名称，用于指代类实例的本身。当你创建一个类时，任何实例方法的第一个参数（无论是命名的还是位置的）都应该是 `self`。Python解释器在调用实例方法时会自动传递 `self` 参数。
+
+#### `self` 的用途：
+
+1. **访问实例属性**：`self` 用于明确区分局部变量和实例的属性或方法。
+
+2. **调用其他实例方法**：在实例方法内部，可以通过 `self` 调用类的其他方法。
+
+3. **从实例方法返回实例**：通常，实例方法返回 `self` 对象的引用，这允许方法链。
+
+4. **初始化实例**：在类的 `__init__` 方法中，`self` 用于访问或初始化实例的属性。
+
+#### 示例：
+
+```python
+class MyClass:
+    def __init__(self, value):
+        self.value = value  # 使用 self 来初始化实例属性
+
+    def print_value(self):
+        print(self.value)  # 使用 self 来访问实例属性
+
+    def __del__(self):
+        print(f"{self.value} is being deleted.")  # 使用 self 引用实例
+
+# 创建实例
+my_object = MyClass(10)
+
+# 调用实例方法
+my_object.print_value()  # 输出: 10
+
+# 实例销毁时自动调用析构函数
+del my_object
+# 输出: 10 is being deleted.
+```
+
+#### 注意事项：
+
+- **非显式传递**：虽然 `self` 参数看起来像是需要手动传递，但实际上，当你通过实例调用方法时，Python解释器会自动将实例的引用作为第一个参数传递给方法。
+
+- **构造函数**：`__init__` 方法是类的构造函数，它在创建类的新实例时被调用。`self` 在 `__init__` 方法中用于访问或设置实例的属性。
+
+- **方法定义**：在定义实例方法时，`self` 必须作为方法的第一个参数，即使方法不使用它。
+
+- **类方法和静态方法**：对于类方法（使用 `@classmethod` 装饰器），第一个参数是类（通常命名为 `cls`），而不是实例。静态方法（使用 `@staticmethod` 装饰器）不需要类或实例的引用作为第一个参数。
+
+- **返回 self**：实例方法通常返回 `self` 对象，这允许方法链的使用，例如：`obj.method1().method2()`。
+
+通过使用 `self`，你可以确保在类的实例方法中正确地访问和操作实例的属性和方法。这是Python面向对象编程的一个基本原则。
+
+### py中对链表依据索引值的遍历访问方式
+
+那么提前就需要准备一个size表示链表的容量。
+
+```python
+for i in range(size):
+    print(p.val)
+    p=p.next
+```
+
+这样子可以完成对链表的遍历。
+
+还可以
+
+```python
+#假设头节点为head
+current=head
+index=0
+while current and index!=target:
+    print(current.val)
+    current=current.next
+    index+=1
+```
+
+还可以创建一个索引映射来加速访问
+
+```python
+index_map={}
+current=head
+index=0
+while current:
+    index_map[index]=current
+    current=current.next
+    index+=1
+
+print(index_map[target].val)
+```
+
+
+
+### py中一个函数调用另一个函数
+
+如果目的是调用完毕此函数即可，则必须在调用函数后面添加return语句，否则后面的语句会被继续执行
+
+如在本题中的根据索引添加节点的函数
+
+```python
+def addAtIndex(self, index: int, val: int) -> None:
+    if index<0 or index>self.size: return
+    if index==self.size:
+        self.addAtTail(val)
+        return#没有这个return，调用addtail后还会执行后面的函数和size+=1
+    p=self.virtue_node
+    for i in range(index):
+        p=p.next
+    new_node=LinkNode(val,p.next)
+    p.next=new_node
+    self.size+=1
+```
+
+调用`addAtTail()`之后如果没有return，则后面的语句被照常执行，元素被添加两遍且size+2
+
+## 5.1
+
+Python 语言中的平行赋值（也称为元组赋值或多变量赋值）是一种允许你在同一行代码中为多个变量赋值的语法。这种赋值通常用于同时从元组或列表中解包多个值。
+
+### 平行赋值的基本语法：
+
+```python
+a, b = 1, 2
+```
+
+这行代码将值 `1` 分配给变量 `a`，将值 `2` 分配给变量 `b`。
+
+### 平行赋值的高级用法：
+
+1. **从序列中解包**：
+
+```python
+# 从元组中解包
+a, b, c = (1, 2, 3)
+
+# 从列表中解包
+a, b, c = [1, 2, 3]
+```
+
+2. **交换变量的值**：
+
+```python
+a, b = 1, 2
+a, b = b, a  # 交换 a 和 b 的值
+```
+
+3. **在函数返回多个值时使用**：
+
+```python
+def get_coordinates():
+    return 10, 20
+
+x, y = get_coordinates()  # 平行赋值用于接收多个返回值
+```
+
+4. **扩展赋值**：
+
+你可以在赋值的右侧使用比左侧更多的值，Python 会自动丢弃多余的值。
+
+```python
+a, b = 1, 2, 3, 4  # a 将被赋值为 1，b 将被赋值为 2
+```
+
+5. **捕获未定义的变量**：
+
+如果你在左侧使用比右侧更多的变量，Python 会为未赋值的变量赋值为 `None`。
+
+```python
+a, b, c = (1, 2)  # a 将被赋值为 1，b 将被赋值为 2，c 将被赋值为 None
+```
+
+6. **嵌套平行赋值**：
+
+你可以在平行赋值中嵌套其他平行赋值。
+
+```python
+a, (b, c) = 1, (2, 3)  # a 将被赋值为 1，b 将被赋值为 2，c 将被赋值为 3
+```
+
+7. **解包序列中的序列**：
+
+你可以解包序列中的序列，Python 允许你为内部序列指定变量名。
+
+```python
+a, (b, c) = [1, [2, 3]]  # a 将被赋值为 1，b 将被赋值为 2，c 将被赋值为 3
+```
+
+### 注意事项：
+
+- 平行赋值要求左侧变量的数量与右侧序列中的元素数量一致，否则会引发 `ValueError`。
+- 从Python 3.5开始，可以使用“星号赋值”（`*`）来捕获元组或列表中的剩余元素。
+
+```python
+a, *b, c = 1, 2, 3, 4  # a 将被赋值为 1，b 将是一个列表 [2, 3]，c 将被赋值为 4
+```
+
+平行赋值是Python中一种强大且表达性极强的特性，它允许你以简洁的语法进行复杂的赋值操作。
+
+
+
+在 `Solution` 类的 `reverseList` 方法中，目标是将传入的链表反转。这个方法接收一个 `ListNode` 类型的参数 `head`，它指向链表的头节点，并返回一个新的头节点，该节点是原始链表反转后的结果。
+
+以下是 `while` 循环中关键的一行代码的详细解释：
+
+```python
+cur.next, pre, cur = pre, cur, cur.next
+```
+
+这行代码是一个平行赋值（也称为元组赋值），它利用了Python的GIL（全局解释器锁）和赋值的原子性来在一行中完成三个赋值操作。这行代码的目的是更新三个变量 `cur.next`、`pre` 和 `cur` 的值，以实现链表节点的反转。
+
+### 平行赋值的执行步骤：
+
+1. `cur.next, pre, cur`：这三个变量将被赋予右侧表达式的值。
+2. `= pre, cur, cur.next`：右侧的表达式按照从左到右的顺序求值，并将值赋给左侧的变量。
+
+### 赋值过程：
+
+- 首先，`cur.next` 被赋值为**当前**的 `pre` 值，这实际上是将当前节点的 `next` 指针指向前一个节点，从而反转链接的方向。
+- 然后，`pre` 被赋值为**当前**的 `cur` 值，这样 `pre` 就指向了下一个要处理的节点。
+- 最后，`cur` 被赋值为 `cur.next`，即当前节点的原始 `next` 指针，这样 `cur` 就移动到了下一个节点。
+
+### 反转过程的示例：
+
+假设我们有如下链表：`1 -> 2 -> 3 -> None`。
+
+1. 初始状态：`cur` 指向 `1`，`pre` 为 `None`。
+2. 执行平行赋值后：
+   - `cur.next` (即 `1` 的 `next` 指针) 指向 `pre` (`None`)。
+   - `pre` 指向 `cur` (`1`)。
+   - `cur` 指向 `cur.next` (`2`)。
+3. 下一个循环迭代：
+   - `cur` 现在指向 `2`，`pre` 指向 `1`。
+   - 重复上述过程。
+
+这个过程会一直进行，直到 `cur` 为 `None`，表示链表已经完全遍历和反转。
+
+### 为什么这样做是安全的？
+
+由于Python的赋值操作是原子的，这意味着在多线程环境中，这行代码不会导致竞争条件。在单线程程序中，这行代码安全地重新链接了节点，而不会对链表的完整性造成风险。
+
+这种方法是Python中常见的技巧，它利用了Python的赋值机制来简化代码并提高效率。
+
+## 5.2
+
+今日收获是可视化网站:[可视化执行](https://pythontutor.com/)，可以完全模拟一个程序的执行过程。
+
+## 5.3
+
+无
+
+## 5.4
+
+`a,b=b,a`可以完成a和b互换的操作
+
+## 5.5
+
+### 集合的初始化
+
+特别注意：使用**强制类型转化为set，相同元素会被删除只保留一个**。且集合无序
+
+1.  初始化一个空集合：`my_set=set()`
+
+2. 花括号赋值：`my_set={1,2,3,4}`
+
+3. 也可以从list类型强制转化为set类型：`my_list=[1,2,3,4]``my_set=set(my_list)`
+
+4. 亦可以从其他类型强制转换，每一个字符都是集合的一个元素
+
+   ```python
+   >>> my_string="hello"
+   >>> my_set=set(my_string)
+   >>> my_set
+   {'e', 'o', 'l', 'h'}
+   >>> my_tuple=(1,2,2,3,4,4,5)
+   >>> my_set=set(my_tuple)
+   >>> my_set
+   {1, 2, 3, 4, 5}
+   >>> my_dict = {'a': 1, 'b': 2, 'c': 3, 'a': 4}
+   >>> my_set = set(my_dict.keys())
+   >>> my_set
+   {'c', 'b', 'a'}
+   ```
+
+5. 使用集合的推导式来初始化`my_set={x**2 for x in range(10)}`
+
+### 查找元素是否存在于集合中
+
+#### 检查元素是否存在
+
+使用in关键字
+
+```python
+my_set = {1, 2, 3, 4}
+
+# 检查元素是否存在
+if 3 in my_set:
+    print("3 is in the set.")
+else:
+    print("3 is not in the set.")
+```
+
+#### 查找并返回元素
+
+由于 `set` 是无序的，并且不保留元素的索引，所以你不能像列表或元组那样通过索引来查找并返回元素。但是，如果你知道元素在集合中，你可以通过遍历集合来找到它：
+
+```python
+for item in my_set:
+    if item == 3:
+        print("Found the element:", item)
+        break
+else:
+    print("Element not found in the set.")
+```
+
+### 集合的相关操作
+
+- `add()`：向集合添加一个新元素。
+- `remove()` 或 `discard()`：从集合中移除一个元素。`remove()` 在元素不存在时会抛出 `KeyError`，而 `discard()` 不会。
+- `union()` 或 `|`：集合的并集。
+- `intersection()` 或 `&`：集合的交集。
+- `difference()` 或 `-`：集合的差集。
+- `symmetric_difference()` 或 `^`：集合的对称差集。
+
+### py中同一个类下的函数如何调用
+
+正确方法：使用`self.function`来调用自身实例中的其他函数。在第二种做法中我在原函数中错误地使用了`count=getcount(head)`这个写法，正确方式应该是`count=self.getcount(head)`，这样才能调用实例自身中的获取序号函数。长知识了。
+
+## 5.6

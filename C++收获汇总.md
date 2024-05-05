@@ -1,0 +1,1881 @@
+## 4.18
+
+1. 获取数组长度可以直接用 数组名.size()
+2. 回忆起有序表的查找方式 二分查找
+3. 新的遍历数组方式：for (char letter : letters) 遍历letters中的每个元素并赋值给letter
+
+## 4.19
+
+1. 获取字符串的长度我是根据记忆里面的`s.length()`写的，是正确的。
+2. 对字符串的访问可以直接用下标，实现类似数组的访问方式
+3. C++中map函数生成键值对，可以根据键值对中的任何一个索引得到对应元素的值
+4. map： map内部实现了一个红黑树（红黑树是非严格平衡二叉搜索树，而AVL是严格平衡二叉搜索树），红黑树具有自动排序的功能，因此**map内部的所有元素都是有序的**，红黑树的每一个节点都代表着map的一个元素。因此，对于map进行的查找，删除，添加等一系列的操作都相当于是对红黑树进行的操作。map中的元素是按照二叉搜索树（又名二叉查找树、二叉排序树，特点就是左子树上所有节点的键值都小于根节点的键值，右子树所有节点的键值都大于根节点的键值）存储的，使用中序遍历可将键值按照从小到大遍历出来。
+   unordered_map: unordered_map内部实现了一个**哈希表**（也叫散列表，通过把关键码值映射到Hash表中一个位置来访问记录，查找的时间复杂度可达到O(1)，其在海量数据处理中有着广泛应用）。因此，其元素的排列顺序是无序的。
+
+## 4.20
+
+1. 复习了数据结构中对二叉树的遍历，重新翻看了自己的408笔记
+2. 对返回值的界定有了更深的理解
+3. 复习了递归算法的实现，尤其是最后的`return getTargetCopy(original->right,cloned->right,target);`这个函数最后返回仍为函数本身，但是初始节点发生了变化，实现了递归操作。
+4. 先序遍历方法中简洁写法的`if(left_res)`确实很简洁，因为`left_res`要么是null要么是一个确定节点，可以直接return。
+5. C++中队列的初始化：`queue<type> name`
+6. 队列获取队首元素：`name.front()`
+7. 队列输入：`name.push(element)`  队列输出：`name.pop()`
+
+## 4.21
+
+### 在C/C++中可以使用下标来直接对字符串类型数据进行修改
+
+### C++创建map对象：
+
+`map<类型,类型,...>名称={{对应类型的值，对应类型的值，...}...}`
+不进行赋值则去掉等号和后面数据
+依据map中其中一个关键字写入对应位置的数据：`map[关键字]=数据`
+
+### C++中 `string result(length, 0);`可以直接定义定长的字符串类型，其中元素都用0进行填充
+
+### 在C++中，`std::vector<int>` 
+
+是一种容器，用于存储相同类型元素的动态数组。这里的 `std::` 表示这个类型是标准命名空间的一部分，`vector` 是容器的名称，而 `<int>` 指定了这个容器存储的元素类型是 `int`（整数）。
+
+下面是 `std::vector<int>` 的一些关键特性的详细解释：
+
+**特性**
+
+1. **动态数组**：`std::vector` 可以根据需要自动调整大小，这使得它比传统的数组更灵活。
+2. **随机访问**：`std::vector` 提供了随机访问迭代器，这意味着可以快速地访问容器中的任何元素。
+3. **模板类**：`vector` 是一个模板类，可以使用任何类型的对象，不仅仅是 `int`。
+4. **异常安全性**：标准库的 `vector` 实现通常保证了良好的异常安全性。
+5. **成对迭代器**：使用 `begin()` 和 `end()` 成员函数可以获取指向 vector 开始和结束的迭代器
+
+### 在 C++ 中，`std::` 前的双冒号 `::` 
+
+是作用域解析运算符，也称为范围解析运算符。它用于明确指出某个实体（如类型、函数、对象等）属于特定的命名空间或作用域。
+
+当你看到 `std::vector` 或 `std::sort` 这样的表达式时，这里的 `std::` 表示 `vector` 和 `sort` 属于 `std`（标准）命名空间。在 C++ 中，为了避免命名冲突，许多标准库的组件都被放置在 `std` 这个命名空间下。
+
+**使用场景**
+
+1. **明确命名空间**：当你需要明确指出某个实体属于哪个命名空间时，可以使用 `::` 运算符。
+
+   ```cpp
+   std::vector<int> v; // 使用 std 命名空间下的 vector 模板类
+   ```
+
+2. **访问全局命名空间**：当局部作用域或类中有一个与全局命名空间中的名字相同的实体时，可以使用 `::` 来访问全局实体。
+
+   ```cpp
+   void myFunction() {
+       int myVar = 10;
+       std::cout << ::myVar; // 访问全局命名空间中的 myVar
+   }
+   ```
+
+3. **多级命名空间**：当实体位于多级命名空间中时，可以通过连续使用 `::` 来访问。
+
+   ```cpp
+   namespace Outer {
+       namespace Inner {
+           void myFunction() {}
+       }
+   }
+   
+   int main() {
+       Outer::Inner::myFunction(); // 调用 Outer 命名空间下的 Inner 命名空间中的 myFunction
+   }
+   ```
+
+**注意事项**
+
+- 如果没有使用 `std::`，编译器会尝试在程序的当前命名空间中查找 `vector` 或 `sort`，如果找不到，会导致编译错误。
+- 使用 `using namespace std;` 可以避免每次都需要写 `std::`，但这通常不推荐在大型项目或头文件中使用，因为它可能导致命名冲突。
+
+在 C++ 中，正确使用作用域解析运算符 `::` 是非常重要的，它有助于编写清晰、易于理解的代码，并避免潜在的命名冲突。
+
+### C++中有个很方便的数据类型叫auto
+
+在下午的解法中返回值设为auto，形参也为auto类型，可以有效避免代码重复，只要传入实参是相同的数据类型就可以完成交换操作
+
+### 数组类型做形参时，可以书写为`类型 类型名[]`,`类型* 类型名`,`类型 类型名[个数]`最终都可以使用。
+
+### 数组形参的辨析
+
+在C++中，函数参数可以以多种方式声明，以适应不同的使用场景：
+
+1. `vector<int>& array`
+
+   - 这表示 `array` 是一个 `std::vector<int>` 类型对象的引用。使用引用（`&`）意味着函数**不会复制**整个 `vector` 对象，而是**直接操作传入的 `vector`**。这适用于当你想要修改传入的 `vector` 对象，或者避免不必要的复制以提高效率时。
+
+   使用场景：
+
+   - 需要在函数内部修改外部 `vector` 对象。
+   - 希望避免复制大型容器，以提高性能。
+
+   ```cpp
+   void printVector(const vector<int>& array) {
+       for (int num : array) {
+           cout << num << " ";
+       }
+       cout << endl;
+   }
+   ```
+
+2. `int array[]`
+
+   - 这表示 `array` 是一个整数数组。这种形式通常用于函数参数，以便函数可以接收一个数组作为输入。然而，使用这种方式声明的数组参数在函数内部是按值传递的，这意味着会**复制整个数组**，这可能对性能不利。
+
+   使用场景：
+
+   - 当需要函数内部使用数组，并且不需要修改原始数组时。
+
+   ```cpp
+   void printArray(int array[], int size) {
+       for (int i = 0; i < size; ++i) {
+           cout << array[i] << " ";
+       }
+       cout << endl;
+   }
+   ```
+
+3. `int *array`
+
+   - 这表示 `array` 是一个指向整型的指针。指针参数允许函数**操作数组的第一个元素的地址**，但它不会自动传递整个数组。使用指针时，通常需要额外传递一个表示数组大小的参数，因为指针本身不包含它所指向的数组的大小信息。
+
+   使用场景：
+
+   - 当需要操作数组，但**不希望复制整个数组**以节省内存和提高效率时。
+   - 当需要**处理大小可变或者多维数组**时。
+
+   ```cpp
+   void printPointerArray(int *array, int size) {
+       for (int i = 0; i < size; ++i) {
+           cout << array[i] << " ";
+       }
+       cout << endl;
+   }
+   ```
+
+4. `int& array[]`
+
+   - 这种声明是不合法的，因为引用必须绑定到一个对象上，而不能是数组。当你**想要通过引用修改数组时**，通常会使用 `vector` 或者传递数组的指针 `int*`。
+
+在C++中，选择哪种方式取决于具体的应用场景和性能要求。例如，当你需要修改数组或避免复制时，可能会选择使用引用或指针。而当你不需要修改数组，并且不需要处理数组的边界时，可能会选择使用数组参数。
+
+### C++中的`&`运算符在引用中的详解
+
+在C++中，`&` 符号有两个主要含义：引用和位运算符。在函数形参中，`&` 通常用作引用运算符，表示参数按引用传递，而不是按值传递。
+
+**引用运算符**（&）
+
+1. **按引用传递**：当 `&` 用作函数参数类型前的修饰符时，它告诉编译器该参数是一个引用。这意味着函数接收的是变量的别名，而不是变量的副本。对引用参数的任何修改都会反映到传递给函数的实际变量上。
+
+   ```cpp
+   void modifyValue(int& ref) {
+       ref += 10; // 修改引用的原始变量
+   }
+   ```
+
+2. **使用场景**：
+
+   - 当你想要函数修改传入的参数值时。
+   - 当你想要避免复制大型对象或数组以提高效率时。
+
+3. **注意事项**：
+
+   - 引用必须在创建时就被初始化，即它们必须绑定到另一个对象。
+   - 引用不同于指针，它们不允许 `NULL` 值，并且引用的生命周期通常与被引用的对象相同。
+
+**引用的常见用途**
+
+1. **函数参数**：允许函数修改传入的对象。
+
+   ```cpp
+   void increase(Student& student) {
+       student.age++; // 直接修改传入对象的年龄
+   }
+   ```
+
+2. **返回多个值**：允许函数通过引用返回多个值。
+
+   ```cpp
+   void getDimensions(const vector<int>& vec, int& size, int& capacity) {
+       size = vec.size();
+       capacity = vec.capacity();
+   }
+   ```
+
+3. **大型对象或数组**：避免复制大型对象或数组，提高性能。
+
+   ```cpp
+   void processArray(const vector<int>& array) {
+       // 处理数组，无需复制整个数组
+   }
+   ```
+
+4. **指针参数的替代**：在某些情况下，引用可以作为指针的替代，提供更清晰的代码。
+
+   ```cpp
+   bool isValid(const string& str) {
+       // 检查字符串是否有效，无需处理指针可能的空值问题
+   }
+   ```
+
+在函数形参中使用 `&` 符号时，通常是为了创建引用，而不是按值传递参数。这在需要函数修改参数或提高性能时非常有用。
+
+### `const`关键字在形参中的用法
+
+在C++中，`const` 关键字用于指定一个变量或对象的状态不能被修改。当你在函数参数中使用 `const` 时，你告诉编译器这个参数在函数内部**不能被修改**。
+
+#### `const` 在形参中的作用
+
+1. **防止修改**：在函数参数中使用 `const` 可以防止函数内部修改传递给它的参数。这在你想要保持参数的原始状态不被函数改变时非常有用。
+
+2. **明确意图**：使用 `const` 可以向阅读代码的其他开发者明确你的意图，即这个参数不应该被函数修改。
+
+3. **编译时检查**：如果函数内部不小心尝试修改了 `const` 参数，编译器将会报错，这提供了一种编译时的安全性。
+
+#### `const` 在 `getDimensions` 函数中的例子
+
+```cpp
+void getDimensions(const vector<int>& vec, int& size, int& capacity) {
+    size = vec.size();
+    capacity = vec.capacity();
+}
+```
+
+在这个例子中：
+
+- `const vector<int>& vec`：这里 `vec` 是一个 `std::vector<int>` 的引用，并且是 `const` 的。这意味着 `getDimensions` 函数**不能修改 `vec` 中的任何元素，也不能调用任何会修改 `vec` 大小或容量的成员函数**。`vec` 作为 `const` 引用传递，确保了传入的 `vector` 不会被函数修改。
+
+- `int& size` 和 `int& capacity`：这两个参数是对整数的非 `const` 引用，意味着函数可以修改它们。这允许函数将 `vector` 的 `size` 和 `capacity` 赋值给调用者提供的变量。
+
+#### 何时使用 `const` 在形参中
+
+- **当你想返回多个值时**：使用 `const` 引用参数可以避免复制大型对象，同时还可以修改并返回多个值。
+
+- **当你需要传递大型对象时**：为了避免昂贵的复制操作，你可以将大型对象作为 `const` 引用传递。
+
+- **当你需要传递的对象不应被修改时**：如果你只想在函数中读取对象的内容，而不改变它，使用 `const` 引用是合适的。
+
+- **当你需要提高代码的清晰度和安全性时**：使用 `const` 可以避免不小心修改参数，增加代码的可读性，并在编译时提供额外的检查。
+
+#### 注意事项
+
+- 使用 `const` 引用时，必须确保传递的对象在函数的整个生命周期内都是有效的。
+
+- 如果你需要在函数内部修改参数的值，那么就不能使用 `const`。
+
+- 如果你传递的是基本数据类型的引用（如 `int&`），`const` 不适用，因为基本数据类型的引用本身不能是 `const`。
+
+- 有时候，即使参数在函数内部不需要修改，也会使用 `const`，这有助于传达函数的设计意图，即不会更改传入的参数。
+
+### 数组作为形参引用的形式
+
+ 在C++中，数组作为函数参数传递时，通常会**退化为指向数组首元素的指针**。因此，如果你想要通过引用来操作整个数组，你需要采取特定的方法来确保数组被按引用传递，而不仅仅是数组的指针。
+
+#### 使用引用传递整个数组
+
+为了按引用传递整个数组，你可以使用数组的引用作为函数参数。但是，需要注意的是，**数组的大小信息不会随着引用传递**，所以如果你需要知道数组的大小，你必须以某种方式将其传递给函数。
+
+```cpp
+template <size_t N>
+void processArray(const int (&array)[N]) {
+    // 在这里操作数组元素，例如：
+    for (int i = 0; i < N; ++i) {
+        // do something with array[i]
+    }
+}
+
+int main() {
+    int myArray[] = {1, 2, 3, 4, 5};
+    processArray(myArray); // 使用模板明确数组大小
+    return 0;
+}
+```
+
+在这个例子中，`processArray` 函数接受一个整数数组的引用，并且通过模板参数 `N` 明确了数组的大小。这样，函数就可以安全地访问数组的每个元素，而不需要担心越界。
+
+#### 使用指针和大小
+
+如果你不能或不想使用模板，你可以将数组作为指针传递，并额外传递一个表示数组大小的参数。
+
+```cpp
+void processArray(const int* array, size_t size) {
+    // 在这里操作数组元素，例如：
+    for (size_t i = 0; i < size; ++i) {
+        // do something with array[i]
+    }
+}
+
+int main() {
+    int myArray[] = {1, 2, 3, 4, 5};
+    processArray(myArray, sizeof(myArray) / sizeof(myArray[0])); // 传递数组和大小
+    return 0;
+}
+```
+
+在这个例子中，`processArray` 函数接受一个指向整数的指针和数组的大小。这样，函数就可以根据传递的大小安全地访问数组的每个元素。
+
+#### 使用容器类
+
+另一种常见的做法是使用标准库容器，如 `std::vector` 或 `std::array`，它们可以直接按引用传递，且不需要担心数组退化的问题。
+
+```cpp
+void processArray(const std::vector<int>& vec) {
+    // 在这里操作 vector 的元素
+    for (int value : vec) {
+        // do something with value
+    }
+}
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    processArray(vec); // 使用 vector 按引用传递
+    return 0;
+}
+```
+
+使用 `std::vector` 或其他容器类不仅可以避免数组退化的问题，还可以利用容器类的成员函数进行更复杂的操作。
+
+#### 总结
+
+在C++中，直接按引用传递数组并不常见，因为数组退化为指针，且没有大小信息。通常，你会使用模板、指针和额外的大小参数，或者使用标准库容器来按引用传递数组。选择哪种方法取决于具体的使用场景和个人偏好。
+
+### 基于范围的for循环
+
+这段代码中的 `for` 循环使用了 C++11 标准引入的一种新的循环语法，称为**基于范围的 for 循环**（range-based for loop）。这种语法是在 C++11 中引入的，旨在简化对容器和数组的遍历。
+
+#### 基于范围的 for 循环语法
+
+```cpp
+for (declaration : expression) statement
+```
+
+- `declaration`：这是一个声明，通常是一个变量，用于**在每次循环迭代中存储序列中的当前元素**。
+- `expression`：这是一个表达式，它**产生一个序列**，可以是一个数组、向量（vector）、列表（list）等容器，或者任何其他提供迭代器的序列。
+- `statement`：这是一个语句，通常是一个块（由花括号 `{}` 包围），在每次迭代中执行。
+
+#### 示例代码解释
+
+```cpp
+void printVector(const vector<int>& array) {
+    for (int num : array) {
+        cout << num << " ";
+    }
+    cout << endl;
+}
+```
+
+在这个例子中：
+
+- `int num`：这是循环变量的声明，它在每次迭代中被初始化为序列中的下一个元素。
+- `array`：这是 `vector<int>` 类型的容器，它被用作基于范围的 for 循环的表达式。由于 `vector` 提供了迭代器，所以它适合在这种循环中使用。
+- `cout << num << " ";`：这是循环体，它打印出当前迭代中的元素 `num`，后面跟着一个空格。
+
+#### 工作原理
+
+基于范围的 for 循环背后的工作原理是利用了容器（如 `vector`）的开始和结束迭代器。在循环开始时，循环变量 `num` 被初始化为序列的第一个元素（通过 `array.begin()` 获取）。在每次迭代中，循环变量会自动更新为序列的下一个元素，直到达到序列的末尾（通过 `array.end()` 表示）。由于 `array` 是一个 `const vector<int>&` 类型，这意味着函数不能修改传入的 `vector`，并且迭代器也是 `const` 的，不能用于修改元素。
+
+#### 使用场景
+
+基于范围的 for 循环非常适合用于遍历容器中的元素，特别是当不需要显式处理迭代器或计数器时。它提供了一种简洁、可读性强的方式来访问序列中的每个元素。
+
+#### 注意事项
+
+- 确保使用的序列（如容器或数组）提供了有效的迭代器。
+- 循环变量在每次迭代中都会被重新初始化，因此不要在循环外部使用相同的名字，以避免潜在的冲突。
+
+基于范围的 for 循环是现代 C++ 编程中广泛使用的一种语法，它提高了代码的可读性和简洁性。
+
+### 传递数组给函数并保存操作结果
+
+在C++中，当你想要将数组传递给函数并允许函数修改数组中的元素时，你可以**直接传递数组的名称**，因为数组的名称在大多数表达式中会被解释为指向数组首元素的指针。但是，如果你想要明确指出你传递的是数组的引用（以避免数组退化为指针），你可以**使用数组的引用**作为函数参数。
+
+下面是一个示例，演示如何声明一个函数，该函数接受一个整数数组的引用，并在函数体内操作数组元素：
+
+```cpp
+void operateArray(int (&array)[8]) {
+    for (int i = 0; i < 8; ++i) {
+        // 对 array 的每个元素进行操作
+        array[i] += 10;  // 这里假设我们给每个元素加10
+    }
+}
+
+int main() {
+    int myArray[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+    operateArray(myArray);
+    // 此时 myArray 中的每个元素都增加了10
+    return 0;
+}
+```
+
+在这个例子中，`operateArray` 函数的参数 `int (&array)[8]` 明确指出 `array` 是一个包含8个整数的数组的引用。这意味着函数可以直接修改传递给它的数组的元素。
+
+### 声明并使用 vector 类型
+
+`std::vector` 是C++标准模板库（STL）中的一个容器类，它提供了动态数组的功能。以下是如何声明和使用 `std::vector` 的基本步骤：
+
+1. **包含头文件**：首先，你需要包含 `<vector>` 头文件以使用 `std::vector`。
+
+2. **声明 vector**：声明一个 `std::vector` 时，你需要指定存储在向量中的元素类型。
+
+3. **构造 vector**：你可以在声明时初始化 `std::vector`，或者之后添加元素。
+
+4. **访问和修改元素**：使用下标 `[]` 运算符来访问和修改 `std::vector` 中的元素。
+
+5. **迭代器**：可以使用迭代器来遍历 `std::vector` 中的元素。
+
+下面是使用 `std::vector` 的一个示例：
+
+```cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    // 声明并初始化一个 vector，类型为 int
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+
+    // 使用下标操作符修改元素
+    vec[2] = 30;  // 将第三个元素修改为30
+
+    // 使用范围基于的for循环遍历 vector
+    for (int num : vec) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    // 添加元素到 vector 的末尾
+    vec.push_back(6);
+
+    // 使用迭代器遍历 vector
+    for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+在这个例子中，我们首先声明了一个 `std::vector<int>` 类型的变量 `vec`，并初始化了一些整数值。然后我们修改了 `vec` 中的一个元素，使用基于范围的for循环和迭代器遍历了 `vec`，并且使用 `push_back` 方法在 `vec` 的末尾添加了一个新的元素。
+
+`std::vector` 是一个非常灵活和强大的容器，它支持许多有用的操作，如 `size()`、`empty()`、`clear()`、`insert()`、`erase()` 等。
+
+## 4.22
+
+1. 哈希表的**声明**：`unordered_map<类型,类型>表名;`
+   哈希表的**初始化**实例：`unordered_map<int,int>hashmap{{1,10},{2,12},{3,13}};`也可以这样：`unordered_map<int,int>hash_map{{{1,10},{2,13},{3,13}},3}`
+   上面两个语句等价，后者是给定一个确定的值3表示哈希表中有三个键值对，而前者是自动识别，也有三个键值对
+   哈希表**添加键值对**：`hash_map.insert({key,value});`
+   **复制构造**（初始化新的表）:`unordered_map<int,int>hmap(hash_map);`
+
+2. **find()函数**：
+   以key作为参数寻找哈希表中的元素，如果哈希表中存在该key值则返回该位置上的迭代器，否则返回哈希表最后一个元素下一位置上的迭代器。
+   举例：
+
+   ```cpp
+   unordered_map<int, int> hmap{ {1,10},{2,12},{3,13} };
+   unordered_map<int, int>::iterator iter;
+   iter = hmap.find(2); //返回key==2的迭代器，可以通过iter->second访问该key对应的元素
+   if(iter != hmap.end())  cout << iter->second;
+   ```
+
+3. 对迭代器vector类型的初始化：
+   1.默认初始化：`vector<int> vec`没有被只能怪大小或者元素，被默认初始化为一个空向量
+   2.通过大小初始化：`vector<int> vec(10[,val]);`指定向量的大小来初始化，所有元素被默认初始化，若不指定val值，默认全为0；指定val，每个元素都是val
+   3.通过数组或者另一个容器初始化：
+
+   ```cpp
+   int arr[] = {1, 2, 3, 4, 5};
+   std::vector<int> vec(arr, arr + sizeof(arr) / sizeof(arr[0]));
+   // 或者更简单的写法
+   std::vector<int> vec{1, 2, 3, 4, 5};
+   ```
+
+   4.使用花括号初始化：`vector<int> vec[ = ]{1,2,3,4,5};`等号可选（花括号内容为空，创建空向量）
+   5.使用vector的构造函数：
+   `std::vector<int, std::allocator<int>> vec(10); // 显式指定了容器类型和分配器类型`
+   5.vector的成员函数：
+   `vec.resize(10 [,val]);`向量大小调整为10，新元素默认val
+   6.使用std::mov来动态内存优化：
+   `vector<int> tmp=std::move(vec);`
+
+## 4.23
+
+### break和continue
+
+`break;`用于跳出并结束当前的循环（同一个循环体中，后面的循环不用做了）
+`continue;`本次循环后续内容跳过，继续执行下一次循环。
+
+### string的赋值
+
+#### 直接使用等号
+
+对已经声明并赋值的string类型元素进行赋空值：正确做法`str="";`错误做法：`str='';`这样理解：string是char的复数形式，对char类型赋值通常使用单引号，则对string类型赋值应该采用双引号
+
+#### 使用clear
+
+`str.clear()`完成把str清空操作。
+
+#### 使用erase
+
+`str.erase(str.begin(),str.end());`也可实现清除字符串内容。且此做法更灵活，是对字符串从传入参数的初始到末尾之间的数据进行抹除
+
+#### 赋值空字符
+
+`str='\0';`虽然可以清空字符串，但是会存在一个空字符，长度不为0
+
+#### 使用assign方法
+
+`str.assign("");`该方法可以用来重新赋值字符串。
+
+### 对vector类型的操作
+
+#### 构造和初始化
+
+- **默认构造**：创建一个空的 vector。
+
+  ```cpp
+  std::vector<int> vec;
+  ```
+
+- **指定大小构造**：创建一个具有指定大小的 vector，所有元素都会被默认初始化。
+
+  ```cpp
+  std::vector<int> vec(10); // 10 个 int 类型的元素，都被初始化为 0
+  ```
+
+- **带初始值的构造**：创建一个具有指定大小的 vector，所有元素都被初始化为某个特定的值。
+
+  ```cpp
+  std::vector<int> vec(10, 1); // 10 个 int 类型的元素，都被初始化为 1
+  ```
+
+- **复制构造**：创建一个 vector，它是另一个 vector 的副本。
+
+  ```cpp
+  std::vector<int> vec1 = {1, 2, 3};
+  std::vector<int> vec2 = vec1; // vec2 是 vec1 的副本
+  ```
+
+- **移动构造**：创建一个 vector，它接管另一个 vector 的资源，不进行复制。
+
+  ```cpp
+  std::vector<int> vec1 = {1, 2, 3};
+  std::vector<int> vec2 = std::move(vec1); // vec2 接管了 vec1 的资源
+  ```
+
+- **通过迭代器范围构造**：通过已有范围内的元素构造 vector。
+
+  ```cpp
+  复制int arr[] = {1, 2, 3};
+  std::vector<int> vec(std::begin(arr), std::end(arr));
+  ```
+
+#### 赋值操作
+
+- **赋值运算符**：将一个 vector 的内容赋值给另一个 vector。
+
+  ```cpp
+  vec = anotherVec;
+  ```
+
+- **移动赋值**：使用移动语义将一个 vector 的内容赋值给另一个，不进行复制。
+
+  ```cpp
+  复制
+  vec = std::move(anotherVec);
+  ```
+
+#### 大小和容量操作
+
+- **size()**：返回 vector 中的元素数量。
+
+  ```cpp
+  size_t size = vec.size();
+  ```
+
+- **resize()**：改变 vector 的大小，可以增大也可以减小，新元素将被默认初始化。
+
+  ```cpp
+  vec.resize(20);
+  ```
+
+- **capacity()**：返回 vector 目前分配的内存大小，即 vector 能容纳的元素数量而不重新分配内存。
+
+  ```cpp
+  size_t cap = vec.capacity();
+  ```
+
+- **reserve()**：改变 vector 分配的内存大小，使其至少能容纳指定数量的元素。
+
+  ```cpp
+  vec.reserve(100);
+  ```
+
+#### 元素访问
+
+- **operator[]**：通过下标访问或修改元素。
+
+  ```cpp
+  int elem = vec[5]; // 获取下标为 5 的元素
+  vec[5] = 10;      // 设置下标为 5 的元素为 10
+  ```
+
+- **at()**：通过下标访问元素，如果下标越界，会抛出异常。
+
+  ```cpp
+  int elem = vec.at(5);
+  ```
+
+- **front()**：访问第一个元素。
+
+  ```cpp
+  int frontElem = vec.front();
+  ```
+
+- **back()**：访问最后一个元素。
+
+  ```cpp
+  复制
+  int backElem = vec.back();
+  ```
+
+#### 修改操作
+
+- **push_back()**：在 vector 的末尾添加一个元素。
+
+  ```cpp
+  vec.push_back(20);
+  ```
+
+- **pop_back()**：移除 vector 最后一个元素。
+
+  ```cpp
+  vec.pop_back();
+  ```
+
+- **insert()**：在指定位置插入一个或多个元素。
+
+  ```cpp
+  vec.insert(vec.begin() + 1, 10); // 在下标为 1 的位置插入元素 10
+  ```
+
+- **erase()**：删除一个或多个元素。
+
+  ```cpp
+  vec.erase(vec.begin() + 1); // 删除下标为 1 的元素
+  ```
+
+- **clear()**：移除所有元素，使 vector 变为空。
+
+  ```cpp
+  vec.clear();
+  ```
+
+- **swap()**：交换两个 vector 的内容。
+
+  ```cpp
+  复制std::vector<int> anotherVec;
+  vec.swap(anotherVec);
+  ```
+
+#### 特殊操作
+
+- **emplace_back()**：在 vector 末尾构造并插入一个元素。
+
+  ```cpp
+  vec.emplace_back(20);
+  ```
+
+- **begin()/end()**：返回指向 vector 开始和结束的迭代器。
+
+  ```cpp
+  复制auto itBegin = vec.begin();
+  auto itEnd = vec.end();
+  ```
+
+#### 排序和搜索
+
+- **sort()**：对 vector 中的元素进行排序。
+
+  ```cpp
+  vec.sort(); // 默认按升序排序
+  ```
+
+- **binary_search()**：在有序 vector 中进行二分查找。**返回类型为bool型**，而不是元素的索引值
+
+  ```cpp
+  bool found = std::binary_search(vec.begin(), vec.end(), value);
+  ```
+
+### 从string到对应的vector\<string>
+
+#### string中的元素依次存入vector\<string>
+
+```cpp
+string str="shdfhasdf";
+vector<string> new_vector;
+for(char c: str){
+    new_vector.push_back(string(1,c))
+}
+```
+
+#### string中的元素依次存入vector\<char>
+
+```cpp
+vector<char>char_vec;
+for(char c: char_vec){
+    char_vec.push_back(c);
+}
+```
+
+### 求集合的交集
+
+`set_intersection(a.begin(),a.end(),b.begin(),b.end(),back_inserter(result));`
+
+上面的语句实现了求字符串a和b的交集，最终结果插入到字符串result中去，元素可以重复。使用此函数之前要保证a和b有序，因此在调用前应`sort(a.begin(),a.end());`b同理
+
+经查阅资料，该函数返回类型可以是迭代器，`set_intersection(a.begin(),a.end(),b.begin(),b.end(),insert_iterator<vector<type>>(result,result.begin()));`
+
+
+
+### 查询字符串中是否包含某字符
+
+`if(str.find(val) != string::npos)`表示能够在字符串中找到val；而find()函数本身的返回值是val在str中的索引
+
+### 思路拓展
+
+以后遇到像只包含字母的情况，可以往开辟大小为26的数组空间来记录每个字母出现的频率。
+
+## 4.24
+
+二分查找既可以使用递归调用实现，也可以使用循环。最需要注意的是整体思路的选择，索引值的范围左边开还是闭and右边开还是闭？不同的选择得到的代码都会有差异，具体问题具体分析。
+
+## 4.25
+
+1. 对有序vector进行binary_search操作，返回的值是一个bool类型，而不是想当然的索引值。因此在尝试暴力的时候出错了。
+2. vector中的remove函数得到的结果和双循环暴力破解得到的最后结果一样，都是把val移动到vect的末尾处而不是真正的删除，再结合erase函数删除尾部元素即可。这其中的逻辑是每一次使用了remove都会相应调用一次erase函数，因此不需要外部设置依据val个数的循环。
+3. 如果已经获取要被删除的元素的索引值index，使用erase函数时的参数不能直接是index，而是`vec.begin()+index`。
+4. 在对数组元素进行插入和删除操作时要记住插入/删除位点之后的所有元素都要一起移动，因此顺序表的性能差于链表，牵一发而动全身是很有可能的
+5. C++中可以直接调用swap函数而不用重新定义
+6. 感觉如果我没有学过/整理过C++vector类型的操作的化，我大概率会按照408数据结构编程题一样，进行双for循环暴力破解了
+
+## 4.26
+
+### sort函数
+
+sort()函数一般情况下是等效于快速排序，时间复杂度o(nlogn)，在调用sort时，需要传入起始和结束。对vector类型进行排序，传入参数一般为`vec.begin()`和`vec.end()`；而对一个数组进行排序，传入参数一般为`arr`和`arr+arr.size()`。对vector类型使用sort后，顺序改变。除此之外还有一个可选的参数comp，要求传入一个bool类型。下面是C++ algorithm的API提供的示例：
+
+```cpp
+// sort algorithm example
+#include <iostream>     // std::cout
+#include <algorithm>    // std::sort
+#include <vector>       // std::vector
+
+bool myfunction (int i,int j) { return (i<j); }
+
+struct myclass {
+  bool operator() (int i,int j) { return (i<j);}
+} myobject;
+
+int main () {
+  int myints[] = {32,71,12,45,26,80,53,33};
+  std::vector<int> myvector (myints, myints+8);               // 32 71 12 45 26 80 53 33
+
+  // using default comparison (operator <):
+  std::sort (myvector.begin(), myvector.begin()+4);           //(12 32 45 71)26 80 53 33
+
+  // using function as comp
+  std::sort (myvector.begin()+4, myvector.end(), myfunction); // 12 32 45 71(26 33 53 80)
+
+  // using object as comp
+  std::sort (myvector.begin(), myvector.end(), myobject);     //(12 26 32 33 45 53 71 80)
+
+  // print out content:
+  std::cout << "myvector contains:";
+  for (std::vector<int>::iterator it=myvector.begin(); it!=myvector.end(); ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+
+  return 0;
+}
+```
+
+最后的一个参数可以传入bool型函数，也可以传入结构体。api中对comp形参的解释：“二进制函数，接受范围中的两个元素作为参数，并返回一个可转换为 bool 的值。返回值表示作为第一个参数传递的元素是否被认为在其定义的特定严格弱排序中排在第二个元素之前。函数不得修改其任何参数。该参数可以是函数指针，也可以是函数对象。”
+
+CSDN上对sort函数的详细介绍：[C++ sort()排序详解](https://blog.csdn.net/qq_41575507/article/details/105936466)。总的来说sort函数功能强大，不需要我们再去手动编写相应的排序算法，也可以很方便地自定义排序方式。
+
+### vector和数组
+
+数组是静态编译的，一旦创建，其大小就不可改变。可以通过下标来访问和修改对应的元素。在内存上连续分配，所有元素必须是相同类型的。
+
+vector容器可以理解为一个动态数组，可以根据需要自动调整大小，可以插入和删除元素。支持随机访问。可以通过索引值来访问其中的任何元素。当元素超过容量会自动分配新的内存并复制现有元素过去。
+
+数组转vector：
+
+```cpp
+int main(){
+    int arr[4]={1,2,3,4};
+    vector<int> vec(arr,arr+arr.size());//欸二哥参数也可以是arr+sizeof(array)
+}
+```
+
+也可先定义vector和元素个数，再进行拷贝，使用函数memcpy：
+
+```cpp
+vector<int> vec(n);
+memcpy(&vec[0],array,sizeof(array));
+```
+
+vector转数组：
+
+```python
+memcpy(arr,&vec[0],vec.size()*sizeof(vec[0]));
+```
+
+三个参数：第一个是已经声明的空数组；第二个是vector中的起始元素的引用；第三个是拷贝长度的大小
+
+### 数学运算
+
+次方：`pow(a,b)`返回$a^b$
+
+开方：`sqrt(a)`或者`pow(a,0.5)`返回$\sqrt a$
+
+绝对值：`abs(a)`返回$|a|$​
+
+求余：`a%b`
+
+指数：`exp(a)`返回$e^a$
+
+对数：`log(a)`返回$lna$
+
+## 4.27
+
+### vector中的find_if函数
+
+C++标准库中的 `find_if` 算法是用于搜索容器中满足特定条件的第一个元素的函数。这个函数是模板化的，可以用于多种容器，如数组、向量（`std::vector`）、列表（`std::list`）、双端队列（`std::deque`）等。
+
+#### 函数原型
+
+`find_if` 函数的原型如下：
+
+```cpp
+template <class ForwardIterator, class Predicate>
+ForwardIterator find_if (ForwardIterator first, ForwardIterator last, Predicate pred);
+```
+
+- `ForwardIterator`：迭代器类型，指向容器中的元素。
+- `first` 和 `last`：迭代器，分别指向搜索范围的开始和结束（不包括 `last`）。
+- `Predicate` `pred`：是一个可调用的模板参数，可以是一个函数、函数对象或lambda表达式，用于定义搜索的条件。
+
+#### 工作机制
+
+`find_if` 从 `first` 开始迭代，直到 `last`，对每个元素应用 `pred` 函数。一旦找到一个元素使得 `pred` 返回 `true`，`find_if` 就会停止搜索并返回指向该元素的迭代器。如果直到搜索结束都没有元素满足条件，`find_if` 将返回 `last`。
+
+#### 使用示例
+
+假设我们有一个整型向量，我们想要找到**第一个**大于10的元素：
+
+```cpp
+#include <algorithm> // for std::find_if
+#include <vector>
+#include <iostream>
+
+int main() {
+    std::vector<int> v = {3, 7, 5, 10, 20, 4};
+    
+    // 使用 lambda 表达式作为 Predicate
+    auto it = std::find_if(v.begin(), v.end(), [](int i) {
+        return i > 10;
+    });
+    
+    if (it != v.end()) {
+        std::cout << "First element greater than 10 is " << *it << '\n';
+    } else {
+        std::cout << "No element greater than 10\n";
+    }
+    
+    return 0;
+}
+```
+
+在这个例子中，我们使用了一个 lambda 表达式作为 `find_if` 的第三个参数，定义了搜索条件：找到一个整数，它大于10。然后，我们检查返回的迭代器 `it` 是否不等于 `v.end()`，以确定是否找到了这样的元素。
+
+#### 注意事项
+
+- `find_if` 不修改容器或它的元素。
+- 如果容器为空，或者没有元素满足条件，`find_if` 返回的迭代器等于 `last`。
+- `find_if` 是线性时间复杂度的算法，即运行时间与容器中元素的数量成正比。
+
+`find_if` 是C++算法库中非常有用的工具，它允许开发者以声明式的方式搜索容器中的元素，而不必显式编写循环。
+
+### vector实现对应位置元素的加减操作
+
+一种是暴力循环逐个位进行操作，另一种是借助`std::transform`函数来进行操作：
+
+```cpp
+#include <algorithm> // for std::transform
+
+// ...
+
+std::vector<int> result(vec1.size());
+std::transform(vec1.begin(), vec1.end(), vec2.begin(), result.begin(),
+                std::minus<int>());
+```
+
+如果结果返回到某个vector中，只用把result改成对应容器名称。
+
+### 删除vector类型数据
+
+删去首位元素：`vec.erase(vec.begin())`
+
+删去末尾元素：`vec.pop_back()`或`vec.erase(vec.end())`
+
+## 4.28
+
+### 用vector定义多维数组
+
+`vector<vector<int>>result(n,vector<int>(n,0))`生成n*n的二维数组矩阵，初始元素均置为0
+
+vector中的`size`函数用于查询动态数组vector中有多少个有效数据（大范围的）；而`capacity`函数用于查询它的容量大小（最多可以存放多少数据）
+
+例如，`result.size()`返回的结果是n，代表result中有多少行；`result[0].size()`返回的结果是n，代表列数
+
+二维数组添加一行：`vector<int> in_row(n,2)`先初始化一个数组，包含n个元素且全为2，`result.insert(result.begin()+2,in_row);`在第二行和第三行中间插入一行元素全为2.
+
+二维数组添加一列：`for(int i=0;i<result.size();i++){result[i].insert(result.begin()+2,9);}`实现在第二列和第三列之间插入一列全为9的元素。
+
+二维数组删除一行：`result.erase(result.begin()+2,result.begin()+3);`用于删除第三行元素（0，1，2->被删除）
+
+二维数组删除一列：`for (int i =0; i<result.size() ; i++){result[i].erase(a[i].begin()+2,a[i].begin()+3);}`用于删除第三列元素。
+
+### 多维数组问题一定要搞清边界的判断
+
+### 常见报错
+
+`heap-buffer-overflow on address`报错是由于边界的设置有误，访问数组时发生了越界错误
+
+` runtime error: reference binding to misaligned address`报错原因是数组越界，需要加入判断数组是否为空或者堆栈是否为空的语句。例如当二维数组为空，而访问`matrix[0].size()`就会这样报错
+
+### goto语句
+
+设置标签值和冒号，goto选择标签。
+
+例如：
+
+```cpp
+cout<<c;
+flag:
+cout<<a;
+cout<<b;
+goto flag;
+```
+
+goto语句慎用。良好的goto语句可以用于从深层的嵌套循环中跳出程序。
+
+## 4.29
+
+### 链表的定义和初始化
+
+定义：
+
+```cpp
+// 单链表
+struct ListNode {
+    int val;  // 节点上存储的元素
+    ListNode *next;  // 指向下一个节点的指针
+    ListNode(int x) : val(x), next(NULL) {}  // 节点的构造函数
+};
+```
+
+其中第五行是节点的构造函数。可以写可以不写，因为C++默认生成一个构造函数。但是默认的构造函数不能再初始化的时候给变量赋值。
+
+```cpp
+ListNode* head = new ListNode(5);
+//第一行代码如果自己定义了构造函数的话是可行的
+ListNode* head = new ListNode();
+head->val = 5;
+//这两行代码用于没有定义构造函数，执行先定义再赋值
+```
+
+### 链表相关报错
+
+`runtime error: member access within null pointer of type 'ListNode' (solution.cpp)`报错是因为试图访问ListNode空指针类型的成员。问题在于当移除的元素位于链表最后一个时，此时cur指向最后一个结点，cur->next为空，而访问cur->nex->next就是访问空指针的成员变量了。
+
+`ERROR: AddressSanitizer: alloc-dealloc-mismatch (operator new vs free) on 0x502000000090`则是因为new和delete或者malloc和free没有成对使用
+
+`ERROR: AddressSanitizer: heap-use-after-free on address 0x502000000278 at pc 0x558e2f2d2103 bp 0x7ffdc1baf5e0 sp 0x7ffdc1baf5d8`内存错误"heap-use-after-free"，这是因为在C++中，当使用delete关键字释放对象的内存后，该对象仍然会保留指向已经被释放内存的指针。这个指针称为悬挂指针（Dangling Pointer）。如果我们试图访问已经被释放的内存，就会触发"heap-use-after-free"错误。
+
+### 链表中NULL和Nullptr的区别
+
+用Null表示空指针是C语言中遗留下来的传统，但在C++中可能会引起问题，因此在C++11中引入了nullptr表示空指针，如果要在C++中表示空指针，那么使用nullptr而不是Null.。
+
+### 链表中的new和delete操作对
+
+在C++中，`new` 和 `delete` 操作符是对动态内存分配和管理的基本工具。它们允许程序员在堆上分配和释放内存，这是一块在程序运行时可以动态增长和缩小的内存区域。链表是展示 `new` 和 `delete` 如何工作的一个很好的例子，因为链表的每个节点通常都是动态分配的。
+
+#### new 操作符
+
+`new` 是一个运算符，用于在堆上分配一块内存。当你使用 `new` 分配内存时，它会：
+
+1. 找到足够大的内存块来存储你的数据。
+2. 初始化这块内存（通常填充为零）。
+3. 返回一个指向这块内存的指针。
+
+对于构造对象，`new` 还会调用对象的构造函数来初始化对象。
+
+#### delete 操作符
+
+`delete` 用于释放之前使用 `new` 分配的内存。当你使用 `delete` 时，它会：
+
+1. 调用对象的析构函数（如果指针是指向一个对象的）。
+2. 释放指向的内存块，使其可以被未来的 `new` 调用重新使用。
+
+#### 使用 new 和 delete 的示例
+
+假设我们有一个简单的链表节点类 `ListNode`：
+
+```cpp
+class ListNode {
+public:
+    int value;
+    ListNode* next;
+
+    ListNode(int val) : value(val), next(nullptr) {}
+    ~ListNode() {
+        // 清洁工作，比如删除指向下一个节点的指针
+        next = nullptr;
+    }
+};
+```
+
+我们可以使用 `new` 和 `delete` 来创建和销毁链表：
+
+```cpp
+int main() {
+    // 使用 new 分配并构造一个链表节点
+    ListNode* head = new ListNode(1);
+
+    // 创建更多的节点并构建链表
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+
+    // ... 链表操作 ...
+
+    // 使用 delete 释放链表节点
+    delete head->next->next; // 删除第三个节点
+    head->next = nullptr;    // 断开链接，防止访问已删除的内存
+    delete head->next;       // 删除第二个节点
+    delete head;              // 删除第一个节点
+
+    return 0;
+}
+```
+
+#### 注意事项
+
+- **成对使用**：每次使用 `new` 分配内存后，都应该有相应的 `delete` 来释放内存，以避免内存泄漏。
+- **析构函数**：如果对象有析构函数，`delete` 会调用它。这对于管理资源（如文件句柄、套接字等）非常重要。
+- **悬挂指针**：释放内存后，原始指针应设置为 `nullptr`，以避免悬挂指针问题。
+- **new 异常**：如果内存分配失败，`new` 会抛出一个 `std::bad_alloc` 异常。你应该总是在使用 `new` 的地方考虑异常安全性。
+- **delete[] 和 new[]**：如果你使用 `new[]` 分配了一个数组，应该使用 `delete[]` 来释放它，以确保正确调用析构函数。
+
+正确使用 `new` 和 `delete` 对于避免内存泄漏和其他动态内存管理问题至关重要。在现代C++编程中，智能指针（如 `std::unique_ptr` 和 `std::shared_ptr`）被推荐用于自动管理动态分配的内存，减少内存管理错误。
+
+### 链表中的malloc和free操作对
+
+在C++中，`malloc` 和 `free` 是C语言标准库中的函数，它们用于动态内存分配和管理。虽然C++提供了自己的 `new` 和 `delete` 操作符来分配和释放动态内存，但 `malloc` 和 `free` 仍然可以在C++程序中使用，尤其是当与C语言代码交互或者在一些特定的、需要 `malloc` 和 `free` 的上下文中。
+
+#### malloc 函数
+
+`malloc` 函数是C标准库中的一个函数，它用于在堆上分配一块指定大小的内存。它的原型定义在 `<cstdlib>` 头文件中：
+
+```cpp
+void* malloc(size_t size);
+```
+
+- `size_t size`：要分配的内存大小，单位是字节。
+- 返回值：如果分配成功，返回一个指向分配内存的起始地址的空指针；如果失败，返回 `nullptr`。
+
+#### free 函数
+
+`free` 函数用于释放之前使用 `malloc` 或 `calloc` 分配的内存。它的原型也定义在 `<cstdlib>` 头文件中：
+
+```cpp
+void free(void* ptr);
+```
+
+- `void* ptr`：指向要释放内存的指针。
+- 无返回值。
+
+#### 使用 malloc 和 free 的示例
+
+```cpp
+#include <cstdlib> // 包含 malloc 和 free 的定义
+#include <iostream>
+
+int main() {
+    // 分配内存来存储一个整数
+    int* p = static_cast<int*>(malloc(sizeof(int)));
+
+    if (p == nullptr) {
+        std::cerr << "Memory allocation failed." << std::endl;
+        return 1;
+    }
+
+    // 使用分配的内存
+    *p = 10;
+    std::cout << "Value at p: " << *p << std::endl;
+
+    // 释放内存
+    free(p);
+    p = nullptr; // 将指针设置为 nullptr，避免悬挂指针
+
+    return 0;
+}
+```
+
+#### 注意事项
+
+- **类型转换**：`malloc` 返回 `void*` 类型，使用前需要转换为适当的指针类型。
+- **构造函数和析构函数**：与 `new` 和 `delete` 不同，`malloc` 不会自动调用对象的构造函数或析构函数。如果分配的是对象的内存，需要手动调用构造函数和析构函数。
+- **内存泄漏**：使用 `malloc` 分配的内存必须匹配地使用 `free` 来释放，否则会导致内存泄漏。
+- **错误处理**：`malloc` 在内存分配失败时返回 `nullptr`，使用前应检查返回值。
+- **跨语言交互**：`malloc` 和 `free` 常用于C和C++代码的交互，因为它们是C语言标准的一部分，而C++的 `new` 和 `delete` 不是。
+
+#### 与 new 和 delete 的比较
+
+- **构造和析构**：`new` 和 `delete` 会自动处理对象的构造和析构，而 `malloc` 和 `free` 不会。
+- **类型安全**：`new` 和 `delete` 是类型安全的，它们确保指针类型与分配的内存类型匹配；`malloc` 和 `free` 需要显式转换指针类型。
+- **异常安全性**：`new` 在分配失败时会抛出异常，而 `malloc` 只会返回 `nullptr`。
+
+**在C++中，推荐使用 `new` 和 `delete` 来分配和释放对象的内存**，因为它们与C++的异常处理和类型系统更加集成。然而，在某些特殊的、需要与C代码交互或者需要手动管理内存大小的情况下，`malloc` 和 `free` 仍然是有用的工具。
+
+## 4.30
+
+### C++类中的构造函数
+
+在C++中，构造函数是一种特殊的成员函数，用于创建类的对象时初始化对象的状态。构造函数的名字必须与类名完全相同，它没有返回类型，甚至连 `void` 也不是。
+
+#### 构造函数的特点：
+
+1. **同名性**：构造函数的名称必须与类名相同。
+2. **无返回类型**：构造函数没有返回类型，包括 `void`。
+3. **自动调用**：每当创建类的新对象时，构造函数会自动调用。
+4. **初始化成员**：构造函数可以用于初始化对象的非静态成员变量。
+5. **初始化基类**：在派生类中，构造函数还会调用基类的构造函数来初始化继承的部分。
+6. **重载**：构造函数可以被重载，即一个类可以有多个构造函数，它们有不同的参数列表。
+
+#### 构造函数的类型：
+
+1. **默认构造函数**：没有参数的构造函数，如果用户没有提供任何构造函数，编译器会提供一个默认构造函数。
+2. **参数化构造函数**：有一个或多个参数的构造函数，用于自定义初始化。
+3. **拷贝构造函数**：使用同一类的对象作为参数的构造函数，用于创建一个对象的副本。
+
+#### 构造函数的示例：
+
+```cpp
+class MyClass {
+public:
+    // 默认构造函数
+    MyClass() {
+        std::cout << "Default constructor called." << std::endl;
+    }
+    
+    // 参数化构造函数
+    MyClass(int value) : data(value) {
+        std::cout << "Parameterized constructor called." << std::endl;
+    }
+    
+    // 拷贝构造函数
+    MyClass(const MyClass& other) : data(other.data) {
+        std::cout << "Copy constructor called." << std::endl;
+    }
+    
+    // 数据成员
+    int data;
+};
+
+int main() {
+    MyClass obj1; // 调用默认构造函数
+    MyClass obj2(10); // 调用参数化构造函数
+    MyClass obj3 = obj2; // 调用拷贝构造函数
+    
+    return 0;
+}
+```
+
+#### 注意事项：
+
+- **不在堆上分配内存**：构造函数不应该在堆上分配内存，因为 `new` 操作符已经为对象分配了内存。
+- **不返回对象**：构造函数不应该返回任何值，包括 `void`。
+- **对象初始化**：构造函数的主要目的是初始化对象，确保对象在首次使用时处于有效状态。
+- **析构函数**：与构造函数相对的是析构函数，它在对象生命周期结束时自动调用，用于清理资源。
+
+构造函数是C++面向对象编程的核心概念之一，它们为类的实例提供了一种初始化的方式。正确地设计和使用构造函数对于创建健壮和易于维护的类至关重要。
+
+### C++同一个类中可调用的公共元素
+
+在C++中，类中的成员（包括变量和函数）可以按照它们的访问权限被分为三类：公共（public）、保护（protected）和私有（private）。如果一个成员被声明为公共的，那么它可以在以下情况中被调用：
+
+1. **类的内部**：类的公共成员可以在类的任何成员函数中被直接访问，无论这些成员函数是公共的、保护的还是私有的。
+
+2. **同一个对象的其他成员函数**：一个对象的公共成员可以从该对象的任何非静态成员函数中被访问。
+
+3. **友元函数**：如果一个函数被声明为类的友元（friend），那么它可以访问类的所有非私有成员，就像它们是类的公共成员一样。
+
+4. **类的外部**：在类的外部，只能通过对象来访问公共成员，并且只能通过成员访问操作符（`.` 或 `->`）。
+
+5. **派生类**：如果基类中的成员被声明为公共的，那么在派生类中也可以访问这些成员（除非派生类通过访问说明符改变了对这些成员的访问权限）。
+
+6. **构造函数和析构函数**：即使它们是私有的或保护的，也可以在类的外部通过相应的构造和析构调用来访问。
+
+#### 示例
+
+```cpp
+class MyClass {
+public:
+    int publicData;  // 公共数据成员
+    void publicFunc() {}  // 公共成员函数
+
+protected:
+    int protectedData;  // 保护数据成员
+
+private:
+    int privateData;  // 私有数据成员
+
+    void privateFunc() {}  // 私有成员函数
+};
+
+class DerivedClass : public MyClass {
+public:
+    void showPublicData() {
+        publicData = 10;  // 派生类可以访问基类中公共的成员
+    }
+};
+
+int main() {
+    MyClass obj;
+    obj.publicFunc();  // 调用公共成员函数
+
+    // obj.protectedData = 20;  // 错误：protected成员在类外部不可见
+    // obj.privateData = 30;     // 错误：private成员在类外部不可见
+
+    DerivedClass dObj;
+    dObj.showPublicData();  // 正确：派生类可以访问基类中公共的成员
+
+    // dObj.protectedData = 20;  // 错误：即使在派生类中，protected成员也不能从外部访问
+
+    return 0;
+}
+```
+
+在上述示例中，`MyClass` 有三个访问权限不同的数据成员和成员函数。在 `DerivedClass` 中，可以访问继承自基类的公共成员，但不能直接访问保护或私有成员。然而，`DerivedClass` 中的成员函数可以访问从基类继承来的保护成员。
+
+需要注意的是，即使成员函数是公共的，如果它们试图访问类的私有成员或保护成员，它们也必须遵循类的访问控制规则。
+
+### C++类中的this指针
+
+在C++中，`this` 是一个特殊的指针，它被自动定义在每一个**非静态成员函数**中。`this` 指针**指向调用成员函数的那个对象**，即它**指向当前对象的实例**。这个意思是说如果在类中调用了this指针，则是已经实例化过的对象的相关值进行访问和修改。
+
+值得一提的是在官方给出的单链表解法中，只有在构造函数中调用了this指针
+
+#### 用途
+
+1. **区分参数和成员变量**：当成员变量和参数同名时，可以使用 `this` 指针来区分它们。
+
+2. **指针传递**：可以将 `this` 指针传递给函数，以允许函数直接修改对象的状态。
+
+3. **初始化列表中使用**：在构造函数的初始化列表中，`this` 指针可以用来明确成员初始化的顺序。
+
+4. **返回对象本身**：在成员函数中，可以使用 `this` 返回当前对象的指针或引用。
+
+5. **在嵌套类中**：如果有一个嵌套类，`this` 指针可以指向外部类的实例。
+
+#### 示例
+
+```cpp
+class MyClass {
+    int value;
+
+public:
+    MyClass(int v) : value(v), ptr(this) {}
+
+    void SetValue(int v) {
+        this->value = v; // 使用 this 指针区分成员变量和参数
+    }
+
+    int GetValue() const {
+        return value;
+    }
+
+    // 返回对象本身的引用
+    MyClass& GetThis() {
+        return *this;
+    }
+
+    // 成员变量ptr指向同一个对象的this指针
+    MyClass* ptr;
+};
+
+int main() {
+    MyClass obj(10);
+    obj.SetValue(20);
+    std::cout << obj.GetValue() << std::endl; // 输出 20
+
+    MyClass& ref = obj.GetThis();
+    ref.SetValue(30);
+    std::cout << obj.GetValue() << std::endl; // 输出 30
+
+    return 0;
+}
+```
+
+#### 注意事项
+
+- `this` 指针在静态成员函数中是不可用的，因为静态成员函数不与任何特定对象实例相关联。
+
+- `this` 指针通常是 `const` 的，这意味着你不能修改指向的对象。但是，如果你有一个非 `const` 成员函数，`this` 指针也不是 `const`，允许你修改对象的状态。
+
+- 在多态类层次结构中，`this` 指针的类型是当前对象的静态类型，即使调用的方法可能是从基类继承的虚函数。
+
+- `this` 指针**在构造和析构期间都是有效的**，即使在这些时候对象可能还没有完全构造或已经完全销毁。
+
+- 在某些编译器优化中，`this` 指针可能被优化掉，因此不建议在程序中直接依赖 `this` 指针的值。
+
+通过使用 `this` 指针，你可以编写更清晰和更高效的代码，特别是在处理具有同名成员和参数的情况时。
+
+### C++结构体
+
+在C++中，结构体（`struct`）是一种创建自定义数据类型的方式，它允许将不同的数据项组合成一个单一的数据结构。结构体在C++中非常灵活，它们可以包含数据成员（变量）和成员函数（方法）。
+
+#### 定义结构体
+
+结构体使用 `struct` 关键字定义，可以包含数据成员和成员函数。以下是定义结构体的基本语法：
+
+```cpp
+struct StructureName {
+    // 数据成员
+    int data_member;
+    double another_member;
+    
+    // 成员函数
+    void member_function() {
+        // 函数体
+    }
+    
+    // 可以有构造函数
+    StructureName(int value) : data_member(value) {}
+};
+```
+
+#### 初始化结构体
+
+结构体可以像类一样初始化，但它们默认情况下所有成员都是公共的（public），这意味着它们可以直接访问，不需要任何特定的访问修饰符。
+
+```cpp
+struct Point {
+    int x, y;
+};
+
+Point p = {1, 2}; // 初始化结构体变量p
+```
+
+#### 使用结构体
+
+结构体可以像类一样使用，但它们通常不用于定义复杂的逻辑，而是用于创建简单的数据容器。
+
+```cpp
+struct Point {
+    int x, y;
+    
+    Point(int x_val, int y_val) : x(x_val), y(y_val) {}
+    
+    void print() const {
+        std::cout << "Point(" << x << ", " << y << ")" << std::endl;
+    }
+};
+
+int main() {
+    Point p(3, 4);
+    p.print(); // 输出: Point(3, 4)
+    
+    return 0;
+}
+```
+
+#### 结构体与类的区别
+
+- **默认访问权限**：结构体的所有成员默认都是公共的，而类的所有成员默认是私有的。
+- **成员访问**：由于默认访问权限的不同，结构体的成员可以直接访问，而类的私有成员需要通过公共的接口（如公共成员函数）来访问。
+- **惯用法**：在C++中，结构体通常用于数据聚合，而类用于具有数据和方法的组合。
+
+#### 具名返回值优化（NRVO）
+
+在C++中，返回一个结构体或类对象时，编译器可能会使用一种称为具名返回值优化的技术来避免临时对象的创建。这意味着，返回的结构体或类对象可能直接在目标位置创建，而不是先在堆栈上创建后再复制。
+
+#### 总结
+
+结构体是C++中一种基本的数据结构，它允许你将不同的数据项组合成一个单一的实体。它们在C++中非常有用，尤其是在需要创建简单的数据容器时。尽管结构体和类在很多方面相似，但它们在默认访问权限和惯用法上有所不同。
+
+### C++结构体中的构造函数
+
+以该结构体为例
+
+```cpp
+struct ListNode{
+    int val;
+    ListNode *next;
+    ListNode(int x):val(x),next(nullptr){}
+};
+```
+
+在C++中，这段代码定义了一个名为 `ListNode` 的结构体，它通常用于创建链表中的节点。这个结构体包含了一个整型的数据成员 `val`，一个指向同类型结构体指针的成员 `next`，以及一个构造函数。
+
+下面是对 `ListNode` 结构体及其构造函数的详细介绍：
+
+#### 结构体定义
+
+```cpp
+struct ListNode {
+    int val;    // 节点存储的数据
+    ListNode *next; // 指向链表中下一个节点的指针
+    ListNode(int x) : val(x), next(nullptr) {} // 构造函数
+};
+```
+
+#### 成员变量：
+
+1. `int val`：这是一个基本数据类型的成员变量，用于存储节点的值。在链表中，每个节点通常存储一个值，并且包含一个指向下一个节点的指针。
+
+2. `ListNode *next`：这是一个指向 `ListNode` 类型的指针，它指向链表中的下一个节点。在链表的末尾节点中，这个指针通常被设置为 `nullptr`，表示没有后续节点。
+
+#### 构造函数：
+
+构造函数 `ListNode(int x)` 是一个特殊的成员函数，用于在创建 `ListNode` 对象时**初始化对象的状态**。它接受一个整型参数 `x`，并**使用成员初始化列表来初始化结构体的成员变量**。
+
+- `ListNode(int x)`：构造函数的声明，它接受一个整型参数 `x`。
+
+- `: val(x), next(nullptr)`：这是成员初始化列表，它在构造函数体执行之前被处理。它用于初始化 `ListNode` 的两个成员变量。
+
+  - `val(x)`：这将构造函数的参数 `x` 传递给 `val` 成员，初始化节点的值。
+  - `next(nullptr)`：这将空指针字面量 `nullptr`（在C++11及以后的版本中）赋值给 `next` 成员，表示初始时这个节点没有指向任何后续节点。
+
+#### 构造函数的执行流程：
+
+1. 当你使用 `new` 操作符和构造函数 `ListNode` 创建一个新节点时，如 `ListNode *node = new ListNode(10);`，构造函数被调用。
+
+2. 成员初始化列表 `: val(x), next(nullptr)` 首先执行，初始化 `val` 为传递给构造函数的值 `x`，初始化 `next` 为 `nullptr`。
+
+3. 然后，构造函数体 `{}` 执行，但由于这里是一个空的构造函数体，所以实际上不执行任何操作。
+
+4. 最终，一个 `ListNode` 类型的节点被创建，其值被设置为 `10`，并且 `next` 指针被初始化为 `nullptr`。
+
+这个构造函数的设计使得 `ListNode` 类型的对象在创建时就可以立即被设置为链表中的一个有效节点。这是链表操作中非常常见的模式。
+
+## 5.1
+
+拓宽了思路。对单链表的逆置不再局限于最熟悉和稳妥的断链头插法了。
+
+## 5.2
+
+不管是递归还是迭代，都拓宽了我的思路。对于迭代，我的提升点是多考虑辅助节点，从整体上考虑问题，不能急。比如参考答案里面给的方法是逐个组进行调换操作，借助组前指针tmp来实现链表的链接；而我的想法太过跳跃，想要一口吃个胖子，直接就让一个调整好的组的next指向下一个组的第二个元素，思路上跳跃导致编码上的不便。其次就是递归。在我自己进行解答的时候，也考虑过递归，但是我当时还是局限于前文中提到的方法。递归不会写，说白了是倒着考虑问题，总感觉很别扭，脑子转不过来这个弯。
+
+## 5.3
+
+链表解题经典三板斧，哑巴节点，栈，快慢指针。
+
+## 5.4
+
+### C++初始化栈
+
+在C++中，栈（Stack）是一种遵循后进先出（LIFO，Last In First Out）原则的线性数据结构。C++标准库中并没有直接提供一个名为“Stack”的容器，但是可以使用 `std::vector`、`std::deque` 或 `std::list` 等容器来模拟栈的行为。以下是使用这些容器初始化栈的一些方法：
+
+#### 使用 `std::vector`
+
+```cpp
+#include <vector>
+
+std::vector<int> stack;
+// 初始化一个空栈
+
+// 推入元素
+stack.push_back(1);
+stack.push_back(2);
+stack.push_back(3);
+
+// 弹出元素
+int top_element = stack.back();
+stack.pop_back();
+```
+
+#### 使用 `std::deque`
+
+```cpp
+#include <deque>
+
+std::deque<int> stack;
+// 初始化一个空栈
+
+// 推入元素
+stack.push_back(1);
+stack.push_back(2);
+stack.push_back(3);
+
+// 弹出元素
+int top_element = stack.back();
+stack.pop_back();
+```
+
+#### 使用 `std::list`
+
+```cpp
+#include <list>
+
+std::list<int> stack;
+// 初始化一个空栈
+
+// 推入元素
+stack.push_back(1);
+stack.push_back(2);
+stack.push_back(3);
+
+// 弹出元素
+int top_element = stack.back();
+stack.pop_back();
+```
+
+在上述所有示例中，我们使用了容器的 `push_back()` 方法来模拟栈的“推入”操作，使用 `pop_back()` 方法来模拟“弹出”操作。这是因为 `std::vector`、`std::deque` 和 `std::list` 都支持在容器的末尾进行快速的插入和删除操作。
+
+#### 注意事项
+
+- 虽然 `std::vector`、`std::deque` 和 `std::list` 可以模拟栈的行为，但它们的性能特点不同。例如，`std::vector` 在随机访问方面更快，但插入和删除操作可能需要更多时间（如果需要重新分配内存）。相比之下，`std::list` 在插入和删除操作上更快，但不支持随机访问。
+- 标准库中的 `std::stack` 适配器也可以用来实现栈，它使用其他标准容器作为底层容器。
+
+#### 使用 `std::stack` 适配器
+
+```cpp
+#include <stack>
+#include <vector>
+
+std::stack<int, std::vector<int>> stack(std::vector<int>());
+// 使用 vector 作为底层容器初始化一个空栈
+
+// 推入元素
+stack.push(1);
+stack.push(2);
+stack.push(3);
+
+// 弹出元素
+int top_element = stack.top();
+stack.pop();
+```
+
+在这个示例中，我们使用了 `std::stack` 适配器，它模板化地使用了 `std::vector` 作为底层容器。`std::stack` 只提供了有限的操作，如 `push()`、`pop()` 和 `top()`，这些操作分别对应栈的推入、弹出和顶部元素访问。
+
+选择哪种方法取决于你的具体需求，包括对性能的要求以及对底层容器特性的偏好。
+
+栈的正统在`# include <stack>`
+
+### C++对栈的操作
+
+在C++中，栈（Stack）是一种常用的数据结构，它遵循后进先出（LIFO，Last In First Out）的原则。虽然C++标准模板库（STL）中没有直接提供名为“Stack”的容器，但是可以使用 `std::stack` 适配器，它基于其他容器（如 `std::vector`、`std::deque` 或 `std::list`）来实现栈的功能。
+
+以下是使用 `std::stack` 适配器对栈进行操作的基本方法：
+
+#### 包含必要的头文件
+
+```cpp
+#include <stack>
+```
+
+#### 初始化栈
+
+```cpp
+std::stack<int> myStack;
+```
+
+#### 推入元素（入栈）
+
+```cpp
+myStack.push(50); // 推入元素50
+myStack.push(100); // 推入元素100
+```
+
+#### 弹出元素（出栈）
+
+```cpp
+if (!myStack.empty()) {
+    int topElement = myStack.top(); // 获取栈顶元素
+    myStack.pop(); // 弹出栈顶元素
+}
+```
+
+需要注意一点是在C++的栈中，使用`pop`函数返回的是void类型，即该函数只完成把栈顶元素出栈操作，而不进行任何返回。若想获取并弹出栈顶元素，则必须先用`top`函数获取栈顶元素再进行`pop`出栈操作。
+
+#### 获取栈顶元素
+
+```cpp
+if (!myStack.empty()) {
+    int topElement = myStack.top();
+    // 可以对topElement进行操作，但不能从栈中移除
+}
+```
+
+#### 检查栈是否为空
+
+```cpp
+bool isEmpty = myStack.empty(); // 如果栈为空，则返回true
+```
+
+#### 获取栈的大小
+
+```cpp
+size_t size = myStack.size(); // 获取栈中元素的数量
+```
+
+#### 清空栈
+
+```cpp
+while (!myStack.empty()) {
+    myStack.pop(); // 循环弹出所有元素，清空栈
+}
+```
+
+#### 示例
+
+```cpp
+#include <iostream>
+#include <stack>
+
+int main() {
+    std::stack<int> myStack;
+
+    // 推入元素
+    myStack.push(1);
+    myStack.push(2);
+    myStack.push(3);
+
+    // 弹出元素
+    while (!myStack.empty()) {
+        int topElement = myStack.top();
+        std::cout << "Popped: " << topElement << std::endl;
+        myStack.pop();
+    }
+
+    return 0;
+}
+```
+
+#### 注意事项
+
+- `std::stack` 是一个容器适配器，它只提供了有限的操作集合，主要关注栈的基本操作。
+- 由于 `std::stack` 是后进先出的，所以不支持随机访问，也不能直接访问除了顶部之外的其他元素。
+- `std::stack` 的底层容器的选择会影响其性能特性。例如，基于 `std::vector` 的栈在随机访问时更快，而基于 `std::deque` 的栈可能在频繁的入栈和出栈操作时更高效。
+
+使用 `std::stack` 适配器可以方便地在C++程序中实现栈的操作，同时保持代码的可读性和简洁性。
+
+### C++中的swap函数
+
+在C++中，`swap` 函数是一个非常有用的标准库函数，用于交换两个值或两个容器中的内容。它提供了一种高效且类型安全的方式来交换数据。
+
+#### 标准库中的 `swap` 函数
+
+C++标准库提供了一个通用的 `swap` 函数，它是一个模板函数，可以用于交换大多数类型的值。它的定义在 `<utility>` 头文件中。
+
+**交换值**
+
+```cpp
+#include <utility>
+
+void swap(ValueType& a, ValueType& b);
+```
+
+这里，`ValueType` 可以是大多数类型的值，包括内置类型、指针、某些用户定义的类型等。标准库中的 `swap` 函数通常实现得非常高效，它利用了类型特定的交换语义，以确保交换操作是安全的并且具有最佳性能。
+
+**示例**
+
+```cpp
+#include <iostream>
+#include <utility>
+
+int main() {
+    int x = 10;
+    int y = 20;
+    
+    std::swap(x, y); // 交换 x 和 y 的值
+    
+    std::cout << "x: " << x << ", y: " << y << std::endl; // 输出 x: 20, y: 10
+    
+    return 0;
+}
+```
+
+#### 交换容器内容
+
+对于容器类型，如 `std::vector`、`std::string` 等，C++标准库也提供了 `swap` 函数的特化版本，这些特化版本通常比通用版本的 `swap` 更高效，因为它们利用了容器的内部实现细节。
+
+**示例**
+
+```cpp
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> vec1 = {1, 2, 3};
+    std::vector<int> vec2 = {4, 5, 6};
+    
+    std::swap(vec1, vec2); // 交换两个向量的内容
+    
+    // vec1 现在包含 4, 5, 6，而 vec2 包含 1, 2, 3
+    
+    return 0;
+}
+```
+
+#### 用户定义类型的 `swap` 函数
+
+对于用户定义的类型，你可以提供自己类型的 `swap` 函数，以确保交换操作是安全的并且符合类型特定的需求。这通常通过定义在类型内部的 `friend` 函数来实现。
+
+**示例**
+
+```cpp
+class MyClass {
+public:
+    MyClass(int v) : value(v) {}
+    
+    friend void swap(MyClass& first, MyClass& second) {
+        // 交换两个 MyClass 对象的内部状态
+        std::swap(first.value, second.value);
+    }
+    
+private:
+    int value;
+};
+
+int main() {
+    MyClass obj1(10);
+    MyClass obj2(20);
+    
+    swap(obj1, obj2); // 使用自定义的 swap 函数交换 obj1 和 obj2
+    
+    return 0;
+}
+```
+
+#### 注意事项
+
+- 使用标准库的 `swap` 函数通常是交换值或容器内容的首选方法，因为它是类型安全的，并且通常实现得非常高效。
+- 为了使 `swap` 函数可交换任何两个元素，它应该满足一些基本的要求，如不抛出异常，并且其复杂度应该是最优的。
+- 在某些情况下，如果类型具有昂贵的复制成本，可能会实现一个移动友好的 `swap` 函数，它利用了右值引用和移动语义来提高性能。
+
+`swap` 函数是C++中实现资源有效利用和类型安全交换的重要工具。
+
+### C++中的`unordered_set`哈希集合
+
+在C++中，`unordered_set` 是标准模板库（STL）中的一个容器类，它存储一定数量的唯一元素，并保证插入和访问的高效性。`unordered_set` 是基于哈希表实现的，因此它的元素是以散列的方式存储的，这使得它在查找、插入和删除操作上都能提供平均时间复杂度为 O(1) 的性能。
+
+#### 基本用法
+
+1. **包含头文件**：
+   要使用 `unordered_set`，首先需要包含头文件 `<unordered_set>`。
+
+   ```cpp
+   #include <unordered_set>
+   ```
+
+2. **声明和初始化**：
+   声明一个 `unordered_set` 容器，可以指定元素类型和（可选的）初始容量。
+
+   ```cpp
+   std::unordered_set<int> mySet;
+   ```
+
+   或者使用初始化列表：
+
+   ```cpp
+   std::unordered_set<int> mySet = {1, 2, 3, 4};
+   ```
+
+3. **元素插入**：
+   使用 `insert` 方法向 `unordered_set` 中添加元素。
+
+   ```cpp
+   mySet.insert(5);
+   ```
+
+4. **元素查找**：
+   使用 `find` 方法查找元素是否存在。
+
+   ```cpp
+   if (mySet.find(3) != mySet.end()) {
+       std::cout << "3 is in the set." << std::endl;
+   } else {
+       std::cout << "3 is not in the set." << std::endl;
+   }
+   ```
+
+5. **检查元素是否存在**
+
+   使用`count`函数，语法如下：
+
+   ```cpp
+   size_t count(const Key& key) const;
+   ```
+
+   这里，`Key` 是键的类型，`size_t` 是无符号整数类型，用于表示大小或计数。
+
+   ```python
+   size_t countResult=mySet.count(val);
+   ```
+
+   返回size_t类型的无符号整数，表示在哈希表中val存在的个数。
+
+6. **元素删除**：
+   使用 `erase` 方法删除一个元素。
+
+   ```cpp
+   mySet.erase(mySet.find(3)); // 删除元素3
+   ```
+
+7. **遍历**：
+   使用迭代器遍历 `unordered_set`。
+
+   ```cpp
+   for (auto it = mySet.begin(); it != mySet.end(); ++it) {
+       std::cout << *it << " ";
+   }
+   ```
+
+8. **大小和是否为空**：
+   使用 `size()` 方法获取 `unordered_set` 中元素的数量，使用 `empty()` 方法检查它是否为空。
+
+   ```cpp
+   std::cout << "Set size: " << mySet.size() << std::endl;
+   std::cout << "Set is empty? " << (mySet.empty() ? "Yes" : "No") << std::endl;
+   ```
+
+#### 注意事项
+
+- **唯一性**：`unordered_set` 中的所有元素都是唯一的，即它不允许有重复的元素。
+- **无序性**：元素在 `unordered_set` 中的存储是无序的，这意味着你不能依赖元素的顺序来遍历它们。
+- **哈希函数**：`unordered_set` 使用哈希函数来确定元素的存储位置，不同的元素可能有相同的哈希值，这称为哈希冲突。`unordered_set` 通过某种形式的冲突解决策略（如链地址法或开放寻址法）来处理这种情况。
+- **性能**：虽然 `unordered_set` 在大多数情况下提供常数时间的查找性能，但在极端情况下（如大量哈希冲突）性能可能会降低。
+
+#### 性能特点
+
+- **时间复杂度**：平均情况下，`unordered_set` 的插入、删除和查找操作的时间复杂度为 O(1)。在最坏的情况下（例如，所有元素都映射到同一个哈希桶），时间复杂度可能退化到 O(n)，其中 n 是元素的数量。
+
+### 适用场景
+
+- 当你需要存储一组唯一的元素，并且频繁进行插入、删除和查找操作时，`unordered_set` 是一个很好的选择。
+- 如果元素的顺序不重要，或者你不需要维护元素的顺序，那么 `unordered_set` 比 `set` 更适合，因为它通常提供更快的访问速度。
+
+总的来说，`unordered_set` 是C++ STL中一个非常有用的容器，它在需要快速查找和插入操作时提供了高效的解决方案。
+
+## 5.5
+
+判断元素是否在哈希表内，可以使用find函数，判断返回点是不是末尾点；也可以用count函数，统计元素出现个数，直接`if(hash_set.count(val))`即可，因为如果没有元素返回0，有元素返回个数。
+
+## 5.6
