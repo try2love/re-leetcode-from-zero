@@ -953,3 +953,20 @@ else:
 正确方法：使用`self.function`来调用自身实例中的其他函数。在第二种做法中我在原函数中错误地使用了`count=getcount(head)`这个写法，正确方式应该是`count=self.getcount(head)`，这样才能调用实例自身中的获取序号函数。长知识了。
 
 ## 5.6
+
+Python collections模块中Counter()和defaultdict()详解：https://blog.csdn.net/weixin_44772440/article/details/122311744?
+
+| 容器        | 用途                                                         |
+| ----------- | ------------------------------------------------------------ |
+| namedtuple  | 创建命名元组子类的工厂函数                                   |
+| deque       | 类似列表(list)的容器，实现了在两端快速添加(append)和弹出(pop) |
+| OrderDict   | 字典的子类，保存了他们被添加的顺序                           |
+| defaultdict | 字典的子类，提供了一个工厂函数，为字典查询提供一个默认值     |
+| Counter     | 字典的子类，提供了可哈希对象的计数功能                       |
+| ChainMap    | 类似字典(dict)的容器类，将多个映射集合到一个视图里面         |
+| UserDict    | 封装了字典对象，简化了字典子类化                             |
+| UserList    | 封装了列表对象，简化了列表子类化                             |
+| UserString  | 封装了字符串对象，简化了字符串子类化                         |
+
+## 5.7
+

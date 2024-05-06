@@ -1879,3 +1879,244 @@ int main() {
 判断元素是否在哈希表内，可以使用find函数，判断返回点是不是末尾点；也可以用count函数，统计元素出现个数，直接`if(hash_set.count(val))`即可，因为如果没有元素返回0，有元素返回个数。
 
 ## 5.6
+
+### 常见的三种哈希结构
+
+当我们想使用哈希法来解决问题的时候，我们一般会选择如下三种数据结构。
+
+- 数组
+- set （集合）
+- map(映射)
+
+这里数组就没啥可说的了，我们来看一下set。
+
+在C++中，set 和 map 分别提供以下三种数据结构，其底层实现以及优劣如下表所示：
+
+| 集合               | 底层实现 | 是否有序 | 数值是否可以重复 | 能否更改数值 | 查询效率 | 增删效率 |
+| ------------------ | -------- | -------- | ---------------- | ------------ | -------- | -------- |
+| std::set           | 红黑树   | 有序     | 否               | 否           | O(log n) | O(log n) |
+| std::multiset      | 红黑树   | 有序     | 是               | 否           | O(log n) | O(log n) |
+| std::unordered_set | 哈希表   | 无序     | 否               | 否           | O(1)     | O(1)     |
+
+std::unordered_set底层实现为哈希表，std::set 和std::multiset 的底层实现是红黑树，红黑树是一种平衡二叉搜索树，所以key值是有序的，但key不可以修改，改动key值会导致整棵树的错乱，所以只能删除和增加。
+
+| 映射               | 底层实现 | 是否有序 | 数值是否可以重复 | 能否更改数值 | 查询效率 | 增删效率 |
+| ------------------ | -------- | -------- | ---------------- | ------------ | -------- | -------- |
+| std::map           | 红黑树   | key有序  | key不可重复      | key不可修改  | O(log n) | O(log n) |
+| std::multimap      | 红黑树   | key有序  | key可重复        | key不可修改  | O(log n) | O(log n) |
+| std::unordered_map | 哈希表   | key无序  | key不可重复      | key不可修改  | O(1)     | O(1)     |
+
+std::unordered_map 底层实现为哈希表，std::map 和std::multimap 的底层实现是红黑树。同理，std::map 和std::multimap 的key也是有序的（这个问题也经常作为面试题，考察对语言容器底层的理解）。
+
+当我们要使用集合来解决哈希问题的时候，优先使用unordered_set，因为它的查询和增删效率是最优的，如果需要集合是有序的，那么就用set，如果要求不仅有序还要有重复数据的话，那么就用multiset。
+
+那么再来看一下map ，在map 是一个key value 的数据结构，map中，对key是有限制，对value没有限制的，因为key的存储方式使用红黑树实现的。
+
+其他语言例如：java里的HashMap ，TreeMap 都是一样的原理。可以灵活贯通。
+
+虽然std::set、std::multiset 的底层实现是红黑树，不是哈希表，std::set、std::multiset 使用红黑树来索引和存储，不过给我们的使用方式，还是哈希法的使用方式，即key和value。所以使用这些数据结构来解决映射问题的方法，我们依然称之为哈希法。 map也是一样的道理。
+
+这里在说一下，一些C++的经典书籍上 例如STL源码剖析，说到了hash_set hash_map，这个与unordered_set，unordered_map又有什么关系呢？
+
+实际上功能都是一样一样的， 但是unordered_set在C++11的时候被引入标准库了，而hash_set并没有，所以建议还是使用unordered_set比较好，这就好比一个是官方认证的，hash_set，hash_map 是C++11标准之前民间高手自发造的轮子。
+
+### C++中set类型数据结构
+
+在C++中，`std::set` 是一种关联容器，它存储的元素是唯一的，并按照升序进行排序。`std::set` 通常是基于平衡二叉搜索树（如红黑树）实现的，这使得它能够提供高效的查找、插入和删除操作。
+
+以下是 `std::set` 的一些常用操作：
+
+#### 构造和初始化
+
+```cpp
+std::set<int> mySet; // 默认构造一个空的set
+std::set<int> mySet = {1, 2, 3}; // 列表初始化
+std::set<int> mySet({1, 2, 3}); // 从初始化列表构造
+```
+
+#### 元素插入
+
+```cpp
+mySet.insert(4); // 插入一个元素
+mySet.insert({5, 6}); // 插入多个元素
+```
+
+#### 元素查找
+
+```cpp
+if (mySet.find(2) != mySet.end()) {
+    // 找到元素2
+}
+```
+
+#### 元素计数
+
+```cpp
+int count = mySet.count(2); // 计数元素2的数量，set中每个元素都是唯一的，所以count只会是0或1
+```
+
+#### 元素删除
+
+```cpp
+mySet.erase(2); // 删除元素2
+mySet.erase(mySet.find(3)); // 删除迭代器指向的元素
+mySet.erase(mySet.begin(), mySet.end()); // 删除set中的所有元素
+```
+
+#### 查看大小
+
+```cpp
+size_t size = mySet.size(); // 获取set的大小
+```
+
+#### 清空
+
+```cpp
+mySet.clear(); // 移除set中的所有元素
+```
+
+#### 遍历
+
+```cpp
+for (int num : mySet) {
+    // 处理num
+}
+```
+
+或者使用迭代器：
+
+```cpp
+for (std::set<int>::iterator it = mySet.begin(); it != mySet.end(); ++it) {
+    // 处理*it
+}
+```
+
+#### 上下界查询
+
+```cpp
+std::set<int>::iterator lower = mySet.lower_bound(3); // 查找大于或等于3的最小元素的迭代器
+std::set<int>::iterator upper = mySet.upper_bound(3); // 查找大于3的最小元素的迭代器
+```
+
+#### 集合操作
+
+```cpp
+std::set<int> set1 = {1, 2, 3};
+std::set<int> set2 = {3, 4, 5};
+
+set1.insert(set2.begin(), set2.end()); // 将set2的所有元素插入set1
+
+std::set<int> set_union(set1.begin(), set1.end(), set2.begin(), set2.end()); // 并集
+std::set<int> set_intersection(set1.begin(), set1.end(), set2.begin(), set2.end()); // 交集
+std::set<int> set_difference(set1.begin(), set1.end(), set2.begin(), set2.end()); // 差集
+```
+
+#### 注意事项
+
+- `std::set` 中的元素必须是可比较的，即必须能够使用 `<` 运算符进行比较。
+- `std::set` 不允许有重复的元素，如果尝试插入一个已经存在的元素，那么这个插入操作将不会执行，并且 `insert` 函数会返回一个指向现有元素的迭代器。
+- `std::set` 中的元素按照升序排列，这意味着元素的迭代顺序是有序的。
+
+`std::set` 是C++标准模板库（STL）中非常有用的容器之一，它在需要维护有序且唯一元素集合的场景中非常有用。
+
+### C++中map类型数据
+
+在C++中，`std::map` 是一种关联容器，它存储键值对（key-value pairs），并且按照键的顺序进行排序。`std::map` 通常是基于平衡二叉搜索树（如红黑树）实现的，这使得它能够提供高效的查找、插入和删除操作。
+
+以下是 `std::map` 的一些常用操作：
+
+#### 构造和初始化
+
+```cpp
+std::map<int, std::string> myMap; // 默认构造一个空的map
+std::map<int, std::string> myMap = {{1, "one"}, {2, "two"}}; // 列表初始化
+std::map<int, std::string> myMap {{1, "one"}, {2, "two"}}; // 使用花括号初始化
+```
+
+#### 元素插入
+
+```cpp
+myMap.insert({3, "three"}); // 插入一个键值对
+myMap[4] = "four"; // 通过下标运算符插入或修改键值对
+```
+
+#### 元素查找
+
+```cpp
+auto it = myMap.find(2);
+if (it != myMap.end()) {
+    // 找到键2，it->second 是对应的值
+}
+```
+
+#### 元素访问
+
+```cpp
+std::string value = myMap[1]; // 获取键1对应的值，如果键不存在，将插入一个键1的默认值
+```
+
+#### 元素计数
+
+```cpp
+int count = myMap.count(2); // 计数键2的数量，map中每个键都是唯一的，所以count只会是0或1
+```
+
+#### 元素删除
+
+```cpp
+myMap.erase(2); // 删除键2
+myMap.erase(it); // 删除迭代器指向的元素
+myMap.clear(); // 删除map中的所有元素
+```
+
+#### 查看大小
+
+```cpp
+size_t size = myMap.size(); // 获取map的大小
+```
+
+#### 遍历
+
+```cpp
+for (const auto& pair : myMap) {
+    // pair.first 是键，pair.second 是值
+}
+```
+
+或者使用迭代器：
+
+```cpp
+for (auto it = myMap.begin(); it != myMap.end(); ++it) {
+    // it->first 是键，it->second 是值
+}
+```
+
+#### 上下界查询
+
+```cpp
+std::map<int, std::string>::iterator lower = myMap.lower_bound(3); // 查找大于或等于3的最小键的迭代器
+std::map<int, std::string>::iterator upper = myMap.upper_bound(3); // 查找大于3的最小键的迭代器
+```
+
+#### 注意事项
+
+- `std::map` 中的键必须是可比较的，即必须能够使用 `<` 运算符进行比较。
+- `std::map` 不允许有重复的键，如果尝试插入一个已经存在的键，那么这个插入操作将用新的值更新现有键对应的值。
+- `std::map` 中的元素按照键的顺序进行排序，这意味着元素的迭代顺序是有序的。
+
+`std::map` 是C++标准模板库（STL）中非常有用的容器之一，它在需要维护有序的键值对集合的场景中非常有用。
+
+### C++中的sort函数
+
+比如，给定字符串`string s='apple'`，对s进行sort操作，使得s变成`aelpp`
+
+正确做法是`sort(s.begin(),s.end())`，而不应该想当然认为是`s=s.sort()`或者`s=s.sort(s.begin(),s.end())`因为会报错，说string类型对象没有对应的sort操作。也不应该和py中的sorted函数搞混淆。
+
+排序的时间复杂度为$o(nlogn)$
+
+### C++中的for循环类py写法
+
+比如要遍历一个字符串类型中的所有字符，在py中是这样：`for ch in s:`在C++中也有类似写法：`for(auto& ch:s)`作用和py的一样，不过需要一个返回类型auto，适配所有循环遍历操作。
+
+## 5.7
+
