@@ -970,3 +970,169 @@ Python collections模块中Counter()和defaultdict()详解：https://blog.csdn.n
 
 ## 5.7
 
+### 集合求交集的用法
+
+使用函数intersection或者与符号\&，返回一个新的set类型数据。
+
+intersection()方法将返回一个新集合，其中包含所有集合相同的元素。
+
+两个或更多集合的交集是所有集合相同的元素集合。例如：
+
+```python
+A = {100, 7, 8}
+B = {200, 4, 5}
+C = {300, 2, 3}
+D = {100, 200, 300}
+
+print(A.intersection(D))
+print(B.intersection(D))
+print(C.intersection(D))
+print(A.intersection(B, C, D))
+'''
+输出
+{100}
+{200}
+{300}
+set()
+'''
+A = {100, 7, 8}
+B = {200, 4, 5}
+C = {300, 2, 3, 7}
+D = {100, 200, 300}
+
+print(A & C)
+print(A & D)
+
+
+print(A & C & D)
+print(A & B & C & D)
+'''
+{7}
+{100}
+set()
+set()
+'''
+```
+
+### py中对字典的操作
+
+在Python中，字典（`dict`）是一种可变容器模型，用于存储键值对。字典的每个键必须是唯一的，而值则不必唯一。以下是一些常用的字典操作方法：
+
+#### 创建字典
+
+```python
+# 使用花括号创建一个空字典
+my_dict = {}
+
+# 使用花括号创建一个带有初始键值对的字典
+my_dict = {'name': 'Alice', 'age': 25}
+
+# 使用 dict() 函数创建字典
+my_dict = dict(name='Alice', age=25)
+```
+
+#### 添加键值对
+
+```python
+# 直接赋值添加键值对
+my_dict['height'] = 165
+
+# 使用 .update() 方法添加一个或多个键值对
+my_dict.update({'weight': 60}, city='New York')
+```
+
+#### 修改值
+
+```python
+# 通过键来修改值
+my_dict['age'] = 26
+```
+
+#### 删除键值对
+
+```python
+# 使用 del 语句删除键值对
+del my_dict['height']
+
+# 使用 .pop() 方法删除键值对并返回值
+age = my_dict.pop('age')
+
+# 使用 .popitem() 方法删除并返回一个随机键值对
+item = my_dict.popitem()
+```
+
+#### 查找键值对
+
+**特别要学会运用字典中的`get`函数**
+
+```python
+# 通过键获取值
+name = my_dict['name']
+
+# 使用 .get() 方法获取值，如果键不存在则返回 None 或指定的默认值
+weight = my_dict.get('weight', 'Unknown')
+```
+
+#### 遍历字典
+
+```python
+# 遍历所有键值对
+for key, value in my_dict.items():
+    print(f"{key}: {value}")
+
+# 遍历所有键
+for key in my_dict.keys():
+    print(key)
+
+# 遍历所有值
+for value in my_dict.values():
+    print(value)
+```
+
+#### 检查键是否存在
+
+```python
+# 使用 in 关键字检查键是否存在
+if 'city' in my_dict:
+    print("City key exists.")
+```
+
+#### 获取字典的长度
+
+```python
+# 获取字典中键值对的数量
+length = len(my_dict)
+```
+
+#### 清空字典
+
+```python
+# 使用 .clear() 方法清空字典
+my_dict.clear()
+```
+
+#### 字典推导式
+
+```python
+# 使用字典推导式创建新字典
+squared_numbers = {x: x**2 for x in range(6)}
+```
+
+#### 默认值
+
+```python
+# 使用 .setdefault() 方法设置键的默认值
+default_city = my_dict.setdefault('city', 'Unknown')
+```
+
+#### 注意事项
+
+- 字典的键必须是不可变的类型，如字符串、数字、元组（只要元组内的元素也都是不可变的）。
+- 尝试通过不存在的键访问值将抛出 `KeyError`，使用 `.get()` 方法可以避免这个错误。
+- 字典是可变的，这意味着你可以更改、添加或删除键值对。
+- 字典中键值对的顺序从Python 3.7开始是保持插入顺序的。
+
+字典是Python中非常灵活和强大的数据结构，它在存储和管理关联数据时非常有用。
+
+## 5.8
+
