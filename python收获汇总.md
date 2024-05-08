@@ -1136,3 +1136,79 @@ default_city = my_dict.setdefault('city', 'Unknown')
 
 ## 5.8
 
+### py逐位获取整数的每一位（数位分离）
+
+在Python中，逐位获取一个整数的每一位数字可以通过几种不同的方法实现。以下是一些常用的方法：
+
+#### 方法1：使用循环和模10运算
+
+```python
+number = 1564
+while number > 0:
+    digit = number % 10  # 获取当前最低位的数字
+    print(digit)
+    number //= 10  # 移除当前最低位
+```
+
+这个方法通过不断地对整数进行模10运算来获取最低位的数字，然后通过整除10来移除该位。
+
+#### 方法2：将整数转换为字符串
+
+```python
+number = 1564
+for digit in str(number):
+    print(int(digit))
+```
+
+这个方法首先将整数转换为字符串，然后遍历字符串中的每个字符，并将每个字符转换回整数。
+
+#### 方法3：使用列表推导式
+
+```python
+number = 1564
+digits = [int(digit) for digit in str(number)]
+print(digits)
+```
+
+列表推导式是一种简洁的方法，可以快速生成一个包含整数每一位数字的列表。
+
+#### 方法4：使用 `map` 函数
+
+```python
+number = 1564
+digits = list(map(int, str(number)))
+print(digits)
+```
+
+这里，我们使用 `map` 函数将字符串中的每个字符转换为整数，并将其转换为列表。
+
+#### 方法5：使用 `divmod`
+
+```python
+number = 1564
+digits = []
+while number > 0:
+    number, digit = divmod(number, 10)
+    digits.append(digit)
+print(digits[::-1])  # 反转列表，因为它们是逆序获得的
+```
+
+`divmod` 函数返回一个元组，包含整除和取模的结果，这可以用来获取最低位的数字。
+
+#### 方法6：使用 `math.ceil` 和 `math.log10`
+
+```python
+import math
+number = 1564
+length = math.ceil(math.log10(number))  # 计算数字的位数
+for _ in range(length):
+    number //= 10
+    print(number)
+```
+
+这个方法首先计算数字的位数，然后通过循环和整除10来逐位打印数字。
+
+选择哪种方法取决于你的具体需求和个人喜好。通常，将整数转换为字符串然后遍历它是一种简单且直接的方法。如果你需要处理非常大的整数，或者需要更复杂的操作，可能需要考虑其他方法。
+
+## 5.9
+

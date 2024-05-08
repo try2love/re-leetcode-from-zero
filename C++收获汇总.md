@@ -2166,3 +2166,164 @@ C++中的数组和 `std::set` 是两种不同的数据结构，它们有各自�
 在实际应用中，真正的哈希表实现通常使用专门的哈希表库（如 `std::unordered_set` 或 `std::unordered_map`），这些库提供了更好的性能和灵活性，尤其是在处理**大量数据**和需要**高效的查找、插入和删除操作**时。
 
 ## 5.8
+
+### C++三目运算符
+
+在C++中，三目运算符（也称为条件运算符）是一种基于条件表达式的简化形式的`if-else`语句。它的一般形式如下：
+
+```cpp
+condition ? expression_true : expression_false
+```
+
+这里的`condition`是一个布尔表达式，`expression_true`是当`condition`为真（true）时的返回值，而`expression_false`是当`condition`为假（false）时的返回值。
+
+#### 使用三目运算符的示例
+
+```cpp
+int a = 10;
+int b = 5;
+int max = (a > b) ? a : b; // 如果 a > b 为真，max 将被赋值为 a，否则为 b
+```
+
+在这个例子中，我们比较了两个整数`a`和`b`，然后使用三目运算符来确定它们中的较大值，并将其存储在变量`max`中。
+
+#### 三目运算符与`if-else`语句的比较
+
+使用三目运算符可以写出更简洁的代码，特别是在简单的条件赋值情况下。下面是使用`if-else`语句和三目运算符实现相同功能的对比：
+
+```cpp
+// 使用 if-else 语句
+if (a > b) {
+    max = a;
+} else {
+    max = b;
+}
+
+// 使用三目运算符
+max = (a > b) ? a : b;
+```
+
+#### 三目运算符中的`return`语句
+
+三目运算符本身不包含`return`语句，它是一个表达式，其返回值是`expression_true`或`expression_false`中的一个。然而，三目运算符可以用在`return`语句中，作为函数返回值的条件表达式。例如：
+
+```cpp
+int getMax(int a, int b) {
+    return (a > b) ? a : b; // 在 return 语句中使用三目运算符
+}
+```
+
+在这个函数中，我们使用三目运算符来确定两个整数`a`和`b`中的较大值，并将其作为函数的结果返回。
+
+#### 注意事项
+
+- 三目运算符是右结合的，这意味着当有多个三目运算符连用时，最右边的运算符将首先被计算。
+- 过度使用三目运算符可能会使代码变得难以阅读，尤其是在复杂的表达式中。在这些情况下，使用传统的`if-else`语句可能更清晰。
+- 三目运算符只适用于有两个明确返回值的情况，如果需要更复杂的逻辑，应该使用`if-else`语句。
+
+三目运算符提供了一种简洁的方式来处理简单的条件表达式，但在使用时应注意保持代码的可读性和清晰性。
+
+### C++逐位提取整数型数字的每一位（数位分离）
+
+在C++中，将无符号整数转换为字符串可以通过多种方式实现，以下是一些常用的方法：
+
+#### 使用 `std::to_string`
+
+这是最直接的方法，它使用标准库中的 `std::to_string` 函数：
+
+```cpp
+#include <string>
+#include <iostream>
+
+int main() {
+    unsigned int num = 123;
+    std::string str = std::to_string(num);
+    
+    // 逐位提取
+    for (char c : str) {
+        std::cout << c;
+        //char 类型,对应相应的ASCII值
+        std::cout << c-'0';
+        //与0的ASCII做减法后得到的就是对应的数值了，可以进行相应的运算。
+    }
+    
+    return 0;
+}
+```
+
+我们使用 `for` 循环遍历字符串 `s` 中的每个字符，使用字符减去 `'0'` 的方式将其转换为整数（这是因为字符的内部表示是基于它们的ASCII码值，而数字字符的ASCII码值是连续的）。
+
+#### 使用循环和数学运算
+
+如果需要手动转换，可以通过循环和数学运算逐位提取数字：
+
+```cpp
+#include <iostream>
+
+int main() {
+    unsigned int num = 123;
+    while (num > 0) {
+        // 获取当前最低位的数字
+        std::cout << num % 10;
+        // 移除当前最低位
+        num /= 10;
+    }
+    
+    return 0;
+}
+```
+
+#### 使用 `std::stringstream`
+
+`std::stringstream` 可以用于将数字转换为字符串，并且可以方便地逐位访问：
+
+```cpp
+#include <sstream>
+#include <string>
+#include <iostream>
+
+int main() {
+    unsigned int num = 123;
+    std::stringstream ss;
+    ss << num;
+    std::string str = ss.str();
+    
+    // 逐位提取
+    std::reverse(str.begin(), str.end()); // 反转字符串以便从最低位开始
+    
+    for (char c : str) {
+        std::cout << c;
+    }
+    
+    return 0;
+}
+```
+
+在这个例子中，我们首先将数字转换为字符串，然后使用 `std::reverse` 函数来反转字符串，这样我们就可以从最低位开始逐位提取数字。
+
+#### 使用 `std::ostringstream` (C++11及以上)
+
+`std::ostringstream` 是 `std::stringstream` 的一个特化版本，只支持输出操作：
+
+```cpp
+#include <sstream>
+#include <iostream>
+
+int main() {
+    unsigned int num = 123;
+    std::ostringstream oss;
+    oss << num;
+    std::string str = oss.str();
+    
+    // 逐位提取
+    for (char c : str) {
+        std::cout << c;
+    }
+    
+    return 0;
+}
+```
+
+选择哪种方法取决于你的具体需求。如果只是简单地需要将数字转换为字符串，`std::to_string` 是最简单直接的方法。如果你需要更多的控制，比如自定义格式或者在转换过程中进行其他操作，那么 `std::stringstream` 或 `std::ostringstream` 可能是更好的选择。
+
+## 5.9
