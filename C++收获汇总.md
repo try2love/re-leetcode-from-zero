@@ -2327,3 +2327,69 @@ int main() {
 选择哪种方法取决于你的具体需求。如果只是简单地需要将数字转换为字符串，`std::to_string` 是最简单直接的方法。如果你需要更多的控制，比如自定义格式或者在转换过程中进行其他操作，那么 `std::stringstream` 或 `std::ostringstream` 可能是更好的选择。
 
 ## 5.9
+
+### C++统计vector\<int>类型数据中某元素出现的个数
+
+在 C++ 中，如果你想要统计 `vector<int>` 类型容器中某个特定元素出现的次数，你可以使用标准库中的 `algorithm` 头文件提供的 `count` 函数。这是一个简单且直接的方法。
+
+以下是使用 `count` 函数统计特定元素出现次数的示例代码：
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    // 创建并初始化一个 vector
+    std::vector<int> vec = {1, 2, 3, 4, 5, 3, 3, 2, 3, 4};
+
+    // 要统计的特定元素
+    int target = 3;
+
+    // 使用 count 函数统计特定元素出现的次数
+    int count = std::count(vec.begin(), vec.end(), target);
+
+    // 输出结果
+    std::cout << "元素 " << target << " 出现的次数是: " << count << std::endl;
+
+    return 0;
+}
+```
+
+在上面的代码中，`std::count` 函数接受三个参数：容器的开始迭代器、结束迭代器和要搜索的目标值。它返回一个整数，表示目标值在容器中出现的次数。
+
+如果你想要统计的元素在 `vector` 中是唯一的，或者你想要统计其他类型的元素，你也可以使用相同的方法。只需确保提供的迭代器与容器的类型相匹配，并且目标值的类型与 `vector` 中存储的元素类型一致。
+
+此外，如果你想要更高效的统计（特别是在大型数据集上），可能需要考虑其他算法或数据结构，例如使用一个额外的 `std::map` 或 `std::unordered_map` 来跟踪每个元素的出现次数。但大多数情况下，`std::count` 已经足够高效且方便使用。
+
+主要收获就是C++里面的count函数的用法是直接`count(begin,end,target)`这种结构，而不是`vec.count(target)`，因为这个函数是algorithm头文件里面专有的，而不是所谓vector类型中的可调用函数。
+
+### 编程小技巧
+
+在创建哈希表的时候，我的做法是
+
+```cpp
+for(int x: nums1){
+    for(int y:nums2){
+        if(hash_map1.find(x+y)!=hash_map1.end()){
+            //能找到相同元素的
+            hash_map1[x+y]+=1;
+        }
+        else{
+            hash_map1.insert({x+y,1});
+        }
+```
+
+看了参考答案才知道人家的写法更加简洁优雅：
+
+```cpp
+for(int x :num1){
+    for(int y:num2){
+        hash_map[x+y]++;
+    }
+}
+```
+
+这个编程方法真的值得学习，完成了插入新数据和增加旧数据的操作，相比之下我的ifelse结构就显得很幼稚。
+
+## 5.10

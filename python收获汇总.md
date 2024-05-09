@@ -1212,3 +1212,72 @@ for _ in range(length):
 
 ## 5.9
 
+### py中的Counter函数
+
+在 Python 中，`Counter` 是 `collections` 模块中的一个类，它用于计数可哈希对象。它也被称为直方图（histogram），因为它类似于统计数据中出现的频率分布。`Counter` 类在处理计数问题时非常有用，如词频统计、投票计数等。
+
+以下是 `Counter` 类的一些关键特性和方法：
+
+#### 初始化
+
+你可以通过几种不同的方式初始化 `Counter` 对象：
+
+1. 空 `Counter()` 创建一个空的计数器。
+2. `Counter(iterable)` 通过迭代器来初始化计数器，计数迭代器中每个元素出现的次数。
+
+#### 常用方法
+
+- `__contains__`: 检查元素是否在计数器中。
+- `elements()`: 返回一个迭代器，生成计数器中的元素，重复次数与计数相符。
+- `most_common()`: 返回一个列表，包含计数器中最常出现的元素及其计数，按降序排列。可以限制返回的元素数量。
+- `subtract()`: 减去另一个计数器中的计数，或者减去通过 `iterable` 提供的元素。
+- `update()`: 基于另一个计数器或 `iterable` 更新当前计数器。
+
+#### 示例
+
+```python
+from collections import Counter
+
+# 初始化一个空的 Counter 对象
+c = Counter()
+
+# 通过可迭代对象初始化
+words = ['apple', 'orange', 'apple', 'pear', 'orange', 'banana']
+word_counts = Counter(words)
+
+# 打印计数结果
+print(word_counts)  # 输出: Counter({'apple': 2, 'orange': 2, 'pear': 1, 'banana': 1})
+
+# 更新计数器
+word_counts.update(['orange', 'orange', 'orange'])
+
+# 打印更新后的计数结果
+print(word_counts)  # 输出: Counter({'orange': 5, 'apple': 2, 'pear': 1, 'banana': 1})
+
+# 检查元素是否存在
+print('orange' in word_counts)  # 输出: True
+
+# 返回计数器中最常见的元素及其计数
+print(word_counts.most_common(1))  # 输出: [('orange', 5)]
+
+# 元素的减法操作
+another_counter = Counter(['orange', 'grape'])
+word_counts.subtract(another_counter)
+print(word_counts)  # 输出: Counter({'apple': 2, 'pear': 1, 'banana': 1})
+
+# 元素的迭代
+for elem in word_counts.elements():
+    print(elem, end=' ')  # 可能的输出顺序: apple pear banana
+```
+
+`Counter` 对象的行为类似于字典，但它的值表示元素的计数，并且计数器中元素的顺序并不重要。
+
+#### 注意事项
+
+- 计数器中的元素必须是可哈希的，这意味着它们必须有稳定的哈希值。
+- 如果元素在迭代器中重复出现，它们的计数会增加。
+- `Counter` 对象的键（元素）和值（计数）可以被分别修改，但通常你会使用 `Counter` 类的内置方法来处理计数。
+
+`Counter` 是处理计数问题的一个非常有用的工具，它提供了一种简洁、高效的方式来跟踪元素的出现次数。
+
+## 5.10
