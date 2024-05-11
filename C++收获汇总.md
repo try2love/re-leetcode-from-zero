@@ -2567,3 +2567,96 @@ for (char c : magazine) {
 
 ## 5.11
 
+### vector中的find操作
+
+在C++中，`std::vector` 是一种序列容器，用于存储相同类型的元素。`std::vector` 提供了 `find` 方法，它是 `<algorithm>` 头文件中 `std::find` 算法的特化版本，用于在 `vector` 中查找与给定值相等的第一个元素。
+
+#### `find` 方法的基本用法
+
+`find` 方法的基本语法如下：
+
+```cpp
+vector<T>::iterator find(const T& value);
+```
+
+这里，`T` 是 `vector` 存储的元素类型。`find` 方法接受一个参数，即要查找的值，然后返回一个迭代器，指向 `vector` 中第一个与该值相等的元素。如果 `vector` 中没有这样的元素，`find` 方法将返回 `vector` 的结束迭代器（`end()`）。
+
+#### 示例
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm> // 用于 std::find
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+
+    // 查找值 3
+    auto it = vec.find(3);
+    auto it = find(vec.begin(),vec.end(),3);
+
+    if (it != vec.end()) {
+        std::cout << "Found " << *it << " at position " << it - vec.begin() << std::endl;
+    } else {
+        std::cout << "Value not found in the vector." << std::endl;
+    }
+
+    return 0;
+}
+```
+
+在这个例子中，我们创建了一个存储整数的 `vector`，然后使用 `find` 方法查找值 `3`。如果找到了，我们打印出找到的元素和它在 `vector` 中的位置；如果没有找到，我们打印出一个消息。
+
+#### 注意事项
+
+- `find` 方法的**时间复杂度是 O(n)**，其中 n 是 `vector` 中的元素数量。这是因为在最坏的情况下，`find` 可能需要遍历整个 `vector`。
+- `find` 方法不会修改 `vector` 的内容或状态。
+- 如果你需要在查找后继续遍历 `vector`，你应该记住 `find` 方法返回的迭代器，因为它指向找到的元素。
+- 如果 `find` 返回的是 `end()`，这意味着元素不在 `vector` 中，你应该避免尝试解引用 `end()` 迭代器。
+
+`find` 方法是 `std::vector` 的成员函数，它是查找操作的简单实现，适用于需要在 `vector` 中搜索特定值的场景。
+
+### C++统计数组元素出现的次数（类似py中的counter）
+
+在C++中，要统计数组中每个元素出现的次数并生成一张哈希表，可以使用 `std::unordered_map`，它是一种基于哈希表的关联容器，类似于Python中的字典。下面是一个示例代码，展示如何实现这一功能：
+
+```cpp
+#include <iostream>
+#include <unordered_map>
+
+int main() {
+    int arr[] = {1, 2, 3, 2, 1, 4, 3, 2, 1};
+    int n = sizeof(arr) / sizeof(arr[0]); // 计算数组元素的个数
+
+    // 使用 std::unordered_map 作为哈希表
+    std::unordered_map<int, int> hashTable;
+
+    // 遍历数组，统计每个元素的出现次数
+    for (int i = 0; i < n; ++i) {
+        // 将元素出现的次数加1，如果元素不在表中，则会插入新的键值对
+        hashTable[arr[i]]++;
+    }
+
+    // 输出结果
+    for (const auto& pair : hashTable) {
+        std::cout << "Element " << pair.first << " appears " << pair.second << " times" << std::endl;
+    }
+
+    return 0;
+}
+```
+
+在这个示例中，我们首先定义了一个整数数组 `arr`，然后使用 `std::unordered_map` 来创建哈希表 `hashTable`。数组中的每个元素作为键，其出现次数作为值。
+
+我们遍历数组，使用 `hashTable` 中的元素作为键来更新其值。如果元素已经在 `hashTable` 中，我们将其对应的值加一；如果不在，`std::unordered_map` 会自动将其插入为新的键值对，其中键是数组中的元素，值初始化为1。
+
+最后，我们遍历 `hashTable` 并输出每个元素及其出现的次数。
+
+这种方法的时间复杂度是 O(n)，其中 n 是数组中的元素数量，因为我们只遍历数组一次。使用 `std::unordered_map` 的空间复杂度是 O(m)，其中 m 是数组中不重复元素的数量，这是因为我们需要存储每个唯一元素及其出现的次数。
+
+### C++一次push_back一个数组
+
+比如有一个二维数组`vector<vector<int>> result`，要往这个二维数组中插入一行元素，可以创建临时一维数组，对一维数组逐个插入，再result插入tmp；另一种更好的方法是在result中直接插入数组：`result.push_back({nums[i],nums[j],nums[k]})`，括号里面的需要的是大括号括起来的数据组，因为定义数组的时候就是使用大括号来初始化数据的。
+
+## 5.12
+
