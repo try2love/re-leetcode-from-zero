@@ -1312,3 +1312,55 @@ ASCII转字符使用函数：`chr()`
 
 ## 5.12
 
+### 统计数组中每个数字出现的次数并可以根据数字访问出现的频次
+
+在Python中，统计数组中每个数字出现的次数并允许根据数字访问出现的频次，可以使用内置的`collections.Counter`类，它是一个专门的字典子类，用于计数可哈希对象。以下是如何使用`Counter`的示例：
+
+```python
+from collections import Counter
+
+# 假设这是我们的数组
+array = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
+
+# 使用 Counter 统计每个数字出现的次数
+counter = Counter(array)
+
+# 输出每个数字及其出现的次数
+print(counter)
+
+# 根据数字访问出现的频次
+number = 3
+count = counter[number]  # 获取数字3出现的次数
+print(f"Number {number} appears {count} times in the array.")
+```
+
+在这个例子中，`Counter(array)` 创建了一个计数器对象，其中键是数组中的数字，值是这些数字出现的次数。然后，你可以通过数字作为键来访问它的频次。
+
+如果你想要手动实现这个功能，而不是使用`Counter`，可以使用字典来存储每个数字的计数：
+
+```python
+array = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
+
+# 创建一个空字典来存储计数
+count_dict = {}
+
+# 遍历数组并更新计数
+for num in array:
+    if num in count_dict:
+        count_dict[num] += 1
+    else:
+        count_dict[num] = 1
+
+# 输出每个数字及其出现的次数
+print(count_dict)
+
+# 根据数字访问出现的频次
+number = 3
+count = count_dict.get(number, 0)  # 使用 get 方法，如果数字不在字典中则返回0
+print(f"Number {number} appears {count} times in the array.")
+```
+
+在这个手动实现中，我们首先创建了一个空字典`count_dict`，然后遍历数组，对于数组中的每个数字，如果它已经在字典中，就将其计数加一，如果不在字典中，就将其添加到字典中并设置计数为1。最后，我们使用`dict.get()`方法来访问特定数字的计数，如果该数字不在字典中，`get`方法将返回默认值0。
+
+## 5.13
+

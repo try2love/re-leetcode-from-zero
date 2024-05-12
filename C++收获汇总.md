@@ -2660,3 +2660,60 @@ int main() {
 
 ## 5.12
 
+### 判断两个vector数组是否元素一致
+
+在C++中，判断两个 `std::vector` 数组（向量）的元素是否完全一致，即它们包含相同的元素且顺序也相同，可以通过几种不同的方法实现。以下是两种常见的方法：
+
+#### 方法1：直接比较操作符
+
+C++标准库提供了直接比较两个 `std::vector` 的操作符 `==`。当且仅当两个向量的每个对应位置上的元素都相等时，比较结果为 `true`。
+
+```cpp
+#include <vector>
+#include <iostream>
+
+bool areVectorsEqual(const std::vector<int>& vec1, const std::vector<int>& vec2) {
+    return vec1 == vec2;
+}
+
+int main() {
+    std::vector<int> v1 = {1, 2, 3};
+    std::vector<int> v2 = {1, 2, 3};
+    std::vector<int> v3 = {3, 2, 1};
+
+    std::cout << std::boolalpha << areVectorsEqual(v1, v2) << std::endl; // 输出: true
+    std::cout << std::boolalpha << areVectorsEqual(v1, v3) << std::endl; // 输出: false
+    return 0;
+}
+```
+
+#### 方法2：遍历比较
+
+如果你需要更细粒度的控制或者想要避免潜在的递归比较（当 `std::vector` 包含自身作为元素时），可以手动遍历两个向量并比较它们的元素。
+
+```cpp
+bool areVectorsEqual(const std::vector<int>& vec1, const std::vector<int>& vec2) {
+    if (vec1.size() != vec2.size()) {
+        return false; // 如果大小不同，则直接返回false
+    }
+    for (std::size_t i = 0; i < vec1.size(); ++i) {
+        if (vec1[i] != vec2[i]) {
+            return false; // 发现不匹配的元素，返回false
+        }
+    }
+    return true; // 所有元素都匹配，返回true
+}
+```
+
+这种方法首先检查两个向量的大小是否相同，如果不同，则它们不可能相等。然后，它遍历向量的每个元素并逐一比较。如果发现任何不匹配的元素，函数将返回 `false`。如果遍历完成后没有发现不匹配的元素，函数返回 `true`。
+
+#### 注意事项
+
+- 两种方法都适用于比较包含基本数据类型（如 `int`、`double` 等）的向量。
+- 如果向量包含自定义类型的对象，那么这些类型必须定义了相等运算符（`operator==`），以便进行比较。
+- 直接比较操作符可能更简洁，但在某些情况下，如向量元素是复杂类型或自定义类型时，可能需要手动实现比较逻辑。
+
+选择哪种方法取决于你的具体需求和偏好。直接比较操作符通常更简洁且易于阅读，而手动遍历比较提供了更多的控制。
+
+## 5.13
+
