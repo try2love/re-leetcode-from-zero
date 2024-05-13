@@ -2717,3 +2717,71 @@ bool areVectorsEqual(const std::vector<int>& vec1, const std::vector<int>& vec2)
 
 ## 5.13
 
+### C++中的reverse函数
+
+在C++中，`std::reverse` 是一个标准库算法函数，用于反转序列容器中的元素顺序。这个函数定义在 `<algorithm>` 头文件中，可以应用于如 `std::vector`、`std::array`、`std::deque` 等序列容器。
+
+#### 函数原型
+
+```cpp
+void reverse(BidirectionalIterator first, BidirectionalIterator last);
+```
+
+这里的 `BidirectionalIterator` 是一个双向迭代器，它指向了要反转序列的起始位置和结束位置（不包括 `last`）。
+
+#### 使用示例
+
+```cpp
+#include <algorithm> // for std::reverse
+#include <vector>
+#include <iostream>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+
+    // 反转整个向量
+    std::reverse(vec.begin(), vec.end());
+
+    // 输出反转后的向量
+    for (int num : vec) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+在这个例子中，`std::reverse` 被用来反转 `vec` 中的所有元素。函数接受 `vec.begin()` 作为序列的开始迭代器，`vec.end()` 作为序列的结束迭代器。
+
+#### 注意事项
+
+- `std::reverse` 不会返回任何值，它直接修改传入的序列。
+- 如果序列是空的或者只有一个元素，`std::reverse` 不会执行任何操作。
+- 反转操作的时间复杂度是 O(N)，其中 N 是序列中的元素数量。
+
+#### 反转部分序列
+
+`std::reverse` 也可以用于反转序列中的一部分元素：
+
+```cpp
+std::vector<int> vec = {1, 2, 3, 4, 5};
+std::reverse(vec.begin() + 1, vec.begin() + 3);
+```
+
+这将只反转从索引 1 开始到索引 3 结束的元素（不包括索引 3 的元素）的部分序列。
+
+#### 反转算法与逆序迭代器
+
+除了 `std::reverse`，C++ 标准库还提供了 `std::reverse_copy`，它与 `std::reverse` 类似，但会将结果复制到另一个序列中，而不是原地修改。此外，还可以使用逆序迭代器（reverse iterator）来遍历序列的元素逆序：
+
+```cpp
+for (auto it = vec.rbegin(); it != vec.rend(); ++it) {
+    std::cout << *it << " ";
+}
+```
+
+这将输出 `vec` 中元素的逆序，而不需要改变 `vec` 本身。逆序迭代器在 `std::vector`、`std::deque` 和 `std::array` 等容器中可用。
+
+## 5.14
+

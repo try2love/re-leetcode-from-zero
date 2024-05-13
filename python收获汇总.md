@@ -1364,3 +1364,159 @@ print(f"Number {number} appears {count} times in the array.")
 
 ## 5.13
 
+### py中的栈
+
+在Python中，栈（Stack）是一种遵循后进先出（LIFO，Last In First Out）原则的线性数据结构。在栈中，元素的添加（push）和删除（pop）操作都发生在栈的同一侧，称为栈顶。
+
+以下是栈的一些基本操作和特性：
+
+#### 初始化栈
+
+在Python中，可以使用列表（list）来模拟栈的操作，因为列表具有动态数组的特性，可以方便地进行元素的添加和删除。
+
+```python
+stack = []
+```
+
+#### 元素添加（Push）
+
+在栈顶添加一个新元素，可以使用列表的`append()`方法。
+
+```python
+stack.append(element)
+```
+
+#### 元素删除（Pop）
+
+从栈顶删除一个元素，并返回该元素，可以使用列表的`pop()`方法。如果栈为空，`pop()`方法会抛出一个`IndexError`异常。
+
+```python
+element = stack.pop()
+```
+
+#### 查看栈顶元素
+
+查看栈顶元素，但不删除它，可以使用列表的索引操作。
+
+```python
+top_element = stack[-1]
+```
+
+#### 栈的大小
+
+获取栈中元素的数量，可以使用列表的`len()`函数。
+
+```python
+size = len(stack)
+```
+
+#### 判断栈是否为空
+
+判断栈是否为空，可以使用列表的`len()`函数或直接使用`not`操作符。
+
+```python
+is_empty = len(stack) == 0  # 或者 is_empty = not stack
+```
+
+#### 清空栈
+
+清空栈中的所有元素，可以使用列表的`clear()`方法。
+
+```python
+stack.clear()
+```
+
+#### 示例
+
+下面是一个使用Python列表实现栈的简单示例：
+
+```python
+stack = []
+
+# 元素添加
+stack.append(1)
+stack.append(2)
+stack.append(3)
+
+# 查看栈顶元素
+print(stack[-1])  # 输出: 3
+
+# 元素删除
+print(stack.pop())  # 输出: 3
+print(stack.pop())  # 输出: 2
+
+# 栈的大小
+print(len(stack))  # 输出: 1
+
+# 判断栈是否为空
+print(len(stack) == 0)  # 输出: False
+
+# 清空栈
+stack.clear()
+print(len(stack))  # 输出: 0
+```
+
+#### 注意事项
+
+- Python本身没有内置的栈数据结构，但可以使用列表、元组或集合等其他数据结构来模拟栈的行为。
+- 在模拟栈操作时，要注意Python列表的`pop()`方法默认从右侧删除并返回元素，这与栈的LIFO原则相反。因此，通常使用`pop()`方法的索引参数`stack.pop(0)`来模拟栈的pop操作。
+- 栈的应用场景包括函数调用的逆序执行（调用栈）、表达式求值、回溯算法等。
+
+栈是一种基础且重要的数据结构，在很多算法和程序设计中都有广泛应用。在Python中，通过合理利用列表等内置数据结构，可以方便地实现栈的各种操作。
+
+### py中的reverse函数和reversed函数
+
+在Python中，`reverse` 和 `reversed` 都与反转序列相关，但它们在用法和行为上有所不同。
+
+#### `reverse()` 方法
+
+`reverse()` 是列表（list）的一个方法，用于原地反转列表中的元素顺序。这意味着它直接修改调用该方法的列表，而不返回一个新的列表或原列表的副本。
+
+```python
+my_list = [1, 2, 3, 4, 5]
+my_list.reverse()
+print(my_list)  # 输出: [5, 4, 3, 2, 1]
+```
+
+`reverse()` 方法没有返回值，即使它修改了列表本身。因此，如果你尝试打印 `my_list.reverse()` 的结果，你将得到 `None`。
+
+#### `reversed()` 函数
+
+`reversed()` 是一个内置函数，它接受一个序列（如列表、元组或字符串），并返回一个迭代器，该迭代器按逆序提供序列中的元素。
+
+```python
+my_list = [1, 2, 3, 4, 5]
+reversed_iterator = reversed(my_list)
+print(list(reversed_iterator))  # 输出: [5, 4, 3, 2, 1]
+```
+
+`reversed()` 函数返回的是一个迭代器，不是列表。如果你需要一个列表形式的反转序列，可以使用 `list()` 函数将迭代器转换为列表。
+
+#### 字符串反转
+
+对于字符串，由于它们是不可变的，`reversed()` 函数可以用来创建一个逆序的字符串迭代器，但不能用 `reverse()` 方法，因为字符串没有这个方法。
+
+```python
+my_string = "hello"
+reversed_string_iterator = reversed(my_string)
+print(''.join(reversed_string_iterator))  # 输出: "olleh"
+```
+
+#### 总结
+
+- `reverse()` 是列表的实例方法，原地反转列表，没有返回值。
+- `reversed()` 是一个内置函数，返回一个迭代器，可以用于任何可迭代对象的逆序访问。
+
+根据你的需求，你可以选择使用 `reverse()` 方法或 `reversed()` 函数。如果你需要修改现有列表，使用 `reverse()`。如果你需要保留原始序列并创建一个新的反转序列，使用 `reversed()`。
+
+### list类型数据逆置/反转的可行方法
+
+1. 双指针交换前后元素
+2. 借助栈，输入：append；输出：pop
+3. 数学推导，使用range函数：`for i in range(n//2):  s[i],s[n-1-i] = s[n-1-i],s[i]`
+4. 使用reverse函数，直接`s.reverse()`
+5. 使用reversed函数，该函数返回迭代对象，需要`s[:] = reversed(s)`
+6. 使用list的切片操作：`s[:]=s[::-1]`
+7. 列表的推导：`s[:] = [s[i] for i in range(len(s)-1, -1, -1)]`
+
+## 5.14
