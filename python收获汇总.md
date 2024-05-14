@@ -1520,3 +1520,65 @@ print(''.join(reversed_string_iterator))  # 输出: "olleh"
 7. 列表的推导：`s[:] = [s[i] for i in range(len(s)-1, -1, -1)]`
 
 ## 5.14
+
+### py改变字符串
+
+在Python中，字符串是可迭代的数据类型，你可以通过下标（索引）来访问和修改字符串中的单个字符。字符串的索引也是基于0的，即第一个字符的索引是0。
+
+#### 访问字符串中的字符
+
+要访问字符串中的特定字符，你可以使用方括号`[]`，后面跟上你想要的字符的索引。
+
+```python
+my_string = "Hello, World!"
+char_at_index_7 = my_string[7]  # 'W'
+```
+
+#### 修改字符串中的字符
+
+Python中的**字符串是不可变的**，这意味着你不能直接修改字符串中的单个字符。但是，你可以通过创建一个新的字符串来实现“修改”字符的目的。
+
+例如，如果你想将字符串中的某个字符替换为另一个字符，可以这样做：
+
+```python
+my_string = "Hello, World!"
+index_to_modify = 7  # 假设我们要修改索引为7的字符
+
+# 创建一个新的字符串，其中包含了原始字符串，除了修改的字符
+new_string = my_string[:index_to_modify] + 'A' + my_string[index_to_modify + 1:]
+
+print(new_string)  # "Hello, World!" 中的 'W' 被替换为 'A'，结果为 "Hello, Aorld!"
+```
+
+在这个例子中，我们创建了一个新的字符串 `new_string`，它由三部分组成：
+
+1. 原始字符串 `my_string` 从开始到索引 `index_to_modify`（不包括该索引）的部分。
+2. 我们想要的新字符 `'A'`。
+3. 原始字符串 `my_string` 从索引 `index_to_modify + 1` 到末尾的部分。
+
+#### 使用字符串推导式
+
+你也可以使用字符串推导式来创建修改后的字符串：
+
+```python
+new_string = ''.join([my_string[:7], 'A', my_string[8:]])
+```
+
+这行代码使用了相同的逻辑，但是更加简洁。
+
+#### 注意
+
+由于字符串是不可变的，所以当你“修改”一个字符串时，实际上是在创建一个新的字符串对象。原来的字符串保持不变。这种特性使得字符串操作在多线程环境中是安全的。如果你需要频繁修改字符串内容，可能需要考虑使用列表（`list`），列表中的元素是可变的。
+
+### py从list到str
+
+有一个修改后的list型数据，要转化为str类型：
+
+`return ''.join(listType)`
+
+### py中的for循环
+
+for和in相连用，range可以设置步长，比如说`for i in range(0,n,2*k)`的使用
+
+## 5.15
+
