@@ -2892,3 +2892,157 @@ str1[0] = 'S'; // 将字符串开头的字符从 'H' 改为 'S'
 
 ## 5.16
 
+### C++分割字符串
+
+在C++中，没有直接类似于Python中 `split()` 函数的函数，但你可以使用一些标准库函数和算法来实现类似的功能。以下是几种在C++中实现字符串分割的方法：
+
+#### 1. 使用 `std::istringstream` 和 `std::getline`
+
+这是分割字符串的常用方法，它使用 `std::istringstream` 来模拟流操作，然后使用 `std::getline` 来按指定分隔符读取字符串。
+
+```cpp
+#include <sstream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> split(const std::string& str, char delimiter) {
+    std::vector<std::string> tokens;
+    std::istringstream tokenStream(str);
+    std::string token;
+    while (std::getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+```
+
+#### 2. 使用 `std::find_first_of` 和循环
+
+这种方法通过查找分隔符的位置来分割字符串。
+
+```cpp
+#include <string>
+#include <vector>
+
+std::vector<std::string> split(const std::string& str, char delimiter) {
+    std::vector<std::string> tokens;
+    size_t start = 0;
+    size_t end = str.find(delimiter);
+    
+    while (end != std::string::npos) {
+        tokens.push_back(str.substr(start, end - start));
+        start = end + 1;
+        end = str.find(delimiter, start);
+    }
+    
+    tokens.push_back(str.substr(start, end));
+    return tokens;
+}
+```
+
+#### 3. 使用 `std::regex`
+
+C++11及以后版本支持正则表达式，你可以使用 `std::regex` 来分割字符串。
+
+```cpp
+#include <regex>
+#include <string>
+#include <vector>
+
+std::vector<std::string> split(const std::string& str, char delimiter) {
+    std::vector<std::string> tokens;
+    std::regex re(1, delimiter);
+    std::copy(std::sregex_token_iterator(str.begin(), str.end(), re, -1), std::sregex_token_iterator(), back_inserter(tokens));
+    return tokens;
+}
+```
+
+#### 注意事项
+
+- 当处理空字符串或连续分隔符时，你可能需要修改上述函数以适应你的需求。
+- 如果你的分隔符是一个字符串而不是单个字符，你需要相应地调整正则表达式的构造和 `std::getline` 的使用。
+- 这些方法中，使用 `std::istringstream` 和 `std::getline` 的方法通常更直观和易于理解。
+
+通过上述任何一种方法，你都可以在C++中实现类似Python中 `split()` 函数的功能。
+
+### C++对字符串的find操作
+
+在C++中，如果你想要在一个字符串的特定范围内寻找某个元素（字符），你可以使用 `std::string` 类的 `find` 成员函数。这个函数可以在字符串中查找子字符串的位置，也可以用来查找单个字符的位置。
+
+以下是使用 `std::string` 的 `find` 函数来查找单个字符范围的示例：
+
+#### 查找单个字符
+
+```cpp
+#include <string>
+
+int main() {
+    std::string str = "Hello, World!";
+    char ch = 'o';
+    size_t found_pos = str.find(ch, 0); // 从位置0开始查找字符'o'
+
+    if (found_pos != std::string::npos) {
+        std::cout << "Found character '" << ch << "' at position: " << found_pos << std::endl;
+    } else {
+        std::cout << "Character not found in the string." << std::endl;
+    }
+
+    return 0;
+}
+```
+
+#### 查找子字符串
+
+```cpp
+#include <string>
+
+int main() {
+    std::string str = "Hello, World!";
+    std::string to_find = "World";
+    size_t found_pos = str.find(to_find, 0); // 从位置0开始查找子字符串"World"
+
+    if (found_pos != std::string::npos) {
+        std::cout << "Found substring '" << to_find << "' at position: " << found_pos << std::endl;
+    } else {
+        std::cout << "Substring not found in the string." << std::endl;
+    }
+
+    return 0;
+}
+```
+
+`find` 函数的第二个参数是你想要开始搜索的位置。如果你想要在整个字符串中搜索，可以从 `0` 开始。
+
+`std::string::npos` 是一个特殊的值，表示未找到。如果 `find` 函数没有找到指定的字符或子字符串，它将返回 `std::string::npos`。
+
+#### 查找直到某个位置
+
+如果你只想在字符串的特定范围内查找（例如，从位置 `start_pos` 到位置 `end_pos`），你可以使用 `find_first_of` 或 `find_last_of` 函数：
+
+```cpp
+#include <string>
+#include <iostream>
+
+int main() {
+    std::string str = "Hello, World!";
+    char ch = 'o';
+    size_t start_pos = 0;
+    size_t end_pos = str.find(' ') - 1; // 查找空格的位置作为结束位置
+
+    // 查找字符在指定范围内的最后一次出现
+    size_t found_pos = str.find_last_of(ch, end_pos);
+
+    if (found_pos != std::string::npos) {
+        std::cout << "Found character '" << ch << "' at position: " << found_pos << std::endl;
+    } else {
+        std::cout << "Character not found in the specified range." << std::endl;
+    }
+
+    return 0;
+}
+```
+
+在这个例子中，我们使用 `find_last_of` 函数查找字符 `'o'` 在字符串 `str` 中从位置 `start_pos` 到 `end_pos` 的最后一次出现。`end_pos` 是空格字符前的位置，因为我们不包括空格在内。如果 `end_pos` 是空字符串或未找到空格，则可能需要调整逻辑以确保正确处理边界情况。
+
+## 5.17
+
