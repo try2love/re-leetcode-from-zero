@@ -3046,3 +3046,47 @@ int main() {
 
 ## 5.17
 
+### 获取子字符串substr()
+
+在C++中，`substr` 是 `std::string` 类的一个成员函数，用于从字符串中提取子字符串。这个方法返回一个 `std::string` 类型的副本，包含原始字符串中从指定位置开始的特定长度的字符序列。
+
+#### 语法
+
+```cpp
+std::string substr(size_t pos = 0, size_t len = npos) const;
+```
+
+- `pos` 是一个可选参数，指定从哪个位置开始提取子字符串。如果未指定，`pos` 默认为 0，即从字符串的开头开始。
+- `len` 是要提取的字符数。如果未指定或指定为 `std::string::npos`（这是 `std::string` 类的一个特殊值，表示直到字符串的末尾），则子字符串将包含从 `pos` 开始到原始字符串末尾的所有字符。
+
+#### 示例
+
+```cpp
+#include <iostream>
+#include <string>
+
+int main() {
+    std::string str = "Hello, World!";
+    
+    // 提取从位置 7 开始的子字符串，直到字符串末尾
+    std::string sub1 = str.substr(7);
+    std::cout << sub1 << std::endl; // 输出: World!
+
+    // 提取从位置 5 开始，长度为 6 的子字符串
+    std::string sub2 = str.substr(5, 6);
+    std::cout << sub2 << std::endl; // 输出: World
+
+    return 0;
+}
+```
+
+#### 注意事项
+
+- 如果 `pos` 大于字符串的长度，`substr` 将返回一个空字符串。
+- 如果 `pos` 加上 `len` 超出了字符串的末尾，`substr` 将只返回从 `pos` 开始到字符串末尾的部分。
+- `substr` 方法不会修改原始字符串。
+
+`substr` 方法是C++中处理字符串时的一个有用工具，它允许你轻松地从字符串中提取特定部分。
+
+## 5.18
+
