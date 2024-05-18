@@ -3090,3 +3090,6 @@ int main() {
 
 ## 5.18
 
+[KMP算法，from评论区大佬](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/solutions/2600821/kan-bu-dong-ni-da-wo-kmp-suan-fa-chao-qi-z1y0)
+
+## 5.19
