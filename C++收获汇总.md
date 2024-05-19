@@ -3093,3 +3093,39 @@ int main() {
 [KMP算法，from评论区大佬](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/solutions/2600821/kan-bu-dong-ni-da-wo-kmp-suan-fa-chao-qi-z1y0)
 
 ## 5.19
+
+### C++截取字符串
+
+在C++中，可以使用`std::string`类的`substr`成员函数来截取字符串的一部分，并将其赋值给一个新的`std::string`对象。`substr`函数的原型如下：
+
+```cpp
+string substr(size_t pos = 0, size_t count = npos) const;
+```
+
+- `pos` 是要截取的子字符串的起始位置（从0开始计数）。
+- `count` 是要截取的子字符串的长度。如果不指定或者指定为`string::npos`，则截取从`pos`开始到原字符串末尾的所有字符。
+
+下面是一个使用`substr`函数的例子：
+
+```cpp
+#include <iostream>
+#include <string>
+
+int main() {
+    std::string str = "Hello, World!";
+    size_t pos = 7; // 从第8个字符开始截取
+    size_t count = 5; // 截取5个字符
+
+    std::string subStr = str.substr(pos, count);
+    std::cout << subStr << std::endl; // 输出 "World"
+
+    return 0;
+}
+```
+
+在这个例子中，我们从字符串`"Hello, World!"`的第8个字符（位置7，因为索引从0开始）开始截取，截取长度为5的子字符串，得到的结果是`"World"`。
+
+请根据你的具体需求调整`pos`和`count`的值。如果你想要截取从某个位置到字符串末尾的所有字符，可以将`count`设置为`std::string::npos`。
+
+## 5.20
+

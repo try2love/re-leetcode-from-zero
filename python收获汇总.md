@@ -1796,3 +1796,41 @@ print(s.strip("-"))  # 输出: "Hello, World!"
 
 ## 5.18
 
+None
+
+## 5.19
+
+### py中KMP算法next数组的构建
+
+#### 前缀表 减一
+
+```python
+def getNext(self, nxt, s):
+    nxt[0] = -1
+    j = -1
+    for i in range(1, len(s)):
+        while j >= 0 and s[i] != s[j+1]:
+            j = nxt[j]
+        if s[i] == s[j+1]:
+            j += 1
+        nxt[i] = j
+    return nxt
+```
+
+#### 前缀表 不减一
+
+```python
+def getNext(self, nxt, s):
+    nxt[0] = 0
+    j = 0
+    for i in range(1, len(s)):
+        while j > 0 and s[i] != s[j]:
+            j = nxt[j - 1]
+        if s[i] == s[j]:
+            j += 1
+        nxt[i] = j
+    return nxt
+```
+
+## 5.20
+
