@@ -1838,3 +1838,86 @@ py中的类如果想要有一个能够在类中使用的数据结构，则需要
 
 ## 5.21
 
+### py中的队列
+
+Python 提供了几种队列的实现，包括标准的队列（FIFO - First In, First Out）和双端队列（deque - 双端队列，允许在两端进行操作）。以下是对这些数据结构的详细介绍：
+
+#### 1. 列表（List）作为队列
+
+虽然列表不是真正的队列数据结构，但可以通过使用列表的 `append()` 方法在一端添加元素，使用 `pop(0)` 方法在另一端移除元素来模拟队列的行为。然而，这种方法在移除元素时效率较低，因为 `pop(0)` 需要移动列表中的所有元素。
+
+```python
+from collections import deque
+
+queue = deque()
+queue.append('a')  # 入队
+queue.append('b')
+queue.append('c')
+
+print(queue.popleft())  # 出队，返回 'a'
+```
+
+#### 2. `collections.deque` 作为双端队列
+
+Python 的 `collections` 模块提供了 `deque` 类，它是一个双端队列的实现，允许在两端快速添加和删除元素。`deque` 是通过双向链表实现的，因此它提供了 `append()` 和 `appendleft()` 方法来分别在两端添加元素，以及 `pop()` 和 `popleft()` 方法来分别在两端移除元素。
+
+```python
+from collections import deque
+
+dq = deque()
+dq.append('a')  # 在右侧添加元素
+dq.append('b')
+dq.appendleft('z')  # 在左侧添加元素
+
+print(dq)  # 输出：deque(['z', 'a', 'b'])
+
+dq.pop()  # 从右侧移除元素，返回 'b'
+dq.popleft()  # 从左侧移除元素，返回 'z'
+
+print(dq)  # 输出：deque([])
+```
+
+#### 3. `queue.Queue` 作为线程安全的队列
+
+Python 的 `queue` 模块提供了一个线程安全的队列实现，适用于多线程编程。`Queue` 类提供了 `put()` 方法来添加元素，`get()` 方法来移除元素，并且还有 `task_done()` 和 `join()` 方法来支持任务完成的通知。
+
+```python
+import queue
+
+q = queue.Queue()
+q.put('a')
+q.put('b')
+
+print(q.get())  # 从队列中获取元素，返回 'a'
+print(q.get())  # 返回 'b'
+
+# 如果队列为空，get() 将阻塞，直到有元素被添加
+```
+
+#### 4. 优先队列
+
+虽然标准的 `queue.Queue` 不支持优先级，但是 `heapq` 模块可以用来实现一个优先队列。`heapq` 提供了一个列表的堆队列算法实现，允许你维护一个列表，使得列表的第一个元素总是最小的（或最大的，取决于你的实现）。
+
+```python
+import heapq
+
+pq = []
+heapq.heappush(pq, (1, 'low priority'))
+heapq.heappush(pq, (3, 'high priority'))
+
+print(heapq.heappop(pq))  # 返回最小元素的元组，(1, 'low priority')
+```
+
+在这个例子中，我们使用元组 `(优先级, 值)` 来存储元素，`heapq` 会根据元组的第一个元素（即优先级）来排序。
+
+#### 总结
+
+- 使用列表作为队列时，需要注意性能问题，尤其是在频繁地从列表头部移除元素时。
+- `collections.deque` 是实现队列和双端队列的理想选择，因为它提供了高效的两端操作。
+- `queue.Queue` 是线程安全的队列实现，适用于多线程环境。
+- `heapq` 可以用来实现优先队列，但需要手动管理优先级。
+
+每种队列实现都有其适用场景，你可以根据你的具体需求来选择最合适的一种。
+
+## 5.22
+
