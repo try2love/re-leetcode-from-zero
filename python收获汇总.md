@@ -258,6 +258,8 @@ print(char_count)
 
 3. 对list类型数据的原始操作：
 
+   <center>关键词：对list的操作<center>
+
    - 尾部插入数据`list.append(val)`
    - 指定索引处插入数据（index取0标志首部插入数据）`list.insert(index,val)`
    - 通过值删除元素`list.remove(val)`
@@ -1214,6 +1216,8 @@ for _ in range(length):
 
 ### py中的Counter函数
 
+<center>关键词：Counter函数<center>
+
 在 Python 中，`Counter` 是 `collections` 模块中的一个类，它用于计数可哈希对象。它也被称为直方图（histogram），因为它类似于统计数据中出现的频率分布。`Counter` 类在处理计数问题时非常有用，如词频统计、投票计数等。
 
 以下是 `Counter` 类的一些关键特性和方法：
@@ -1284,6 +1288,8 @@ for elem in word_counts.elements():
 
 ### py获取字符的ASCII
 
+<center>关键词：ASCII<center>
+
 因为在py中无法像C++一样两个字符做差得到相对位置，在py中无法实现两个str类型数据的减法操作，因此需要借助ascii转化
 
 获取字符的ascii使用函数：`ord()`
@@ -1313,6 +1319,9 @@ ASCII转字符使用函数：`chr()`
 ## 5.12
 
 ### 统计数组中每个数字出现的次数并可以根据数字访问出现的频次
+
+<center>关键词：统计频次<center>
+    <center>关键词：counter函数<center>
 
 在Python中，统计数组中每个数字出现的次数并允许根据数字访问出现的频次，可以使用内置的`collections.Counter`类，它是一个专门的字典子类，用于计数可哈希对象。以下是如何使用`Counter`的示例：
 
@@ -1365,6 +1374,8 @@ print(f"Number {number} appears {count} times in the array.")
 ## 5.13
 
 ### py中的栈
+
+<center>关键词：栈<center>
 
 在Python中，栈（Stack）是一种遵循后进先出（LIFO，Last In First Out）原则的线性数据结构。在栈中，元素的添加（push）和删除（pop）操作都发生在栈的同一侧，称为栈顶。
 
@@ -1466,6 +1477,10 @@ print(len(stack))  # 输出: 0
 
 ### py中的reverse函数和reversed函数
 
+<center>关键词：逆置<center>
+<center>关键词：reverse函数<center>
+<center>关键词：reversed函数<center>
+
 在Python中，`reverse` 和 `reversed` 都与反转序列相关，但它们在用法和行为上有所不同。
 
 #### `reverse()` 方法
@@ -1522,6 +1537,8 @@ print(''.join(reversed_string_iterator))  # 输出: "olleh"
 ## 5.14
 
 ### py改变字符串
+
+<center>关键词：字符串<center>
 
 在Python中，字符串是可迭代的数据类型，你可以通过下标（索引）来访问和修改字符串中的单个字符。字符串的索引也是基于0的，即第一个字符的索引是0。
 
@@ -1583,6 +1600,11 @@ for和in相连用，range可以设置步长，比如说`for i in range(0,n,2*k)`
 ## 5.15
 
 ### py中判断某一字符的类型
+
+<center>关键词：类型判断<center>
+
+<center>关键词：数据类型判断
+<center>
 
 在Python中，如果你想要判断一个字符的类型，通常是指检查它是否是字母、数字、空白字符等。Python提供了一些内置的函数和模块来帮助进行这些判断。以下是一些常用的方法：
 
@@ -1651,6 +1673,13 @@ elif re.match('^[0-9]$', char):
 
 ### py中的split函数
 
+<center>关键词：split<center>
+<center>关键词：split函数<center>
+
+<center>关键词：分割列表<center>
+
+
+
 在Python中，`split()` 是字符串（`str`）对象的一个方法，用于将字符串分割成一个列表（`list`）中的多个子字符串。默认情况下，如果没有指定分隔符，`split()` 方法会根据空白字符（如空格、制表符、换行符等）来分割字符串。
 
 #### 基本用法
@@ -1716,6 +1745,11 @@ split()的时候，多个空格当成一个空格；split(' ')的时候，多个
 `split()` 方法是Python中处理字符串常用的方法之一，它在文本处理、数据解析和字符串操作中非常有用。
 
 ### py中的strip函数
+
+<center>关键词：strip<center>
+
+<center>关键词：strip函数
+<center>
 
 在Python中，`strip()` 函数是字符串（`str`）对象的一个方法，用于移除字符串两端的特定字符。默认情况下，如果没有指定任何参数，`strip()` 会移除字符串两端的所有空白字符，这包括空格、制表符（`\t`）、换行符（`\n`）、回车符（`\r`）以及任何其他在字符串开始或结束时的空白字符。
 
@@ -1802,6 +1836,8 @@ None
 
 ### py中KMP算法next数组的构建
 
+<center>关键词：KMP算法<center>
+
 #### 前缀表 减一
 
 ```python
@@ -1839,6 +1875,8 @@ py中的类如果想要有一个能够在类中使用的数据结构，则需要
 ## 5.21
 
 ### py中的队列
+
+<center>关键词：队列<center>
 
 Python 提供了几种队列的实现，包括标准的队列（FIFO - First In, First Out）和双端队列（deque - 双端队列，允许在两端进行操作）。以下是对这些数据结构的详细介绍：
 
@@ -1921,3 +1959,8 @@ print(heapq.heappop(pq))  # 返回最小元素的元组，(1, 'low priority')
 
 ## 5.22
 
+None
+
+## 5.23
+
+list类型数据也有pop操作，弹出最后一个元素。

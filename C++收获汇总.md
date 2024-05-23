@@ -224,6 +224,8 @@
 
 ### `const`关键字在形参中的用法
 
+<center>关键词：const<center>
+
 在C++中，`const` 关键字用于指定一个变量或对象的状态不能被修改。当你在函数参数中使用 `const` 时，你告诉编译器这个参数在函数内部**不能被修改**。
 
 #### `const` 在形参中的作用
@@ -412,6 +414,11 @@ int main() {
 在这个例子中，`operateArray` 函数的参数 `int (&array)[8]` 明确指出 `array` 是一个包含8个整数的数组的引用。这意味着函数可以直接修改传递给它的数组的元素。
 
 ### 声明并使用 vector 类型
+
+<center>关键词：vector<center>
+<center>
+    关键词：声明vector
+<center>
 
 `std::vector` 是C++标准模板库（STL）中的一个容器类，它提供了动态数组的功能。以下是如何声明和使用 `std::vector` 的基本步骤：
 
@@ -3137,3 +3144,292 @@ NULL
 
 ## 5.22
 
+NULL
+
+## 5.23
+
+### C++使用string模拟存储类型为char的栈
+
+<center>关键词：字符串模拟栈<center>
+<center>
+    关键词：string
+<center>
+<center>关键词：字符串
+<center>
+
+在C++中，可以使用`std::string`来模拟一个存储`char`数据的栈。`std::string`提供了在字符串末尾添加和删除元素的功能，这与栈的后进先出（LIFO）特性相符合。以下是使用`std::string`模拟栈的一个简单示例：
+
+```cpp
+#include <iostream>
+#include <string>
+
+class CharStack {
+private:
+    std::string stack; // 使用字符串作为栈的底层容器
+
+public:
+    // 入栈操作
+    void push(char c) {
+        stack.push_back(c); // 在字符串末尾添加元素
+    }
+
+    // 出栈操作
+    void pop() {
+        if (!stack.empty()) {
+            stack.pop_back(); // 删除字符串末尾的元素
+        } else {
+            std::cout << "Stack is empty, cannot pop." << std::endl;
+        }
+    }
+
+    // 查看栈顶元素
+    char top() const {
+        if (!stack.empty()) {
+            return stack.back(); // 返回字符串末尾的元素
+        } else {
+            std::cout << "Stack is empty, no top element." << std::endl;
+            return '\0'; // 返回空字符，表示栈为空
+        }
+    }
+
+    // 检查栈是否为空
+    bool empty() const {
+        return stack.empty(); // 字符串为空则栈为空
+    }
+
+    // 获取栈的大小
+    size_t size() const {
+        return stack.size(); // 返回字符串的长度
+    }
+};
+
+int main() {
+    CharStack myStack;
+
+    // 入栈操作
+    myStack.push('a');
+    myStack.push('b');
+    myStack.push('c');
+
+    // 查看栈顶元素
+    std::cout << "Top element is: " << myStack.top() << std::endl;
+
+    // 出栈操作
+    myStack.pop();
+    std::cout << "Top element after one pop is: " << myStack.top() << std::endl;
+
+    // 检查栈是否为空
+    if (myStack.empty()) {
+        std::cout << "The stack is empty." << std::endl;
+    } else {
+        std::cout << "The stack is not empty." << std::endl;
+    }
+
+    return 0;
+}
+```
+
+在这个示例中，`CharStack`类使用`std::string`作为底层容器来存储`char`类型的数据。我们定义了`push`、`pop`、`top`、`empty`和`size`方法来模拟栈的基本操作。
+
+- `push`方法使用`std::string::push_back`在栈顶添加一个元素。
+- `pop`方法使用`std::string::pop_back`移除栈顶元素，如果栈为空，则输出错误信息。
+- `top`方法返回栈顶元素，如果栈为空，则输出错误信息并返回空字符。
+- `empty`方法返回栈是否为空的状态。
+- `size`方法返回栈中元素的数量。
+
+这个简单的栈实现可以用于基本的字符数据栈操作。如果需要更复杂的功能，比如异常安全或者线程安全，可能需要进一步扩展这个类。
+
+### C++对字符串的操作
+
+<center>关键词：对字符串操作<center>
+
+<center>关键词：对string的操作<center>
+
+在C++中，`std::string` 是标准库中的一个类模板，专门用于处理字符串。以下是一些常见的 `std::string` 操作：
+
+#### 构造和初始化
+
+- 默认构造一个空字符串：
+
+  ```cpp
+  std::string str;
+  ```
+
+- 通过指定字符数量和默认字符初始化：
+
+  ```cpp
+  std::string str(10, 'a'); // 创建一个包含10个'a'的字符串
+  ```
+
+- 通过复制或移动构造：
+
+  ```cpp
+  std::string str1("Hello");
+  std::string str2 = str1; // 复制构造
+  std::string str3 = std::move(str1); // 移动构造
+  ```
+
+- 通过C风格字符串初始化：
+
+  ```cpp
+  const char* cstr = "C-string";
+  std::string str(cstr);
+  ```
+
+#### 赋值操作
+
+- 赋值操作符：
+
+  ```cpp
+  std::string str;
+  str = "Hello"; // 赋值
+  ```
+
+- 移动赋值操作符：
+
+  ```cpp
+  str = std::move(otherStr); // 移动赋值
+  ```
+
+#### 访问元素
+
+- 通过下标访问字符串中的字符：
+
+  ```cpp
+  char ch = str[0]; // 获取第一个字符
+  ```
+
+- 使用 `at()` 成员函数，它还检查索引是否有效：
+
+  ```cpp
+  char ch = str.at(0); // 获取第一个字符，带边界检查
+  ```
+
+#### 字符串长度和大小
+
+- 获取字符串长度：
+
+  ```cpp
+  size_t len = str.length(); // 或者使用 str.size()
+  ```
+
+- 清空字符串：
+
+  ```cpp
+  str.clear();
+  ```
+
+#### 字符串拼接
+
+- 使用 `+` 运算符拼接字符串：
+
+  ```cpp
+  std::string str1 = "Hello";
+  std::string str2 = "World";
+  std::string str3 = str1 + " " + str2;
+  ```
+
+- 使用 `append()` 或 `operator+=`：
+
+  ```cpp
+  str1.append(str2);
+  str1 += str2; // 等价于 append
+  ```
+
+#### 字符串比较
+
+- 使用 `==`, `!=`, `<`, `>`, `<=`, `>=` 比较字符串：
+
+  ```cpp
+  if (str1 == str2) {
+    // 字符串相等
+  }
+  ```
+
+#### 子字符串操作
+
+- 使用 `substr()` 获取子字符串：
+
+  ```cpp
+  std::string sub = str.substr(0, 5); // 获取前5个字符
+  ```
+
+- 使用 `find()` 查找子字符串：
+
+  ```cpp
+  size_t pos = str.find("sub");
+  if (pos != std::string::npos) {
+    // 找到了子字符串
+  }
+  ```
+
+#### 字符串替换
+
+- 使用 `replace()` 替换字符串中的部分：
+
+  ```cpp
+  str.replace(0, 5, "New");
+  // 将从索引0开始的5个字符替换为"New"
+  ```
+
+#### 字符串插入和删除
+
+- 使用 `insert()` 在指定位置插入字符或字符串：
+
+  ```cpp
+  str.insert(0, "New-");
+  // 在索引0的位置插入"New-"
+  ```
+
+- 使用 `erase()` 删除字符或字符串：
+
+  ```cpp
+  str.erase(0, 5);
+  // 删除从索引0开始的5个字符
+  ```
+
+#### 字符串搜索和查找
+
+- 查找字符或字符串的位置：
+
+  ```cpp
+  size_t pos = str.find('e');
+  if (pos != std::string::npos) {
+    // 找到了字符
+  }
+  ```
+
+- 查找字符串的最后一次出现：
+
+  ```cpp
+  size_t pos = str.rfind('e');
+  if (pos != std::string::npos) {
+    // 找到了字符
+  }
+  ```
+
+#### 字符串转换
+
+- 转换为C风格字符串：
+
+  ```cpp
+  const char* cstr = str.c_str();
+  ```
+
+- 转换为其他数据类型（例如，整数、浮点数）：
+
+  ```cpp
+  int num = std::stoi(str);
+  ```
+
+#### 字符串格式化
+
+- 使用 `std::ostringstream` 进行格式化：
+
+  ```cpp
+  std::ostringstream oss;
+  oss << "The value is " << value;
+  std::string formattedStr = oss.str();
+  ```
+
+这些是 `std::string` 类的一些基本操作。C++标准库提供了丰富的功能来处理字符串，可以根据需要使用这些功能来执行各种字符串操作。
