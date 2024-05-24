@@ -538,6 +538,10 @@ int main() {
 
 ### 对vector类型的操作
 
+<center>关键词：vector操作<center>
+
+<center>关键词：vector<center>
+
 #### 构造和初始化
 
 - **默认构造**：创建一个空的 vector。
@@ -3433,3 +3437,227 @@ int main() {
   ```
 
 这些是 `std::string` 类的一些基本操作。C++标准库提供了丰富的功能来处理字符串，可以根据需要使用这些功能来执行各种字符串操作。
+
+## 5.24
+
+### C++中string和int之间的相互转化
+
+<center>关键词：类型转换：string和int<center>
+
+在C++中，`std::string` 类型和 `int` 类型之间的相互转换可以通过以下几种方式实现：
+
+#### 从 `int` 转换为 `std::string`
+
+##### 通过 std::to_string() 函数转换
+
+可以使用 `std::to_string` 函数将整数转换为字符串：
+
+```cpp
+#include <string>
+
+int num = 123;
+std::string str = std::to_string(num);
+// str 现在是 "123"
+```
+
+##### 通过 ostringstream 转换
+
+```cpp
+#include <iostream>
+#include <sstream>
+
+int main()
+{
+    int num = 123;
+    std::ostringstream ss;
+    ss << num;
+    std::cout << ss.str();
+    return 0;
+}
+```
+
+这是一种通过字符流的方式将整数转换成字符串，这种方式在C++11之前也可以使用。
+
+##### 通过 sprintf 转换
+
+```cpp
+#include <stdio.h>
+
+int main()
+{
+    int num = 123;
+    char buffer[256];
+    sprintf(buffer, "%d", num);
+
+    printf("%s", buffer);
+    return 0;
+}
+```
+
+这是一种C语言中的转换方式，`sprintf` 也可以换成更安全的 `snprintf` 函数
+
+#### 从 `std::string` 转换为 `int`
+
+##### 通过 istringstream 转换
+
+```cpp
+#include <iostream>
+#include <sstream>
+
+int main()
+{
+    std::string str = "668";
+    int num = 0;
+
+    std::istringstream ss(str);
+    ss >> num;
+
+    std::cout << num;
+    return 0;
+}
+```
+
+使用 `istringstream` 可以从字符流中读取整数，与 `ostringstream` 是一种相反的操作
+
+##### 使用 sscanf 来转化
+
+```cpp
+#include <iostream>
+#include <stdio.h>
+
+int main()
+{
+    std::string str = "668";
+    int num = 0;
+
+    sscanf(str.c_str(), "%d", &num);
+    std::cout << num;
+    return 0;
+}
+```
+
+注意 `sscanf` 函数的第一个参数类型是 `const char *`，`string`类型的参数需要转换一下
+
+##### 使用 atoi 转换
+
+```cpp
+#include <iostream>
+#include <stdlib.h>
+
+int main()
+{
+    std::string str = "668";
+    std::cout << atoi(str.c_str());
+    return 0;
+}
+```
+
+`atoi` 函数的头文件是 `stdlib.h`，同样是一个C语言中的函数
+
+##### 使用stoi转换
+
+可以使用 `std::stoi` 函数将字符串转换为整数：
+
+```cpp
+#include <string>
+
+std::string str = "123";
+int num = std::stoi(str);
+// num 现在是 123
+```
+
+
+
+#### 注意事项
+
+- 在进行字符串到整数的转换时，如果字符串包含非数字字符，`std::stoi` 会抛出一个 `std::invalid_argument` 异常。如果字符串以数字开头，但后面有非数字字符，`std::stoi` 会抛出一个 `std::out_of_range` 异常。
+- `std::to_string` 可以正确处理负数和正数的转换。
+
+#### 示例代码
+
+```cpp
+#include <iostream>
+#include <string>
+#include <stdexcept>
+
+int main() {
+    // 从 int 转换为 string
+    int number = -456;
+    std::string numberStr = std::to_string(number);
+    std::cout << "String: " << numberStr << std::endl;
+
+    // 从 string 转换为 int
+    std::string text = "7890";
+    try {
+        int number = std::stoi(text);
+        std::cout << "Integer: " << number << std::endl;
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Invalid input: " << e.what() << std::endl;
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Input out of range: " << e.what() << std::endl;
+    }
+
+    return 0;
+}
+```
+
+在实际应用中，务必注意异常处理，以确保程序的健壮性。
+
+### string转换为long long
+
+<center>关键词：类型转换：string到longlong<center>
+
+在C++中，`stoll` 是一个标准库函数，用于将字符串转换为 `long long` 类型的整数。这个函数位于 `<sstream>` 头文件中，因此在使用之前需要包含这个头文件。
+
+`stoll` 函数的声明如下：
+
+```cpp
+long long stoll(const string& str, size_t* pos = 0, int base = 10);
+```
+
+参数说明：
+
+- `str`：要转换的字符串。
+- `pos`（可选）：指向 `size_t` 类型的指针，用于存储解析过程中到达的位置。如果提供了这个参数，转换将从 `str` 的这个位置开始，并且在转换完成后更新这个位置的值。如果转换失败，这个位置将被设置为0。
+- `base`（可选）：数值基数，可以是2到36之间的任意值，表示字符串表示的数的进制。默认值为10，表示十进制。
+
+使用 `stoll` 的示例：
+
+```cpp
+#include <iostream>
+#include <sstream>
+#include <string>
+
+int main() {
+    std::string str = "1234567890";
+    long long result;
+
+    // 转换十进制字符串
+    result = std::stoll(str);
+    std::cout << "Decimal string converted to long long: " << result << std::endl;
+
+    // 转换十六进制字符串
+    str = "1A3F";
+    result = std::stoll(str, nullptr, 16);
+    std::cout << "Hexadecimal string converted to long long: " << result << std::endl;
+
+    return 0;
+}
+```
+
+在这个示例中，我们首先将一个十进制的字符串转换为 `long long` 类型，然后转换一个十六进制的字符串。
+
+如果字符串 `str` 不是一个有效的整数表示，或者它表示的数值超出了 `long long` 类型的范围，`stoll` 将抛出一个 `std::invalid_argument` 或 `std::out_of_range` 异常。因此，在使用 `stoll` 时，可能需要进行异常处理。
+
+```cpp
+try {
+    std::string str = "1234abc";
+    long long result = std::stoll(str);
+} catch (const std::invalid_argument& e) {
+    std::cerr << "Invalid argument: " << e.what() << '\n';
+} catch (const std::out_of_range& e) {
+    std::cerr << "Out of range: " << e.what() << '\n';
+}
+```
+
+这将捕获并处理由 `stoll` 抛出的任何异常。
