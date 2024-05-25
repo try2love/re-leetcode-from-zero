@@ -3661,3 +3661,428 @@ try {
 ```
 
 这将捕获并处理由 `stoll` 抛出的任何异常。
+
+## 5.25
+
+### 双端队列 deque
+
+<center>关键词：双端队列<center>
+
+<center>关键词：deque<center>
+
+在 C++中，双端队列（deque，全称 double-ended queue）是一种类似于向量（vector）的序列容器，但它提供了在序列的两端快速添加（push）和删除（pop）元素的能力。双端队列通常通过某种形式的链表实现，这使得在两端进行操作的时间复杂度为 O(1)。
+
+以下是 C++中使用双端队列的一些基本操作：
+
+#### 包含头文件
+
+```cpp
+#include <deque>
+```
+
+#### 创建双端队列
+
+```cpp
+std::deque<int> deque;
+```
+
+#### 添加元素
+
+- 在前端添加：
+
+  ```cpp
+  deque.push_front(10); // 在双端队列前端添加元素10
+  ```
+
+- 在后端添加：
+
+  ```cpp
+  deque.push_back(20); // 在双端队列后端添加元素20
+  ```
+
+#### 删除元素
+
+- 从前端删除：
+
+  ```cpp
+  deque.pop_front(); // 删除双端队列前端的元素
+  ```
+
+- 从后端删除：
+
+  ```cpp
+  deque.pop_back(); // 删除双端队列后端的元素
+  ```
+
+#### 访问元素
+
+- 访问第一个元素：
+
+  ```cpp
+  int frontElement = deque.front(); // 获取前端元素的值
+  ```
+
+- 访问最后一个元素：
+
+  ```cpp
+  int backElement = deque.back(); // 获取后端元素的值
+  ```
+
+#### 大小和容量
+
+- 获取双端队列的大小：
+
+  ```cpp
+  size_t size = deque.size(); // 返回双端队列中的元素数量
+  ```
+
+- 检查双端队列是否为空：
+
+  ```cpp
+  bool isEmpty = deque.empty(); // 如果双端队列为空，则返回true
+  ```
+
+#### 遍历双端队列
+
+```cpp
+for (int elem : deque) {
+    std::cout << elem << " ";
+}
+```
+
+#### 例子
+
+```cpp
+#include <iostream>
+#include <deque>
+
+int main() {
+    std::deque<int> d;
+
+    // 添加元素
+    d.push_back(10);
+    d.push_back(20);
+    d.push_front(30);
+
+    // 访问元素
+    std::cout << "Front element: " << d.front() << std::endl;
+    std::cout << "Back element: " << d.back() << std::endl;
+
+    // 删除元素
+    d.pop_front();
+    d.pop_back();
+
+    // 遍历双端队列
+    for (int elem : d) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+输出将是：
+
+```
+Front element: 30
+Back element: 20
+20 
+```
+
+双端队列非常适合于需要在序列的两端进行操作的场景，例如实现队列或栈。与标准队列相比，双端队列提供了更大的灵活性。
+
+### 优先队列 priority_queue
+
+<center>关键词：优先队列<center>
+
+<center>关键词：priority_queue<center>
+
+在 C++中，`std::priority_queue` 是标准模板库（STL）中的一个容器适配器，它提供了一个优先队列的功能，其中元素按照特定的顺序自动排列。默认情况下，`std::priority_queue` 是一个最大堆，这意味着队列顶部（通过 `top()` 函数访问）的元素始终是最大的。
+
+以下是 `std::priority_queue` 的一些关键特性和操作：
+
+#### 包含头文件
+
+要使用 `std::priority_queue`，你需要包含以下头文件：
+
+```cpp
+#include <queue>
+```
+
+#### 创建优先队列
+
+创建一个 `std::priority_queue` 的实例：
+
+```cpp
+std::priority_queue<int> pq;
+```
+
+#### 插入元素
+
+使用 `push()` 函数向优先队列中插入元素：
+
+```cpp
+pq.push(10);
+pq.push(20);
+```
+
+#### 访问顶部元素
+
+使用 `top()` 函数访问优先队列中的顶部元素（最大元素）：
+
+```cpp
+int topElement = pq.top();
+```
+
+#### 删除顶部元素
+
+使用 `pop()` 函数从优先队列中删除顶部元素：
+
+```cpp
+pq.pop();
+```
+
+#### 检查队列是否为空
+
+使用 `empty()` 函数检查优先队列是否为空：
+
+```cpp
+bool isEmpty = pq.empty();
+```
+
+#### 获取队列的大小
+
+使用 `size()` 函数获取优先队列中的元素数量：
+
+```cpp
+size_t size = pq.size();
+```
+
+#### 自定义比较函数
+
+可以通过模板参数自定义 `std::priority_queue` 的比较函数，以改变元素的排序方式（例如，改为最小堆）：
+
+```cpp
+#include <functional>
+
+struct compare {
+    bool operator()(int a, int b) {
+        return a > b; // 改变为最小堆
+    }
+};
+
+std::priority_queue<int, std::vector<int>, compare> minHeap;
+```
+
+#### 示例代码
+
+```cpp
+#include <iostream>
+#include <queue>
+
+int main() {
+    std::priority_queue<int> pq;
+
+    // 插入元素
+    pq.push(30);
+    pq.push(10);
+    pq.push(20);
+
+    // 访问并删除顶部元素
+    while (!pq.empty()) {
+        std::cout << pq.top() << " ";
+        pq.pop();
+    }
+
+    return 0;
+}
+```
+
+输出将是：
+
+```
+30 20 10 
+```
+
+`std::priority_queue` 在需要按照优先级处理元素的场景中非常有用，例如在任务调度、事件驱动模拟、Dijkstra 算法等算法中。然而，由于它是基于堆实现的，所以不支持随机访问，即不能高效地访问除了顶部之外的其他元素。此外，`std::priority_queue` 也不支持 `erase()` 操作或其他直接访问元素的操作。
+
+### C++中的pair
+
+<center>关键词：pair<center>
+
+<center>关键词：键值对<center>
+
+在C++中，`std::pair` 是一个模板类，用于表示一对元素的复合数据类型。它通常用于存储两个相关联的值，这两个值可以是不同的类型。`std::pair` 广泛用于标准库的容器和算法中，例如在关联容器（如 `std::map` 和 `std::multimap`）中存储键值对，或者在排序算法中返回两个元素的比较结果。
+
+以下是 `std::pair` 的一些基本用法：
+
+#### 包含头文件
+
+要使用 `std::pair`，需要包含以下头文件：
+
+```cpp
+#include <utility>
+```
+
+#### 创建和初始化 `std::pair`
+
+```cpp
+// 使用构造函数创建 pair
+std::pair<int, double> p(1, 3.14);
+
+// 使用 make_pair 创建 pair，它是一个便捷函数
+std::pair<int, std::string> p2 = std::make_pair(2, "C++");
+```
+
+#### 访问 `std::pair` 的元素
+
+`std::pair` 提供了 `first` 和 `second` 两个成员变量来访问存储的值：
+
+```cpp
+int a = p.first;    // 获取第一个元素
+double b = p.second; // 获取第二个元素
+
+// 或者使用 make_pair 函数初始化并直接访问
+int x = p2.first;
+std::string y = p2.second;
+```
+
+#### 使用 `std::pair` 作为函数返回类型
+
+`std::pair` 可以作为函数的返回类型，用于一次返回两个值：
+
+```cpp
+std::pair<int, int> minMax(const std::vector<int>& vec) {
+    if (vec.empty()) return std::make_pair(0, 0);
+    
+    int minVal = vec[0], maxVal = vec[0];
+    for (int val : vec) {
+        if (val < minVal) minVal = val;
+        if (val > maxVal) maxVal = val;
+    }
+    return std::make_pair(minVal, maxVal);
+}
+```
+
+#### 使用 `std::pair` 作为 `std::map` 的元素
+
+`std::pair` 通常用作 `std::map` 的值类型，其中第一个元素是键（key），第二个元素是值（value）：
+
+```cpp
+std::map<std::string, int> myMap;
+myMap["apple"] = 1;
+myMap["banana"] = 2;
+
+for (const auto& pair : myMap) {
+    std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
+}
+```
+
+#### 自定义比较函数
+
+当使用 `std::pair` 作为 `std::sort` 或 `std::map` 等算法和容器的元素时，可以自定义比较函数：
+
+```cpp
+bool comparePairs(const std::pair<int, int>& a, const std::pair<int, int>& b) {
+    return a.first < b.first;
+}
+
+// 使用自定义比较函数对 vector<pair> 进行排序
+std::vector<std::pair<int, int>> vecOfPairs;
+// ... 填充 vecOfPairs ...
+std::sort(vecOfPairs.begin(), vecOfPairs.end(), comparePairs);
+```
+
+`std::pair` 是一个灵活且多用途的数据结构，它在C++标准库中扮演着重要的角色，特别是在需要同时返回或存储两个相关值的情况下。
+
+### C++中的emplace函数
+
+<center>关键词：emplace函数<center>
+
+在C++中，`emplace` 是一种用于容器的函数，它允许你就地（in-place）构造容器中的元素，而不是先构造一个临时对象然后再将其复制或移动到容器中。`emplace` 方法通常用于避免不必要的复制或移动，从而提高性能。
+
+`emplace` 函数在不同的容器中有不同的重载版本，但基本思想是相同的。以下是一些常见容器的 `emplace` 用法示例：
+
+#### `std::vector` 和 `std::deque`
+
+对于序列容器（如 `std::vector` 和 `std::deque`），`emplace` 通常用于在容器的末尾就地构造一个新元素。
+
+```cpp
+#include <vector>
+#include <string>
+
+int main() {
+    std::vector<std::string> v;
+    // 使用 emplace_back 构造一个新字符串
+    v.emplace_back("Hello, World!");
+
+    // 使用 emplace 和初始化列表构造一个新字符串
+    v.emplace(1, "Hello,emplace");
+
+    for (const auto& s : v) {
+        std::cout << s << std::endl;
+    }
+
+    return 0;
+}
+```
+
+#### `std::map` 和 `std::set`
+
+对于关联容器（如 `std::map` 和 `std::set`），`emplace` 可以用于构造键值对或键。
+
+```cpp
+#include <map>
+
+int main() {
+    std::map<int, std::string> m;
+    // 使用 emplace 构造一个键值对
+    m.emplace(1, "one");
+
+    // 使用 emplace 构造另一个键值对，带初始化列表
+    m.emplace(std::piecewise_construct,
+               std::forward_as_tuple(2),
+               std::forward_as_tuple("two"));
+
+    for (const auto& kv : m) {
+        std::cout << "Key: " << kv.first << ", Value: " << kv.second << std::endl;
+    }
+
+    return 0;
+}
+```
+
+#### `std::priority_queue`
+
+对于 `std::priority_queue`，`emplace` 也可以用于就地构造元素，然后将其推入队列。
+
+```cpp
+#include <queue>
+
+int main() {
+    std::priority_queue<int> pq;
+    // 使用 emplace 构造并推入一个整数
+    pq.emplace(42);
+
+    while (!pq.empty()) {
+        std::cout << pq.top() << " ";
+        pq.pop();
+    }
+
+    return 0;
+}
+```
+
+#### 为什么使用 `emplace`？
+
+使用 `emplace` 而不是 `push_back` 或 `insert` 的好处包括：
+
+- **性能**：`emplace` 可以就地构造对象，避免了复制或移动构造函数的开销。
+- **语义清晰**：`emplace` 明确表示元素是在容器中构造的，而不是从外部推入的。
+- **支持复杂类型**：对于复杂或大型对象，使用 `emplace` 可以减少临时对象的创建，从而提高效率。
+
+`emplace` 是C++11引入的特性，它提供了一种更现代、更高效的方法来构造容器中的元素。
+
+## 5.26
+

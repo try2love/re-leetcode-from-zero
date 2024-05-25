@@ -2011,3 +2011,299 @@ stack.append(
 因此，这行代码的作用是：从栈中弹出两个操作数和一个操作符，使用 `eval` 计算它们的运算结果，并将这个结果转换为整数后压入栈中。
 
 **注意**：在实际应用中，使用 `eval` 可以带来安全风险，因为它会执行字符串中的任何代码。因此，如果输入不可信，应避免使用 `eval` 或采取适当的安全措施。在逆波兰表达式求值的问题中，可以考虑使用更安全的方法来避免使用 `eval`。
+
+## 5.25
+
+### py 获取数组中最大值和索引
+
+<center>关键词：数组最值索引<center>
+
+在 Python 中，获取列表中的最大值及其对应索引可以通过几种方式实现。以下是一些常见的方法：
+
+#### 方法 1: 使用内置函数 `max()` 和 `index()`
+
+```python
+my_list = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+max_value = max(my_list)  # 获取最大值
+max_index = my_list.index(max_value)  # 获取最大值的索引
+print(f"最大值: {max_value}, 索引: {max_index}")
+```
+
+#### 方法 2: 使用循环遍历
+
+```python
+my_list = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+max_value = my_list[0]
+max_index = 0
+
+for i, value in enumerate(my_list):
+    if value > max_value:
+        max_value = value
+        max_index = i
+
+print(f"最大值: {max_value}, 索引: {max_index}")
+```
+
+#### 方法 3: 使用 `max()` 函数和 `enumerate()`
+
+```python
+my_list = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+max_item = max(enumerate(my_list), key=lambda item: item[1])
+max_value, max_index = max_item
+print(f"最大值: {max_value}, 索引: {max_index}")
+```
+
+#### 方法 4: 使用 `heapq.nlargest()`
+
+如果你需要找到最大的 N 个元素及其索引，可以使用 `heapq` 模块中的 `nlargest` 函数。
+
+```python
+import heapq
+
+my_list = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+largest_items = heapq.nlargest(1, enumerate(my_list), key=lambda item: item[1])
+max_value, max_index = largest_items[0]
+print(f"最大值: {max_value}, 索引: {max_index}")
+```
+
+以上方法中，方法 1 和方法 2 是最直接的。方法 3 提供了一种更 Pythonic 的方式，而方法 4 适用于需要找到多个最大值的情况。
+
+选择哪种方法取决于你的具体需求，例如是否需要找到多个最大值，以及对性能的考虑。
+
+### py 中的双端队列
+
+<center>关键词：双端队列<center>
+
+<center>关键词：deque<center>
+
+在 Python 中，双端队列（deque，全称为 "double-ended queue"）是 `collections` 模块提供的一种数据结构，它支持在两端进行快速的添加和删除操作。`deque` 是基于双向链表实现的，这使得它在队列的两端进行操作时具有很高的效率。
+
+以下是如何在 Python 中使用双端队列的一些基本操作：
+
+#### 导入模块
+
+```python
+from collections import deque
+```
+
+#### 创建双端队列
+
+```python
+d = deque()
+```
+
+#### 添加元素
+
+- 在前端添加：
+
+  ```python
+  d.appendleft('a')  # 在双端队列前端添加元素'a'
+  ```
+
+- 在后端添加：
+
+  ```python
+  d.append('b')  # 在双端队列后端添加元素'b'
+  ```
+
+#### 删除元素
+
+- 从前端删除：
+
+  ```python
+  d.popleft()  # 删除双端队列前端的元素
+  ```
+
+- 从后端删除：
+
+  ```python
+  d.pop()  # 删除双端队列后端的元素
+  ```
+
+#### 访问元素
+
+- 访问前端元素：
+
+  ```python
+  front_element = d[0]  # 获取前端元素的值
+  ```
+
+- 访问后端元素：
+
+  ```python
+  back_element = d[-1]  # 获取后端元素的值
+  ```
+
+#### 大小和容量
+
+- 获取双端队列的大小：
+
+  ```python
+  size = len(d)  # 返回双端队列中的元素数量
+  ```
+
+- 检查双端队列是否为空：
+
+  ```python
+  is_empty = not d  # 如果双端队列为空，则返回True
+  ```
+
+#### 遍历双端队列
+
+```python
+for element in d:
+    print(element)
+```
+
+#### 例子
+
+```python
+from collections import deque
+
+# 创建并初始化双端队列
+d = deque(['a', 'b', 'c'])
+
+# 在前端添加元素
+d.appendleft('x')
+
+# 在后端添加元素
+d.append('d')
+
+# 访问前端和后端元素
+print("Front element:", d[0])
+print("Back element:", d[-1])
+
+# 删除前端和后端元素
+d.popleft()
+d.pop()
+
+# 遍历双端队列
+print("Deque elements:")
+for element in d:
+    print(element)
+
+# 输出双端队列的大小
+print("Size of deque:", len(d))
+```
+
+输出将是：
+
+```
+Front element: x
+Back element: d
+Deque elements:
+x
+b
+c
+d
+Size of deque: 4
+```
+
+双端队列在 Python 中非常有用，特别是在需要快速从两端添加或删除元素的场景中。此外，`deque` 还提供了线程安全的选项，可以通过设置 `deque` 的 `maxlen` 属性来创建一个线程安全的队列。
+
+### py中的堆
+
+<center>关键词：堆排序<center>
+
+在Python中，堆（Heap）是一种特殊的树状数据结构，通常用于实现优先队列。Python标准库中的`heapq`模块提供了堆队列算法的实现，它允许你以堆的形式维护一组元素，并执行高效的堆操作。
+
+以下是使用`heapq`模块的一些基本操作：
+
+#### 导入模块
+
+```python
+import heapq
+```
+
+#### 创建堆
+
+在Python中，堆通常用一个列表来表示。你可以使用`heapq`模块的`heapify()`函数将一个列表转换成堆。
+
+```python
+# 创建一个列表并将其转换成堆
+h = [1, 3, 5, 7]
+heapq.heapify(h)
+```
+
+#### 添加元素到堆
+
+使用`heappush()`函数将一个新元素添加到堆中。
+
+```python
+heapq.heappush(h, 2)  # 堆现在是 [1, 3, 5, 7, 2]
+```
+
+#### 弹出堆顶元素
+
+使用`heappop()`函数从堆中弹出最小的元素（根节点）。
+
+```python
+ smallest = heapq.heappop(h)  # 返回 1，堆现在是 [2, 3, 5, 7]
+```
+
+#### 查看堆顶元素
+
+虽然`heapq`不提供直接访问堆顶元素的函数，但你可以通过索引来访问。
+
+```python
+top_element = h[0]  # 返回最小的元素，即堆顶元素
+```
+
+#### 检查堆是否为空
+
+检查列表是否为空，因为`heapq`本身不维护任何状态信息。
+
+```py
+is_empty = not h  # 如果堆为空，则返回True
+```
+
+检查列表是否为空，因为`heapq`本身不维护任何状态信息。
+
+```python
+is_empty = not h  # 如果堆为空，则返回True
+```
+
+#### 获取堆的大小
+
+使用`len()`函数获取堆中的元素数量。
+
+```python
+heap_size = len(h)
+```
+
+#### 例子
+
+```python
+import heapq
+
+# 初始化一个空堆
+h = []
+
+# 添加一些元素
+heapq.heappush(h, 10)
+heapq.heappush(h, 20)
+heapq.heappush(h, 15)
+
+# 弹出元素
+while h:
+    print(heapq.heappop(h))  # 输出：10, 15, 20
+```
+
+#### 自定义比较函数
+
+默认情况下，`heapq`模块实现一个最小堆。如果你需要最大堆的行为，可以通过在添加元素之前对它们应用一个转换函数。
+
+```python
+# 创建一个最大堆
+max_heap = []
+for num in [1, 3, 5, 7]:
+    heapq.heappush(max_heap, -num)  # 通过取负号来模拟最大堆
+
+# 弹出元素
+while max_heap:
+    print(-heapq.heappop(max_heap))  # 输出：7, 5, 3, 1
+```
+
+`heapq`模块是实现优先队列和执行各种堆相关算法（如Dijkstra算法）的有用工具。由于Python的`heapq`实现是最小堆，因此如果需要最大堆的行为，你需要适当地调整元素的值。
+
+## 5.26
