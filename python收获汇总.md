@@ -2223,22 +2223,49 @@ import heapq
 # 创建一个列表并将其转换成堆
 h = [1, 3, 5, 7]
 heapq.heapify(h)
+counter = {1:3,2:2,3:1}
+p=[]
 ```
 
 #### 添加元素到堆
 
-使用`heappush()`函数将一个新元素添加到堆中。
+使用`heappush(heap,item)`函数将一个新元素添加到堆中。
+
+当添加的元素是一个键值对时，排序依据为最前面的数据
 
 ```python
 heapq.heappush(h, 2)  # 堆现在是 [1, 3, 5, 7, 2]
+heaq.heappush(q,(3,1))
+#元素为1，出现频率为3，堆排序的排序依据是频率3
 ```
 
 #### 弹出堆顶元素
 
-使用`heappop()`函数从堆中弹出最小的元素（根节点）。
+使用`heappop(heap)`函数从堆中弹出最小的元素（根节点）。
 
 ```python
  smallest = heapq.heappop(h)  # 返回 1，堆现在是 [2, 3, 5, 7]
+```
+
+#### 添加一个元素到堆并返回堆顶元素
+
+`heappushpop(heap,item)`原子性地添加一个元素到堆中并返回堆中的最小元素。如果堆为空，则返回添加的元素。
+
+```python
+h = [1]
+item = 5
+heapq.heappushpop(h,item)
+#返回1，堆现在是[5]
+```
+
+#### `heapreplace(heap, item)`
+
+类似于 `heappop()` 后再 `heappush()`，但这个过程是原子的，即它确保堆在操作期间保持不变。
+
+```python
+h = [1, 3, 5]
+new_item = 4
+heapq.heapreplace(h, new_item)  # 返回1，堆现在是[3, 5, 4]
 ```
 
 #### 查看堆顶元素
@@ -2248,6 +2275,37 @@ heapq.heappush(h, 2)  # 堆现在是 [1, 3, 5, 7, 2]
 ```python
 top_element = h[0]  # 返回最小的元素，即堆顶元素
 ```
+
+#### 返回最大n个元素
+
+`nlargest(n, iterable[, key])`返回可迭代对象中最大的 `n` 个元素的列表（元素是有序的，从最大到最小）。
+
+```python
+data = [1, 3, 5, 7, 9, 2, 4, 6, 8]
+result = heapq.nlargest(3, data)  # 返回最大的3个元素：[9, 8, 7]
+```
+
+#### 返回最小的n个元素
+
+`nsmallest(n, iterable[, key])`返回可迭代对象中最小的 `n` 个元素的列表（元素是有序的，从小到大）。
+
+```python
+data = [1, 3, 5, 7, 9, 2, 4, 6, 8]
+result = heapq.nsmallest(3, data)  # 返回最小的3个元素：[1, 2, 3]
+```
+
+#### 合并堆
+
+`merge(*iterables)`合并多个可迭代对象的元素。类似于 `functools.reduce` 中的 `functools.reduce(lambda x, y: x+y, iterables)`，但比 `reduce` 更高效。
+
+```python
+iter1 = [1, 3, 5, 7]
+iter2 = [2, 4, 6, 8]
+merged = heapq.merge(iter1, iter2) 
+# 返回合并排序后的迭代器：2, 1, 4, 3, 6, 5, 8, 7
+```
+
+
 
 #### 检查堆是否为空
 
@@ -2307,3 +2365,23 @@ while max_heap:
 `heapq`模块是实现优先队列和执行各种堆相关算法（如Dijkstra算法）的有用工具。由于Python的`heapq`实现是最小堆，因此如果需要最大堆的行为，你需要适当地调整元素的值。
 
 ## 5.26
+
+### py寻找前n个最值
+
+<center>关键词：前n个最值<center>
+
+<center>关键词：统计<center>
+
+#### 字典类型数据
+
+调用函数`most_common(n)`即可返回字典数据中value值最大的前几个可迭代对象
+
+#### 堆类型数据
+
+`nlargest(n, iterable[, key])`返回可迭代对象中最大的 `n` 个元素的列表（元素是有序的，从最大到最小）。
+
+`nsmallest(n, iterable[, key])`返回可迭代对象中最小的 `n` 个元素的列表（元素是有序的，从小到大）。
+
+堆排序
+
+## 5.27
