@@ -2385,3 +2385,95 @@ while max_heap:
 堆排序
 
 ## 5.27
+
+### py中的二叉树
+
+#### 二叉树的定义
+
+```python
+class TreeNode:
+    def __init__(self,val,left = None, right = None):
+        self.val = val
+        self.left = left
+        self.right = right
+```
+
+#### 二叉树的递归遍历
+
+##### 先序遍历
+
+```python
+# 前序遍历-递归-LC144_二叉树的前序遍历
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        
+        def dfs(node):
+            if node is None:
+                return
+            
+            res.append(node.val)
+            dfs(node.left)
+            dfs(node.right)
+        
+        return res
+```
+
+##### 中序遍历
+
+```python
+xxxxxxxxxx1 1pythonclass Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        
+        def dfs(node):
+            if node is None:
+                return
+            
+            dfs(node.left)
+            res.append(node.val)
+            dfs(node.right)
+        
+        return res
+```
+
+```python
+class Solution:
+    @staticmethod
+    def traversal(root,result):
+        if root is None:    return
+        Solution.traversal(root.left,result)
+        result.append(root.val)
+        Solution.traversal(root.right,result)
+
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        result = list()    
+        Solution.traversal(root,result);
+        return result
+```
+
+##### 后序遍历
+
+```python
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        
+        def dfs(node):
+            if node is None:
+                return
+            
+            dfs(node.left)
+            dfs(node.right)
+            res.append(node.val)
+        
+        return res
+```
+
