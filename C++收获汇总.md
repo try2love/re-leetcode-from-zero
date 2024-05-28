@@ -1501,6 +1501,8 @@ struct ListNode {
 
 ### C++初始化栈
 
+<center>关键词：栈的初始化<center>
+
 在C++中，栈（Stack）是一种遵循后进先出（LIFO，Last In First Out）原则的线性数据结构。C++标准库中并没有直接提供一个名为“Stack”的容器，但是可以使用 `std::vector`、`std::deque` 或 `std::list` 等容器来模拟栈的行为。以下是使用这些容器初始化栈的一些方法：
 
 #### 使用 `std::vector`
@@ -4678,5 +4680,174 @@ void traversal(TreeNode* cur, vector<int>& vec){
     traversal(cur->right,vec);
     vec.push_back(cur->val);
 }
+```
+
+#### 二叉树的迭代遍历
+
+**递归的实现就是：每一次递归调用都会把函数的局部变量、参数值和返回地址等压入调用栈中**，然后递归返回的时候，从栈顶弹出上一次递归的各项参数，所以这就是递归为什么可以返回上一层位置的原因。
+
+##### 先序遍历
+
+前序遍历是中左右，每次先处理的是中间节点，那么先将根节点放入栈中，然后将右孩子加入栈，再加入左孩子。为什么要先加入 右孩子，再加入左孩子呢？ 因为这样出栈的时候才是中左右的顺序。
+
+![二叉树前序遍历（迭代法）](./2024年05月/assets/二叉树前序遍历（迭代法）.gif)
+
+```cpp
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> result;
+        if (root == NULL) return result;
+        st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();                       // 中
+            st.pop();
+            result.push_back(node->val);
+            if (node->right) st.push(node->right);           // 右（空节点不入栈）
+            if (node->left) st.push(node->left);             // 左（空节点不入栈）
+        }
+        return result;
+    }
+};
+```
+
+```cpp
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> res;
+        if (root == nullptr) {
+            return res;
+        }
+
+        stack<TreeNode*> stk;
+        TreeNode* node = root;
+        while (!stk.empty() || node != nullptr) {
+            while (node != nullptr) {
+                res.emplace_back(node->val);
+                stk.emplace(node);
+                node = node->left;
+            }
+            node = stk.top();
+            stk.pop();
+            node = node->right;
+        }
+        return res;
+    }
+};
+```
+
+
+
+##### 中序遍历
+
+前序遍历的代码，不能和中序遍历通用。因为前序遍历的顺序是中左右，先访问的元素是中间节点，要处理的元素也是中间节点，所以刚刚才能写出相对简洁的代码，**因为要访问的元素和要处理的元素顺序是一致的，都是中间节点。**那么再看看中序遍历，中序遍历是左中右，先访问的是二叉树顶部的节点，然后一层一层向下访问，直到到达树左面的最底部，再开始处理节点（也就是在把节点的数值放进result数组中），这就造成了**处理顺序和访问顺序是不一致的。**那么**在使用迭代法写中序遍历，就需要借用指针的遍历来帮助访问节点，栈则用来处理节点上的元素。**
+
+![二叉树中序遍历（迭代法）](./2024年05月/assets/二叉树中序遍历（迭代法）.gif)
+
+```cpp
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        TreeNode* cur = root;
+        while (cur != NULL || !st.empty()) {
+            if (cur != NULL) { // 指针来访问节点，访问到最底层
+                st.push(cur); // 将访问的节点放进栈
+                cur = cur->left;                // 左
+            } else {
+                cur = st.top(); // 从栈里弹出的数据，就是要处理的数据（放进result数组里的数据）
+                st.pop();
+                result.push_back(cur->val);     // 中
+                cur = cur->right;               // 右
+            }
+        }
+        return result;
+    }
+};
+```
+
+```cpp
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> res;
+        stack<TreeNode*> stk;
+        while (root != nullptr || !stk.empty()) {
+            while (root != nullptr) {
+                stk.push(root);
+                root = root->left;
+            }
+            root = stk.top();
+            stk.pop();
+            res.push_back(root->val);
+            root = root->right;
+        }
+        return res;
+    }
+};
+```
+
+
+
+##### 后序遍历
+
+再来看后序遍历，先序遍历是中左右，后续遍历是左右中，那么我们只需要调整一下先序遍历的代码顺序，就变成中右左的遍历顺序，然后在反转result数组，输出的结果顺序就是左右中了。
+
+```cpp
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> result;
+        if (root == NULL) return result;
+        st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            st.pop();
+            result.push_back(node->val);
+            if (node->left) st.push(node->left); // 相对于前序遍历，这更改一下入栈顺序 （空节点不入栈）
+            if (node->right) st.push(node->right); // 空节点不入栈
+        }
+        reverse(result.begin(), result.end()); // 将结果反转之后就是左右中的顺序了
+        return result;
+    }
+};
+```
+
+官方的想法也很好。
+
+```cpp
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode *root) {
+        vector<int> res;
+        if (root == nullptr) {
+            return res;
+        }
+
+        stack<TreeNode *> stk;
+        TreeNode *prev = nullptr;
+        while (root != nullptr || !stk.empty()) {
+            while (root != nullptr) {
+                stk.emplace(root);
+                root = root->left;
+            }//找到最左下方节点
+            root = stk.top();
+            stk.pop();
+            if (root->right == nullptr || root->right == prev) {
+                res.emplace_back(root->val);
+                prev = root;
+                root = nullptr;
+            } else {
+                stk.emplace(root);
+                root = root->right;
+            }
+        }
+        return res;
+    }
+};
 ```
 
