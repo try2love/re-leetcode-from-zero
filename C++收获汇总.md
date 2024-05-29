@@ -3951,7 +3951,13 @@ std::string y = p2.second;
 
 vector<pair<int,int>> result;
 //这样声明的数组访问元素是pair类型的键值对，再用first和second访问对应数值
+result.push_back({3,2})
+// 键值对不用make_pair函数的话是需要大括号括起来的
+    
 cout<<result[3].first;
+//访问的时候既可以用first和second，也可以直接中括号并列提取
+[first,second] = result[0]
+    //可以直接得到数组中第一个键值对分别对应的值
 ```
 
 #### 使用 `std::pair` 作为函数返回类型
@@ -4847,6 +4853,192 @@ public:
             }
         }
         return res;
+    }
+};
+```
+
+#### Morris遍历
+
+##### 先序遍历
+
+```cpp
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode *root) {
+        vector<int> res;
+        if (root == nullptr) {
+            return res;
+        }
+
+        TreeNode *p1 = root, *p2 = nullptr;
+
+        while (p1 != nullptr) {
+            p2 = p1->left;
+            if (p2 != nullptr) {
+                while (p2->right != nullptr && p2->right != p1) {
+                    p2 = p2->right;
+                }//找根节点的中序遍历前节点
+                if (p2->right == nullptr) {
+                    res.emplace_back(p1->val);
+                    p2->right = p1;
+                    p1 = p1->left;
+                    continue;
+                } else {
+                    p2->right = nullptr;
+                }
+            } else {
+                res.emplace_back(p1->val);
+            }
+            p1 = p1->right;
+        }
+        return res;
+    }
+};
+```
+
+##### 中序遍历
+
+```cpp
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> res;
+        TreeNode *predecessor = nullptr;
+
+        while (root != nullptr) {
+            if (root->left != nullptr) {
+                // predecessor 节点就是当前 root 节点向左走一步，然后一直向右走至无法走为止
+                predecessor = root->left;
+                while (predecessor->right != nullptr && predecessor->right != root) {
+                    predecessor = predecessor->right;
+                }
+                
+                // 让 predecessor 的右指针指向 root，继续遍历左子树
+                if (predecessor->right == nullptr) {
+                    predecessor->right = root;
+                    root = root->left;
+                }
+                // 说明左子树已经访问完了，我们需要断开链接
+                else {
+                    res.push_back(root->val);
+                    predecessor->right = nullptr;
+                    root = root->right;
+                }
+            }
+            // 如果没有左孩子，则直接访问右孩子
+            else {
+                res.push_back(root->val);
+                root = root->right;
+            }
+        }
+        return res;
+    }
+};
+```
+
+##### 后序遍历
+
+```cpp
+class Solution {
+public:
+    void addPath(vector<int> &vec, TreeNode *node) {
+        int count = 0;
+        while (node != nullptr) {
+            ++count;
+            vec.emplace_back(node->val);
+            node = node->right;
+        }
+        reverse(vec.end() - count, vec.end());
+    }
+
+    vector<int> postorderTraversal(TreeNode *root) {
+        vector<int> res;
+        if (root == nullptr) {
+            return res;
+        }
+
+        TreeNode *p1 = root, *p2 = nullptr;
+
+        while (p1 != nullptr) {
+            p2 = p1->left;
+            if (p2 != nullptr) {
+                while (p2->right != nullptr && p2->right != p1) {
+                    p2 = p2->right;
+                }
+                if (p2->right == nullptr) {
+                    p2->right = p1;
+                    p1 = p1->left;
+                    continue;
+                } else {
+                    p2->right = nullptr;
+                    addPath(res, p1->left);
+                }
+            }
+            p1 = p1->right;
+        }
+        addPath(res, root);
+        return res;
+    }
+};
+```
+
+#### 标记法迭代遍历
+
+第一次遇见某节点，则压入本身，遇见次数变2，访问左孩子
+
+第二次遇见某节点，说明左子树访问完毕，压入本身，遇见次数变3，访问右孩子
+
+第三次遇见某节点，表示以该节点为根的子树遍历完成。
+
+先序遍历是第一次遇见节点就记录；中序遍历是第二次遇见节点就记录；后续遍历是第三次遇见节点才记录。
+
+```cpp
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        // node , count表示遇到节点的次数
+        stack<pair<TreeNode*,int>> s; // 手动模拟栈帧
+
+        s.push({root , 1}); // 第一个遇到的节点 root
+
+        // 模拟系统栈的过程
+        while(!s.empty()){
+            auto [node , cnt] = s.top();
+            s.pop();
+            /*
+                上面 C++语法 ， 等价于:
+                TreeNode* node = s.top().first;
+                int cnt = s.top().second;
+            */
+            if(node == nullptr) continue; // do nothing
+
+            // 第一次遇到节点，只会往左孩子走
+            if(cnt == 1){
+                // 这里需要先把 node 压入栈，然后是左孩子
+                // 可以画一下栈帧表示图
+                s.push({node , 2}); // 下一次遇见这个节点就是第二次了
+                s.push({node->left , 1});
+            } else if(cnt == 2){
+                // 第二次遇见节点
+                // 表示左孩子已经遍历完了 现在遍历右孩子
+                // 同样需要先把node 先压入栈
+                s.push({node , 3});
+                s.push({node->right , 1});
+
+                // 记录节点信息。 中序我们就在这里记录
+                ans.push_back(node->val);
+            } else { // cnt == 3
+                // 第三次遇到这个节点
+                // 表示以这个节点为 root 的子树遍历完成
+                // 在这里什么都不用做
+            }
+        }
+        // 最后 前序中序后序遍历这棵树的顺序都是一样的 栈画出来都是一样的
+        // 只不过前序是第一次遇见节点就记录，中序第二次，后序第三次
+        // 所以 我们只需要在对应 cnt 里面把 node 的信息添加到 ans 即可
+
+        return ans;
     }
 };
 ```

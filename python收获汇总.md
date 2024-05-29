@@ -2579,3 +2579,138 @@ class Solution:
         return res
 ```
 
+#### Morris遍历
+
+##### 先序遍历
+
+```python
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        res = list()
+        if not root:
+            return res
+        
+        p1 = root
+        while p1:
+            p2 = p1.left
+            if p2:
+                while p2.right and p2.right != p1:
+                    p2 = p2.right
+                if not p2.right:
+                    res.append(p1.val)
+                    p2.right = p1
+                    p1 = p1.left
+                    continue
+                else:
+                    p2.right = None
+            else:
+                res.append(p1.val)
+            p1 = p1.right
+        
+        return res
+```
+
+##### 中序遍历
+
+```python
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        # cur = pre = TreeNode(None)
+        cur = root
+
+        while cur:
+            if not cur.left:
+                res.append(cur.val)
+                # print(cur.val)
+                cur = cur.right
+            else:
+                pre = cur.left
+                while pre.right and pre.right != cur:
+                    pre = pre.right
+                if not pre.right:
+                    # print(cur.val) 这里是前序遍历的代码，前序与中序的唯一差别，只是输出顺序不同
+                    pre.right = cur
+                    cur = cur.left
+                else:
+                    pre.right = None
+                    res.append(cur.val)
+                    # print(cur.val)
+                    cur = cur.right
+        return res
+```
+
+##### 后序遍历
+
+```python
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        def addPath(node: TreeNode):
+            count = 0
+            while node:
+                count += 1
+                res.append(node.val)
+                node = node.right
+            i, j = len(res) - count, len(res) - 1
+            while i < j:
+                res[i], res[j] = res[j], res[i]
+                i += 1
+                j -= 1
+        
+        if not root:
+            return list()
+        
+        res = list()
+        p1 = root
+
+        while p1:
+            p2 = p1.left
+            if p2:
+                while p2.right and p2.right != p1:
+                    p2 = p2.right
+                if not p2.right:
+                    p2.right = p1
+                    p1 = p1.left
+                    continue
+                else:
+                    p2.right = None
+                    addPath(p1.left)
+            p1 = p1.right
+        
+        addPath(root)
+        return res
+```
+
+#### 标记法迭代遍历
+
+```python
+# 前、中、后、层序通用模板，只需改变进栈顺序或即可实现前后中序遍历，
+# 而层序遍历则使用队列先进先出。0表示当前未访问，1表示已访问。
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        stack = [(0, root)]
+        while stack:
+            flag, cur = stack.pop()
+            if not cur: continue
+            if flag == 0:
+                # 前序，标记法
+                stack.append((0, cur.right))
+                stack.append((0, cur.left))
+                stack.append((1, cur))
+                
+                # # 后序，标记法
+                # stack.append((1, cur))
+                # stack.append((0, cur.right))
+                # stack.append((0, cur.left))
+                
+                # # 中序，标记法
+                # stack.append((0, cur.right))
+                # stack.append((1, cur))
+                # stack.append((0, cur.left))  
+            else:
+                res.append(cur.val)  
+        return res
+```
+
+由此可见list类型数据的兼容性有多强大，内部的元素甚至不需要同种类型，想要插入什么元素都可以。把上文append和初试创建的小括号换成中括号也一样能正常运行。
