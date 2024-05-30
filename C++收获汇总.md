@@ -3671,6 +3671,7 @@ try {
 <center>关键词：双端队列<center>
 
 <center>关键词：deque<center>
+<center>关键词：队列<center>
 
 在 C++中，双端队列（deque，全称 double-ended queue）是一种类似于向量（vector）的序列容器，但它提供了在序列的两端快速添加（push）和删除（pop）元素的能力。双端队列通常通过某种形式的链表实现，这使得在两端进行操作的时间复杂度为 O(1)。
 
@@ -4636,7 +4637,11 @@ struct TreeNode{
 };
 ```
 
-#### 二叉树的递归遍历
+### 二叉树的递归遍历
+
+<center>关键词：二叉树的递归遍历<center>
+
+<center>关键词：二叉树的遍历<center> 
 
 前置：递归算法三要素：
 
@@ -4644,7 +4649,7 @@ struct TreeNode{
 2. **确定终止条件**：写完了递归算法, 运行的时候，经常会遇到栈溢出的错误，就是没写终止条件或者终止条件写的不对，操作系统也是用一个栈的结构来保存每一层递归的信息，如果递归没有终止，操作系统的内存栈必然就会溢出。
 3. **确定单层递归的逻辑**： 确定每一层递归需要处理的信息。在这里也就会重复调用自己来实现递归的过程。
 
-##### 先序遍历
+#### 先序遍历
 
 ```cpp
 class Solution{
@@ -4666,7 +4671,7 @@ public:
 };
 ```
 
-##### 中序遍历：
+#### 中序遍历：
 
 ```cpp
 void traversal(TreeNode* cur, vector<int>& vec){
@@ -4677,7 +4682,7 @@ void traversal(TreeNode* cur, vector<int>& vec){
 }
 ```
 
-##### 后续遍历
+#### 后续遍历
 
 ```cpp
 void traversal(TreeNode* cur, vector<int>& vec){
@@ -4688,11 +4693,15 @@ void traversal(TreeNode* cur, vector<int>& vec){
 }
 ```
 
-#### 二叉树的迭代遍历
+### 二叉树的迭代遍历
+
+<center>关键词：二叉树的迭代遍历<center>
+
+<center>关键词：二叉树的遍历<center>
 
 **递归的实现就是：每一次递归调用都会把函数的局部变量、参数值和返回地址等压入调用栈中**，然后递归返回的时候，从栈顶弹出上一次递归的各项参数，所以这就是递归为什么可以返回上一层位置的原因。
 
-##### 先序遍历
+#### 先序遍历
 
 前序遍历是中左右，每次先处理的是中间节点，那么先将根节点放入栈中，然后将右孩子加入栈，再加入左孩子。为什么要先加入 右孩子，再加入左孩子呢？ 因为这样出栈的时候才是中左右的顺序。
 
@@ -4746,7 +4755,7 @@ public:
 
 
 
-##### 中序遍历
+#### 中序遍历
 
 前序遍历的代码，不能和中序遍历通用。因为前序遍历的顺序是中左右，先访问的元素是中间节点，要处理的元素也是中间节点，所以刚刚才能写出相对简洁的代码，**因为要访问的元素和要处理的元素顺序是一致的，都是中间节点。**那么再看看中序遍历，中序遍历是左中右，先访问的是二叉树顶部的节点，然后一层一层向下访问，直到到达树左面的最底部，再开始处理节点（也就是在把节点的数值放进result数组中），这就造成了**处理顺序和访问顺序是不一致的。**那么**在使用迭代法写中序遍历，就需要借用指针的遍历来帮助访问节点，栈则用来处理节点上的元素。**
 
@@ -4798,7 +4807,7 @@ public:
 
 
 
-##### 后序遍历
+#### 后序遍历
 
 再来看后序遍历，先序遍历是中左右，后续遍历是左右中，那么我们只需要调整一下先序遍历的代码顺序，就变成中右左的遍历顺序，然后在反转result数组，输出的结果顺序就是左右中了。
 
@@ -4857,9 +4866,13 @@ public:
 };
 ```
 
-#### Morris遍历
+### Morris遍历
 
-##### 先序遍历
+<center>关键词：二叉树的遍历<center>
+
+<center>关键词：Morris遍历<center>
+
+#### 先序遍历
 
 ```cpp
 class Solution {
@@ -4896,7 +4909,7 @@ public:
 };
 ```
 
-##### 中序遍历
+#### 中序遍历
 
 ```cpp
 class Solution {
@@ -4936,7 +4949,7 @@ public:
 };
 ```
 
-##### 后序遍历
+#### 后序遍历
 
 ```cpp
 class Solution {
@@ -4982,7 +4995,9 @@ public:
 };
 ```
 
-#### 标记法迭代遍历
+### 标记法迭代遍历
+
+<center>关键词：二叉树的迭代遍历<center>
 
 第一次遇见某节点，则压入本身，遇见次数变2，访问左孩子
 
@@ -5042,4 +5057,282 @@ public:
     }
 };
 ```
+
+## 5.30
+
+### C++中的move函数
+
+<center>关键词：move函数<center>
+
+在C++中，`std::move` 是一个标准库函数，用于将对象的所有权从一个对象转移到另一个对象。它通常用于智能指针、容器类等可移动（move-aware）类型的对象，以实现资源的有效转移，避免不必要的拷贝操作。
+
+#### `std::move` 的作用：
+
+1. **资源转移**：`std::move` 将对象的所有权从一个实例转移到另一个实例。对于像 `std::unique_ptr` 这样的智能指针，这意味着指针所管理的资源将被转移。
+
+2. **避免拷贝**：使用 `std::move` 可以避免对象拷贝，因为移动操作通常比拷贝操作要高效。对于大型对象或者资源密集型对象（如文件句柄、网络连接等），移动操作可以显著提高性能。
+
+3. **优化性能**：通过转移所有权，`std::move` 允许对象在不再需要时释放资源，而接收方则接管这些资源。
+
+#### 使用 `std::move` 的场景：
+
+- **容器的移动构造函数和移动赋值操作符**：例如，`std::vector`、`std::string` 等容器提供了移动构造函数和移动赋值操作符，它们使用 `std::move` 来转移容器内部资源的所有权。
+
+  ```cpp
+  std::vector<int> vecA = {1, 2, 3};
+  std::vector<int> vecB = std::move(vecA);  // vecA 的资源被转移给 vecB，vecA 不再持有资源
+  ```
+
+- **智能指针的转移**：智能指针如 `std::unique_ptr` 和 `std::shared_ptr` 可以使用 `std::move` 来转移指针所管理的资源。
+
+  ```cpp
+  std::unique_ptr<int> ptrA(new int);
+  std::unique_ptr<int> ptrB = std::move(ptrA);  // ptrA 的资源被转移给 ptrB
+  ```
+
+- **函数返回**：当函数需要返回一个资源密集型对象时，可以使用 `std::move` 来避免拷贝。
+
+  ```cpp
+  std::vector<int> createVector() {
+      std::vector<int> localVector;
+      // ... 填充 localVector ...
+      return std::move(localVector);  // 将 localVector 移动出去，避免拷贝
+  }
+  ```
+
+#### 注意事项：
+
+- **移动后的对象状态**：使用 `std::move` 后，原始对象的状态是未定义的，它应该被认为是“移动后无效”的。这意味着不应该再对原始对象进行操作，除非它被重新赋值。
+
+- **移动和拷贝的区别**：移动操作可能会执行资源的转移，而拷贝操作总是创建资源的一个新副本。
+
+- **自定义类型的移动语义**：对于自定义类型，如果你想利用移动语义，需要定义类的移动构造函数和移动赋值操作符。
+
+  ```cpp
+  class MyType {
+  public:
+      MyType(MyType&& other) { // 移动构造函数
+          // ... 转移资源 ...
+      }
+      MyType& operator=(MyType&& other) { // 移动赋值操作符
+          // ... 转移资源 ...
+          return *this;
+      }
+  };
+  ```
+
+`std::move` 是C++11引入的特性之一，它为资源管理提供了一种高效的方式，特别是在涉及到临时对象或者大型对象时。
+
+### C++中的insert函数
+
+<center>关键词：insert函数<center>
+
+在C++中，`insert` 是一个关联容器（如 `std::vector`、`std::list`、`std::set`、`std::map` 等）的成员函数，用于在容器中的指定位置插入一个或多个元素。不同的容器类型提供了不同的 `insert` 函数变体，以适应它们各自的特性。
+
+以下是一些常见容器的 `insert` 方法使用示例：
+
+#### `std::vector` 的 `insert`
+
+对于 `std::vector`，`insert` 方法可以在指定位置插入单个元素或一个元素序列。
+
+```cpp
+#include <vector>
+
+std::vector<int> vec = {1, 2, 4, 5};
+// 在索引2的位置插入元素3
+vec.insert(vec.begin() + 2, 3);
+// 现在 vec 是 {1, 2, 3, 4, 5}
+
+// 在索引1到索引3的位置插入两个元素6和7
+vec.insert(vec.begin() + 1, 2, 6); // 从索引1开始插入两个6
+// 现在 vec 是 {1, 6, 6, 2, 3, 4, 5}
+
+
+vector<int> a;
+vector<int> b;
+a.insert(a.end(),b.begin(),b.end());//实现a和b的合并操作
+```
+
+#### `std::list` 的 `insert`
+
+`std::list` 的 `insert` 方法允许你在指定迭代器位置插入一个元素或一个元素范围。
+
+```cpp
+#include <list>
+
+std::list<int> lst = {1, 2, 4, 5};
+// 在lst的末尾之前插入3
+lst.insert(--lst.end(), 3);
+// 现在 lst 是 {1, 2, 3, 4, 5}
+
+// 插入范围
+std::vector<int> vec = {6, 7};
+lst.insert(lst.end(), vec.begin(), vec.end());
+// 现在 lst 是 {1, 2, 3, 4, 5, 6, 7}
+
+
+vector<int> a;
+vector<int> b;
+a.insert(a.end(),b.begin(),b.end());//实现a和b的合并操作
+```
+
+#### `std::set` 和 `std::map` 的 `insert`
+
+对于 `std::set` 和 `std::map`，`insert` 方法用于插入一个唯一的元素或键值对。如果容器中已存在相同的元素或键，则不会插入新元素。
+
+```cpp
+#include <set>
+
+std::set<int> s;
+// 插入元素
+s.insert(1);
+// 尝试插入重复元素
+s.insert(1); // 不会插入，因为1已存在
+
+#include <map>
+
+std::map<int, std::string> m;
+// 插入键值对
+m.insert(std::make_pair(1, "one"));
+// 尝试插入重复键
+m.insert(std::make_pair(1, "another")); // 不会插入，因为键1已存在
+```
+
+#### 注意事项
+
+- `insert` 方法可能会返回一个迭代器，指向插入点（对于 `std::list` 和 `std::vector`），或者返回一个插入结果（对于 `std::set` 和 `std::map`）。
+- 对于 `std::set` 和 `std::map`，`insert` 方法返回的是一个 `std::pair`，其中 `first` 是一个指向插入元素的迭代器，`second` 是一个布尔值，指示插入是否发生。
+- 在 `std::vector` 中使用 `insert` 可能会引起原有元素的移动，因为 `std::vector` 需要为新元素腾出空间。
+- 在 `std::list` 中使用 `insert` 不会引起元素移动，因为 `std::list` 是一个双向链表。
+
+`insert` 是C++标准库容器中用于增加元素的重要方法，它提供了灵活的方式来修改容器内容。
+
+### C++中的list
+
+<center>关键词：list<center>
+
+<center>关键词：双向链表<center>
+
+在C++中，`std::list` 是标准模板库（STL）中提供的一种容器，它实现了双向链表的数据结构。与 `std::vector` 这样的动态数组不同，`std::list` 允许在列表的任何位置高效地插入和删除元素，而不需要像 `std::vector` 那样可能需要复制或移动大量元素。
+
+以下是 `std::list` 的一些主要特性和操作：
+
+#### 包含头文件
+
+```cpp
+#include <list>
+```
+
+#### 创建 `std::list`
+
+```cpp
+std::list<int> myList;
+```
+
+#### 插入元素
+
+- 在末尾添加元素：
+
+  ```cpp
+  myList.push_back(10);
+  ```
+
+- 在开头添加元素：
+
+  ```cpp
+  myList.push_front(20);
+  ```
+
+- 在指定迭代器位置添加元素：
+
+  ```cpp
+  myList.insert(myList.begin(), 30); // 在开始位置插入
+  ```
+
+#### 删除元素
+
+- 删除末尾元素：
+
+  ```cpp
+  myList.pop_back();
+  ```
+
+- 删除开头元素：
+
+  ```cpp
+  myList.pop_front();
+  ```
+
+- 删除指定迭代器位置的元素：
+
+  ```cpp
+  myList.erase(myList.begin()); // 删除开始位置的元素
+  ```
+
+#### 访问元素
+
+- 前缀递增运算符 `++` 用于移动到下一个元素：
+
+  ```cpp
+  std::list<int>::iterator it = myList.begin();
+  ++it; // 移动到下一个元素
+  ```
+
+- 后缀递增运算符 `--` 用于移动到上一个元素：
+
+  ```cpp
+  --it; // 移动到上一个元素
+  ```
+
+#### 遍历 `std::list`
+
+```cpp
+for (std::list<int>::iterator it = myList.begin(); it != myList.end(); ++it) {
+    std::cout << *it << " ";
+}
+```
+
+#### 清空 `std::list`
+
+```cpp
+myList.clear();
+```
+
+#### 检查 `std::list` 是否为空
+
+```cpp
+bool isEmpty = myList.empty();
+```
+
+#### 获取 `std::list` 的大小
+
+```cpp
+size_t size = myList.size();
+```
+
+#### 反转 `std::list`
+
+```cpp
+myList.reverse();
+```
+
+#### 排序 `std::list`
+
+```cpp
+myList.sort(); // 默认从小到大排序
+```
+
+#### `std::list` 的优势
+
+- **高效的插入和删除**：在链表的任何位置插入或删除元素都是高效的，时间复杂度为 O(1)，只要提供了正确的迭代器。
+- **不需要连续内存**：与 `std::vector` 相比，`std::list` 不需要一块连续的内存空间，这使得它在处理大型数据结构时更加灵活。
+
+#### `std::list` 的局限性
+
+- **不支持随机访问**：由于底层实现是链表，`std::list` 不支持像 `std::vector` 那样的随机访问。访问元素需要从头开始遍历。
+- **更高的内存开销**：每个元素除了存储数据外，还需要额外存储指向前后元素的指针，因此内存开销比 `std::vector` 大。
+
+`std::list` 是实现序列容器时的一个有用选择，特别是当你需要频繁地在序列中间插入或删除元素时。
+
+## 5.31
 
