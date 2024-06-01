@@ -2781,5 +2781,120 @@ print(list1)
 
 `extend` 是处理列表合并和添加元素时非常有用的工具，它提供了一种高效且直观的方式来增加列表的内容。
 
-## 5.31
+## 6.1
+
+### pairwise函数
+
+<center>关键词：pairwise函数<center>
+
+#### [itertools](https://so.csdn.net/so/search?q=itertools&spm=1001.2101.3001.7020).pairwise()
+
+首先，这个函数是Python 3.10 新特性。
+它表示的是一个迭代器（有点废话，itertools里面都是各种迭代器），他的含义是，从对象中获取连续的**重叠对**。
+
+比如说：s= ‘abcde’，itertools.pairwise(s)的输出应该为，ab, bc, cd, de;
+如果s中的个数小于2，输出为空。
+
+示例程序：
+
+```python
+from itertools import pairwise
+a = pairwise('12345') 
+# 输出的a应为是 12 23 34 45
+
+b = pairwise([1])
+# b为空
+```
+
+#### 替换itertools.pairwise()函数
+
+如上所述，这个函数在python3.10后才有，之前的版本中并不能使用。
+那么如果要在程序中实现这个功能，其实也很简单，一次for循环即可。
+
+```python
+s = '12345'
+for i in range(1,len(s)):
+	k1, k2 = s[i-1], s[i] # k1,k2输出应该为1,2;2,3...
+```
+
+与迭代器pairwise相比，这个的麻烦地方在于，不能使用迭代器对`重叠对`进行比较，程序效率较慢一点。
+
+实际上也有一些其他的pairwise函数的实例，比如：[python实现pariwise](http://t.zoukankan.com/kuzaman-p-7202146.html)。该链接中有完整的python程序。
+
+### nonlocal关键字
+
+<center>关键词：nonlocal<center>
+
+在Python中，`nonlocal` 关键字用于在嵌套的函数中修改外层（非全局）作用域中的变量。当在一个函数内部定义了一个变量，该变量与嵌套函数外部的变量同名时，使用 `nonlocal` 可以指明内部函数中的变量应该绑定到外部（非全局）作用域中的变量，而不是在内部函数中创建一个新的局部变量。
+
+#### 使用场景
+
+`nonlocal` 主要用于闭包（closures），即当一个嵌套的函数在其定义中引用了外部函数的变量时。
+
+#### 示例
+
+以下是一个使用 `nonlocal` 的示例：
+
+```python
+def outer():
+    x = 0  # 这是外部函数的局部变量
+
+    def inner():
+        nonlocal x  # 指明 x 绑定到外部函数的局部变量
+        x = x + 1  # 修改外部函数中的局部变量
+        print("Inner:", x)
+
+    inner()
+    print("Outer:", x)
+
+outer()
+```
+
+输出将是：
+
+```
+Inner: 1
+Outer: 1
+```
+
+在这个示例中，`inner` 函数中的 `nonlocal x` 语句告诉Python解释器，`x` 应该绑定到 `outer` 函数中的局部变量，而不是在 `inner` 函数中创建一个新的局部变量。
+
+#### 规则和限制
+
+- `nonlocal` 只能用于修改嵌套作用域中的变量，不能用于全局变量。
+- 如果在嵌套函数中尝试修改一个没有在外部函数中声明的变量，Python会抛出一个 `UnboundLocalError`。
+- `nonlocal` 声明必须在嵌套函数中所有使用该变量之前出现。
+
+#### 与 `global` 的比较
+
+- `global` 关键字用于在函数内部声明一个全局变量，即它属于全局作用域。
+- `nonlocal` 关键字用于在**嵌套函数**中声明一个变量，该变量属于最近的非全局（通常是外层函数的局部）作用域。
+
+#### 另一个示例
+
+考虑一个计数器的例子，其中外部函数希望在每次调用嵌套函数时递增计数器：
+
+```python
+def create_counter():
+    count = 0
+
+    def counter():
+        nonlocal count
+        count += 1
+        return count
+
+    return counter
+
+my_counter = create_counter()
+print(my_counter())  # 输出: 1
+print(my_counter())  # 输出: 2
+```
+
+在这个例子中，每次调用 `my_counter()` 时，它都会递增 `create_counter` 函数中的 `count` 变量。
+
+`nonlocal` 是Python作用域规则的一个重要组成部分，它提供了在嵌套函数中修改外部变量的能力。
+
+## 6.2
+
+
 
