@@ -5442,4 +5442,108 @@ Processing: 30
 
 `std::queue` 是实现队列操作的有用工具，它提供了一种简单有效的方式来管理需要保持特定顺序的元素集合。
 
-## 6.2
+## 6.5
+
+### C++类中的函数内部声明另一个函数
+
+<center>关键词：函数嵌套<center>
+
+在C++中，可以在类的成员函数内部声明另一个函数，但这种做法并不常见，因为通常函数声明会放在类的外部定义之前。然而，如果你需要在成员函数内部定义一个仅在该成员函数中使用的辅助函数，你可以这样做。
+
+以下是一个示例，演示如何在C++类的一个成员函数内部声明和定义另一个函数：
+
+```cpp
+#include <iostream>
+
+class MyClass {
+public:
+    // 成员函数
+    void memberFunction() {
+        int value = 10;
+
+        // 在成员函数内部声明和定义一个函数
+        auto helperFunction = [&]() {
+            std::cout << "Helper function value: " << value << std::endl;
+        };
+
+        // 调用内部声明的函数
+        helperFunction();
+    }
+};
+
+int main() {
+    MyClass myObject;
+    myObject.memberFunction(); // 输出: Helper function value: 10
+    return 0;
+}
+```
+
+在这个示例中，`helperFunction` 是在 `memberFunction` 的作用域内声明和定义的。它是一个lambda表达式，可以访问 `memberFunction` 中的局部变量 `value`。然后，我们调用 `helperFunction` 并传递一个参数。
+
+请注意，内部声明的函数（在这个例子中是lambda表达式）通常用于特定任务，并且只在定义它们的成员函数中使用。它们的作用域被限制在成员函数内部。
+
+此外，内部声明的函数不能有返回类型，因为它们是在成员函数内部定义的，所以它们的返回类型由它们的实现决定。
+
+通常，推荐将函数声明放在类的外部，这样更符合C++的编码规范，也更容易维护和理解。内部声明函数的做法应该谨慎使用，确保不会使代码复杂化。
+
+### C++逆向迭代
+
+<center>关键词：rbegin函数<center>
+
+<center>关键词：rend函数<center>
+
+<center>关键词：逆向迭代<center>
+
+在C++中，`rbegin()` 和 `rend()` 是迭代器适配器，它们分别返回指向容器末尾的逆向迭代器和指向容器开始之前的位置的逆向迭代器。这两个函数通常与标准库中的序列容器（如 `std::vector`、`std::list`、`std::deque` 等）一起使用，允许程序员从后向前遍历容器。
+
+#### rbegin()
+
+- `rbegin()` 函数返回一个迭代器，该迭代器指向容器的最后一个元素的下一个位置（对于空容器，它指向容器的开始位置，这可以视为一个虚拟的位置）。
+- 它允许你开始逆向遍历容器。
+
+#### rend()
+
+- `rend()` 函数返回一个迭代器，该迭代器指向容器开始之前的位置（对于空容器，它也指向容器的开始位置）。
+- 它标志着逆向遍历的结束。
+
+#### 使用示例
+
+假设我们有一个 `std::vector`：
+
+```cpp
+#include <vector>
+#include <iostream>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+
+    // 正向遍历
+    for (auto it = vec.begin(); it != vec.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    // 逆向遍历
+    for (auto it = vec.rbegin(); it != vec.rend(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+输出将是：
+
+```
+1 2 3 4 5 
+5 4 3 2 1 
+```
+
+#### 注意事项
+
+- 逆向迭代器的行为类似于正向迭代器，但它们的迭代方向相反。
+- 逆向迭代器不支持解引用来修改容器中的元素，但它们可以被解引用来读取元素的值。
+- 在使用 `rbegin()` 和 `rend()` 时，你应该确保容器至少有一个元素，否则逆向迭代器可能会指向无效的位置。
+
+`rbegin()` 和 `rend()` 提供了一种方便的方式来逆向遍历容器，这在某些算法中非常有用，例如在需要从后向前处理元素的场景中。
