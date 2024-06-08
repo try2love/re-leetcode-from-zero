@@ -5651,3 +5651,178 @@ bool isSet = (a & (1 << 3)) != 0; // 检查第4位是否为1，结果是 true
 
 位操作可以用于执行一些特殊的任务，比如访问和修改数据结构的特定部分，或者在没有额外内存分配的情况下进行快速的数学运算。然而，它们通常难以理解，容易出错，因此在实际编程中需要谨慎使用。
 
+## 6.7
+
+### C++深拷贝
+
+<center>关键词：深拷贝<center>
+
+在C++中，深拷贝（deep copy）意味着创建一个对象的副本，包括所有它包含的子对象的副本，以及任何它所拥有资源的副本。这确保了原始对象和副本对象完全独立，互不影响。
+
+实现深拷贝通常有以下几种方法：
+
+#### 1. 复制构造函数
+
+为自定义类型提供自定义的复制构造函数，以实现深拷贝。
+
+```cpp
+class MyClass {
+public:
+    int* data;
+    size_t size;
+
+    // 默认构造函数
+    MyClass(size_t sz) : size(sz), data(new int[sz]) {}
+
+    // 复制构造函数
+    MyClass(const MyClass& other) : size(other.size), data(new int[other.size]) {
+        std::copy(other.data, other.data + size, data);
+    }
+
+    // 析构函数
+    ~MyClass() {
+        delete[] data;
+    }
+
+    // 赋值运算符
+    MyClass& operator=(const MyClass& other) {
+        if (this != &other) {
+            int* newData = new int[other.size];
+            std::copy(other.data, other.data + other.size, newData);
+            delete[] data;
+            data = newData;
+            size = other.size;
+        }
+        return *this;
+    }
+};
+```
+
+#### 2. 赋值运算符
+
+重载赋值运算符以确保深拷贝。
+
+#### 3. 智能指针
+
+使用智能指针（如 `std::unique_ptr` 或 `std::shared_ptr`）来自动管理资源的深拷贝。
+
+```cpp
+class MyClass {
+public:
+    std::unique_ptr<int[]> data;
+    size_t size;
+
+    // 构造函数
+    MyClass(size_t sz) : size(sz), data(std::make_unique<int[]>(sz)) {}
+
+    // 复制构造函数和赋值运算符由智能指针管理
+};
+```
+
+#### 4. 序列化和反序列化
+
+通过将对象序列化为字节流，然后将字节流反序列化回新对象，可以实现深拷贝。
+
+#### 注意事项
+
+- **内存管理**：确保为所有新分配的内存提供相应的析构逻辑，以避免内存泄漏。
+- **拷贝性能**：深拷贝可能会因为复制大量数据而相对较慢，需要考虑性能影响。
+- **对象类型**：深拷贝适用于自定义类型和包含指针或动态分配内存的对象。对于内置类型，深拷贝和浅拷贝没有区别。
+- **自定义类型**：对于自定义类型，明确定义何时进行深拷贝、何时进行浅拷贝是很重要的。
+
+深拷贝是C++中管理复杂对象和资源所有权的重要概念，正确实现深拷贝可以防止很多常见的内存和资源管理错误。
+
+在C++中，深拷贝通常是指创建一个对象的完全独立的副本，包括所有子对象和资源。对于自定义类型，这意味着你需要确保所有动态分配的内存或资源在拷贝时都被复制，而不是共享。C++11标准库中的智能指针（如 `std::unique_ptr`）提供了一种自动管理深拷贝和浅拷贝的方式。
+
+以下是一些可以直接调用或实现深拷贝的方法：
+
+#### 使用智能指针（C++11及以上）
+
+通过使用智能指针，如 `std::unique_ptr`，可以自动处理深拷贝。
+
+```cpp
+#include <memory>
+
+class MyClass {
+public:
+    std::unique_ptr<int[]> data;
+    size_t size;
+
+    // 构造函数
+    MyClass(size_t sz) : size(sz), data(std::make_unique<int[]>(sz)) {}
+
+    // 复制构造函数和赋值运算符由智能指针自动处理深拷贝
+};
+
+MyClass obj1(10); // 创建一个对象
+MyClass obj2 = obj1; // 直接拷贝，智能指针管理深拷贝
+```
+
+#### 手动实现深拷贝
+
+对于不支持自动深拷贝的类型，你需要手动实现复制构造函数和赋值运算符。
+
+```cpp
+class MyClass {
+public:
+    int* data;
+    size_t size;
+
+    // 构造函数
+    MyClass(size_t sz) : size(sz), data(new int[sz]) {}
+
+    // 复制构造函数
+    MyClass(const MyClass& other) : size(other.size), data(new int[other.size]) {
+        std::copy(other.data, other.data + size, data);
+    }
+
+    // 赋值运算符
+    MyClass& operator=(const MyClass& other) {
+        if (this != &other) {
+            int* newData = new int[other.size];
+            std::copy(other.data, other.data + other.size, newData);
+            delete[] data;
+            data = newData;
+            size = other.size;
+        }
+        return *this;
+    }
+
+    // 析构函数
+    ~MyClass() {
+        delete[] data;
+    }
+};
+
+MyClass obj1(10); // 创建一个对象
+MyClass obj2 = obj1; // 直接拷贝，调用复制构造函数实现深拷贝
+```
+
+#### 使用 `std::copy` 或其他标准库函数
+
+对于容器和数组，可以使用 `std::copy` 或其他标准库函数来帮助实现深拷贝。
+
+```cpp
+#include <algorithm> // For std::copy
+#include <vector>
+
+class MyClass {
+public:
+    std::vector<int> data;
+
+    // 复制构造函数
+    MyClass(const MyClass& other) : data(other.data) {}
+};
+
+MyClass obj1{1, 2, 3};
+MyClass obj2 = obj1; // 直接拷贝，std::vector 管理深拷贝
+```
+
+#### 注意事项
+
+- 自动深拷贝通常由对象的复制构造函数和赋值运算符处理。
+- 对于包含指针的类，确保在复制构造函数和赋值运算符中正确复制指针指向的数据。
+- 对于大型数据结构，深拷贝可能会涉及大量的内存分配和数据复制，这可能影响性能。
+- 确保正确实现析构函数，以避免内存泄漏。
+
+在C++中，深拷贝的正确实现对于防止内存泄漏和其他资源管理错误至关重要。使用智能指针可以简化资源管理，但有时手动实现深拷贝是必要的。
