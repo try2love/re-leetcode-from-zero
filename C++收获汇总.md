@@ -3157,11 +3157,9 @@ NULL
 ### C++使用string模拟存储类型为char的栈
 
 <center>关键词：字符串模拟栈<center>
-<center>
-    关键词：string
-<center>
-<center>关键词：字符串
-<center>
+<center>关键词：字符串<center>
+
+<center>关键词：string<center>
 
 在C++中，可以使用`std::string`来模拟一个存储`char`数据的栈。`std::string`提供了在字符串末尾添加和删除元素的功能，这与栈的后进先出（LIFO）特性相符合。以下是使用`std::string`模拟栈的一个简单示例：
 
@@ -3250,6 +3248,9 @@ int main() {
 <center>关键词：对字符串操作<center>
 
 <center>关键词：对string的操作<center>
+<center>关键词：string<center>
+
+<center>关键词：字符串操作<center>
 
 在C++中，`std::string` 是标准库中的一个类模板，专门用于处理字符串。以下是一些常见的 `std::string` 操作：
 
@@ -5826,3 +5827,166 @@ MyClass obj2 = obj1; // 直接拷贝，std::vector 管理深拷贝
 - 确保正确实现析构函数，以避免内存泄漏。
 
 在C++中，深拷贝的正确实现对于防止内存泄漏和其他资源管理错误至关重要。使用智能指针可以简化资源管理，但有时手动实现深拷贝是必要的。
+
+## 6.10
+
+### C++数字转换字符串
+
+<center>关键词：数字转字符串<center>
+
+<center>关键词：字符串转换<center>
+
+<center>关键词：类型转换：数字到字符串<center>
+
+在C++中，将数字转换为字符串通常可以通过以下几种方法实现：
+
+#### 1. 使用 `std::to_string`（C++11及以上）
+
+这是将整数转换为字符串最简单的方法。
+
+```cpp
+#include <string>
+
+int num = 123;
+std::string str = std::to_string(num);
+```
+
+#### 2. 使用 `std::stringstream`
+
+`std::stringstream` 可以用于流式输入和输出，可以用来转换数字。
+
+```cpp
+#include <sstream>
+
+int num = 123;
+std::stringstream ss;
+ss << num;
+std::string str = ss.str();
+```
+
+#### 3. 使用 `std::ostringstream`（C++98风格）
+
+`std::ostringstream` 是 `std::stringstream` 的输出版本，专门用于构造字符串。
+
+```cpp
+#include <sstream>
+
+int num = 123;
+std::ostringstream oss;
+oss << num;
+std::string str = oss.str();
+```
+
+#### 4. 使用 `std::setprecision` 和 `std::fixed`（对于浮点数）
+
+当你需要转换浮点数并指定小数点后的位数时，可以使用 `std::setprecision` 和 `std::fixed`。
+
+```cpp
+#include <sstream>
+#include <iomanip>
+
+double num = 123.456;
+std::stringstream ss;
+ss << std::fixed << std::setprecision(2) << num;
+std::string str = ss.str();
+```
+
+#### 5. 使用 `std::to_string` 转换十六进制或八进制数
+
+对于整数类型，`std::to_string` 可以与格式化标志结合使用，转换为十六进制或八进制表示。
+
+```cpp
+#include <string>
+#include <iomanip>
+
+int num = 255;
+std::string hexStr = std::to_string(num, std::hex);  // 十六进制
+std::string octStr = std::to_string(num, std::oct);  // 八进制
+```
+
+#### 示例代码
+
+```cpp
+#include <iostream>
+#include <string>
+#include <sstream>
+
+int main() {
+    int num = 123;
+    std::string str = std::to_string(num);
+    std::cout << str << std::endl; // 输出: 123
+
+    double dnum = 123.456;
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(2) << dnum;
+    std::string dstr = ss.str();
+    std::cout << dstr << std::endl; // 输出: 123.46
+
+    return 0;
+}
+```
+
+选择哪种方法取决于你的具体需求，例如是否需要转换浮点数、是否需要特定的格式等。对于整数，`std::to_string` 是最简单直接的方法；对于浮点数或需要特定格式的整数，使用 `std::stringstream` 或 `std::ostringstream` 更为合适。
+
+### C++中的复制赋值和引用赋值
+
+<center>关键词：赋值区别<center>
+
+在C++中，复制赋值（Copy Assignment）和引用赋值（Reference Assignment）是两种不同的赋值操作，它们在语义和效率上有所区别：
+
+#### 1. 复制赋值（Copy Assignment）
+
+复制赋值操作符是 `=`，它用于将一个对象的值复制给另一个对象。如果对象是自定义类型，需要考虑深拷贝和浅拷贝的问题。
+
+- **自定义类型**：对于自定义类型，复制赋值操作符需要明确定义如何复制对象。通常在类的内部实现复制构造函数和赋值运算符。
+- **内置类型**：对于内置类型（如 `int`、`double` 等），复制赋值是直接的值复制。
+
+```cpp
+class MyClass {
+public:
+    int value;
+    // 复制赋值操作符
+    MyClass& operator=(const MyClass& other) {
+        value = other.value;
+        return *this;
+    }
+};
+
+MyClass a;
+MyClass b;
+a.value = 10;
+b = a; // 使用复制赋值操作符，将 a 的值复制给 b
+```
+
+#### 2. 引用赋值（Reference Assignment）
+
+引用赋值是将一个变量的引用（或别名）赋给另一个变量。这意味着两个变量将引用同一对象或值。
+
+- **对象引用**：当一个对象被赋值给引用时，引用变量将指向同一个对象。
+- **内置类型引用**：对于内置类型，引用赋值操作符 `=` 实际上进行的是值的复制。
+
+```cpp
+class MyClass {
+public:
+    int value;
+};
+
+MyClass a;
+MyClass b;
+a.value = 10;
+MyClass& refToA = a; // refToA 是 a 的引用，不是赋值操作
+refToA = b; // 现在 refToA 引用 b，但 a 的值不变
+```
+
+#### 区别：
+
+- **复制赋值** 创建了原始对象的一个副本，修改副本不会影响原始对象。
+- **引用赋值** 不创建副本，而是让两个变量引用同一个对象，对引用对象的修改会影响原始对象。
+
+#### 注意事项：
+
+- 引用赋值通常用于内置类型和对象的引用，而复制赋值用于复制对象。
+- 在使用引用时，需要小心循环引用和野引用的问题。
+- 对于自定义类型，赋值运算符的实现需要考虑深拷贝和浅拷贝的问题。
+
+正确理解和使用这两种赋值操作对于编写有效的C++程序至关重要。
