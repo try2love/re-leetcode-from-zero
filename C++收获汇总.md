@@ -2036,6 +2036,8 @@ std::set<int> set_difference(set1.begin(), set1.end(), set2.begin(), set2.end())
 
 ### C++中map类型数据
 
+<center>关键词：map<center>
+
 在C++中，`std::map` 是一种关联容器，它存储键值对（key-value pairs），并且按照键的顺序进行排序。`std::map` 通常是基于平衡二叉搜索树（如红黑树）实现的，这使得它能够提供高效的查找、插入和删除操作。
 
 以下是 `std::map` 的一些常用操作：
@@ -2124,6 +2126,10 @@ std::map<int, std::string>::iterator upper = myMap.upper_bound(3); // 查找大�
 `std::map` 是C++标准模板库（STL）中非常有用的容器之一，它在需要维护有序的键值对集合的场景中非常有用。
 
 ### C++中的sort函数
+
+<center>关键词：sort排序函数<center>
+
+<center>关键词：排序<center>
 
 比如，给定字符串`string s='apple'`，对s进行sort操作，使得s变成`aelpp`
 
