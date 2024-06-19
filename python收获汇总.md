@@ -1018,6 +1018,12 @@ set()
 
 ### py中对字典的操作
 
+<center>关键词：字典<center>
+
+<center>关键词：对字典的操作<center>
+
+<center>关键词：dic<center>
+
 在Python中，字典（`dict`）是一种可变容器模型，用于存储键值对。字典的每个键必须是唯一的，而值则不必唯一。以下是一些常用的字典操作方法：
 
 #### 创建字典
@@ -3225,3 +3231,103 @@ print(str_numbers)  # 输出: "12345"
 - `join()` 是一个非常有用的字符串操作，特别是在处理文本文件、生成报告或将数据格式化为特定格式时。
 
 `join()` 方法提供了一种简洁且高效的方式来合并字符串，是Python文本处理中不可或缺的工具之一。
+
+## 6.19
+
+### py在类中初始化变量
+
+<center>关键词：初始化变量<center>
+
+在Python中，类的变量声明与C++有一些不同。Python是一种动态类型语言，不需要在声明变量时指定类型，而且变量可以在类的任何地方被赋值，而不需要先声明。不过，Python允许你在类中初始化变量，**这在构造函数（`__init__` 方法）中完成。**
+
+以下是如何在Python类中声明和初始化变量的示例，以及如何实现类似于C++中的变量声明和访问：
+
+#### Python类中的变量声明和初始化
+
+```python
+class MyClass:
+    def __init__(self, value):
+        self.my_var = value  # 类变量的初始化
+
+# 创建类的实例并初始化变量
+my_instance = MyClass(42)
+print(my_instance.my_var)  # 输出: 42
+```
+
+#### 类属性与实例属性
+
+- **类属性**：属于类的所有实例共享，可以在类定义的外部或内部声明和访问。
+
+```python
+class MyClass:
+    class_var = 100  # 类属性
+
+    def __init__(self):
+        self.instance_var = 200  # 实例属性
+
+# 访问类属性
+print(MyClass.class_var)  # 输出: 100
+
+# 创建实例并访问实例属性
+my_instance = MyClass()
+print(my_instance.instance_var)  # 输出: 200
+```
+
+#### 类变量的动态赋值
+
+在Python中，类变量可以在任何地方被赋值，包括在方法内部。
+
+```python
+class MyClass:
+    def set_class_var(self, value):
+        self.class_var = value  # 动态赋值类变量
+
+    def get_class_var(self):
+        return self.class_var
+
+# 创建实例并动态设置类变量
+my_instance = MyClass()
+my_instance.set_class_var(300)
+print(my_instance.get_class_var())  # 输出: 300
+```
+
+#### 类的静态方法和类方法
+
+- **静态方法**：使用 `@staticmethod` 装饰器，不需要类或实例的引用。
+- **类方法**：使用 `@classmethod` 装饰器，需要类的引用，但不需要实例的引用。
+
+```python
+class MyClass:
+    @staticmethod
+    def static_method():
+        print("This is a static method.")
+
+    @classmethod
+    def class_method(cls):
+        print(f"This is a class method of {cls}")
+
+# 调用静态方法
+MyClass.static_method()
+
+# 调用类方法
+MyClass.class_method()
+```
+
+#### 类的属性访问控制
+
+虽然Python没有像C++那样的访问控制（如 `private` 或 `protected` 关键字），但你可以约定俗成地使用单下划线 `_` 或双下划线 `__` 来表示属性或方法不应该被外部直接访问。
+
+```python
+class MyClass:
+    def __init__(self):
+        self._internal_var = 0  # 约定俗成的“私有”变量
+
+    def _private_method(self):
+        pass
+
+# 尝试访问“私有”变量将导致错误
+# print(my_instance._internal_var)  # 这将引发 AttributeError
+```
+
+在Python中，类的变量声明和使用比C++更为灵活，但也需要程序员自觉遵守一些约定，以保持代码的清晰和可维护性。
+
