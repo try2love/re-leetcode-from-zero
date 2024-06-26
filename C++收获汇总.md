@@ -6109,3 +6109,92 @@ int main() {
 
 这些方法可以在C++中实现类似于Python列表切片的功能。需要注意的是，C++的 `std::vector` 是基于连续内存的，所以这些操作可能涉及到元素的移动和复制，有时可能影响性能。在设计算法时，应根据实际需求和性能考虑来选择最合适的方法。
 
+## 6.26
+
+### C++对vector求和
+
+<center>关键词：vector求和<center>
+
+在C++中，对 `std::vector` 中的元素求和可以通过几种方式实现。以下是一些常见的方法：
+
+#### 方法1: 使用循环
+
+直接遍历 `std::vector` 中的每个元素，并将它们累加起来。
+
+```cpp
+#include <vector>
+#include <iostream>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    int sum = 0;
+    for (int num : vec) {
+        sum += num;
+    }
+    std::cout << "Sum: " << sum << std::endl; // 输出: Sum: 15
+    return 0;
+}
+```
+
+#### 方法2: 使用 `std::accumulate`
+
+`std::accumulate` 是 C++ 标准库中提供的一个函数，用于计算容器中元素的总和。
+
+```cpp
+#include <vector>
+#include <numeric>
+#include <iostream>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    int sum = std::accumulate(vec.begin(), vec.end(), 0);
+    std::cout << "Sum: " << sum << std::endl; // 输出: Sum: 15
+    return 0;
+}
+```
+
+`std::accumulate` 的第三个参数是初始累加值，这里设置为 `0`。
+
+#### 方法3: 使用 Lambda 表达式
+
+结合 `std::accumulate` 和 Lambda 表达式，可以对复杂的数据类型进行自定义累加操作。
+
+```cpp
+#include <vector>
+#include <numeric>
+#include <iostream>
+#include <functional>
+
+int main() {
+    std::vector<double> vec = {1.5, 2.5, 3.5, 4.5, 5.5};
+    double sum = std::accumulate(vec.begin(), vec.end(), 0.0,
+                                 [](double acc, double value) {
+                                     return acc + value;
+                                 });
+    std::cout << "Sum: " << sum << std::endl; // 输出: Sum: 17.0
+    return 0;
+}
+```
+
+在这个例子中，Lambda 表达式定义了累加的具体操作。
+
+#### 方法4: 使用 `std::reduce` (C++17)
+
+从 C++17 开始，`std::reduce` 函数提供了一种更简洁的方式来求和。
+
+```cpp
+#include <vector>
+#include <numeric>
+#include <iostream>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    int sum = std::reduce(vec.begin(), vec.end());
+    std::cout << "Sum: " << sum << std::endl; // 输出: Sum: 15
+    return 0;
+}
+```
+
+请注意，`std::reduce` 可能不是所有编译器都支持的，因为它需要 C++17 标准。
+
+选择哪种方法取决于你的具体需求和使用的 C++ 标准版本。对于简单的求和操作，使用循环或 `std::accumulate` 就足够了。如果你需要更复杂的累加逻辑，可以考虑使用 Lambda 表达式。而 `std::reduce` 提供了一种更现代和简洁的语法。
