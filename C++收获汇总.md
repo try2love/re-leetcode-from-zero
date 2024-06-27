@@ -6198,3 +6198,114 @@ int main() {
 请注意，`std::reduce` 可能不是所有编译器都支持的，因为它需要 C++17 标准。
 
 选择哪种方法取决于你的具体需求和使用的 C++ 标准版本。对于简单的求和操作，使用循环或 `std::accumulate` 就足够了。如果你需要更复杂的累加逻辑，可以考虑使用 Lambda 表达式。而 `std::reduce` 提供了一种更现代和简洁的语法。
+
+## 6.27
+
+### C++中的Lambda嵌套函数
+
+<center>关键词：嵌套函数<center>
+
+<center>关键词：Lambda<center>
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> ans;
+        vector<int> path;
+        function<void(int)> dfs = [&](int i) {
+            int d = k - path.size(); // 还要选 d 个数
+            if (d == 0) { // 选好了
+                ans.emplace_back(path);
+                return;
+            }
+            // 如果 i > d，可以不选 i
+            if (i > d) dfs(i - 1);
+            // 选 i
+            path.push_back(i);
+            dfs(i - 1);
+            path.pop_back(); // 恢复现场
+        };
+        dfs(n);
+        return ans;
+    }
+};
+```
+
+在这段代码中，定义了一个嵌套函数 `dfs`，它是一个通过 `std::function` 包装的Lambda表达式。这个嵌套函数用于实现一个深度优先搜索（DFS）算法，来解决组合问题，即从1到n的整数中选择k个整数的所有组合。
+
+以下是对6到11行代码的详细解释：
+
+#### 6行：声明嵌套函数 `dfs`
+
+```cpp
+function<void(int)> dfs = [&](int i) {
+    ...
+};
+```
+
+- `dfs` 是一个变量名，它指向一个函数，该函数接受一个 `int` 类型的参数并返回 `void`。
+- 使用 `std::function` 来包装Lambda表达式，使得Lambda表达式可以被用作函数指针或函数引用。
+
+#### 7行：Lambda表达式的开始
+
+```cpp
+[&](int i) {
+```
+
+- Lambda表达式以 `[&]` 开始，表示捕获外部作用域中的所有变量的引用。
+- `(int i)` 是Lambda表达式的参数列表，表示这个Lambda接受一个 `int` 类型的参数。
+
+#### 8行：计算剩余需要选择的数字数量 `d`
+
+```cpp
+int d = k - path.size();
+```
+
+- `k` 是需要选择的整数的数量。
+- `path.size()` 表示当前路径中已经选择的整数的数量。
+- `d` 是还需要选择的整数的数量。
+
+#### 9行：检查是否已经选择足够数量的整数
+
+```cpp
+if (d == 0) {
+    ans.emplace_back(path);
+    return;
+}
+```
+
+- 如果 `d` 为0，表示已经选择了足够数量的整数，此时将当前路径 `path` 添加到结果列表 `ans` 中。
+- `emplace_back` 用于在 `ans` 后面构造并添加一个新元素，避免不必要的复制。
+
+#### 10行：如果 `i` 大于 `d`，可以跳过当前数字
+
+```cpp
+if (i > d) dfs(i - 1);
+```
+
+- 如果当前数字 `i` 大于还需要选择的数字数量 `d`，那么可以跳过这个数字，直接递归调用 `dfs(i - 1)`。
+
+#### 11行：选择当前数字 `i` 并继续递归
+
+```cpp
+path.push_back(i);
+dfs(i - 1);
+path.pop_back(); // 恢复现场
+```
+
+- 将当前数字 `i` 添加到路径 `path` 中，表示选择了这个数字。
+- 递归调用 `dfs(i - 1)`，继续选择下一个数字。
+- 递归完成后，使用 `path.pop_back()` 移除路径 `path` 中的最后一个元素，以回溯到上一个选择状态。
+
+#### 编写规则
+
+1. **捕获外部变量**：使用 `[&]` 来捕获外部作用域中的所有变量的引用。
+2. **参数列表**：定义Lambda表达式的参数列表。
+3. **函数体**：实现所需的逻辑，包括递归调用和回溯。
+4. **返回类型**：Lambda表达式需要与 `std::function` 指定的签名匹配，本例中为 `void(int)`。
+5. **使用 `emplace_back`**：在添加新路径时使用 `emplace_back` 以提高效率。
+6. **回溯**：在递归调用后使用 `pop_back` 进行回溯，以确保下一次递归调用的正确性。
+
+这种使用嵌套函数的方式在解决需要递归和回溯算法的问题时非常有用，尤其是在树形结构的遍历和组合问题中。
+
