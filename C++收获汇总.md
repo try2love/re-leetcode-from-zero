@@ -3073,6 +3073,8 @@ int main() {
 
 ### 获取子字符串substr()
 
+<center>关键词：子字符串<center>
+
 在C++中，`substr` 是 `std::string` 类的一个成员函数，用于从字符串中提取子字符串。这个方法返回一个 `std::string` 类型的副本，包含原始字符串中从指定位置开始的特定长度的字符序列。
 
 #### 语法
@@ -3258,9 +3260,10 @@ int main() {
 ### C++对字符串的操作
 
 <center>关键词：对字符串操作<center>
-
 <center>关键词：对string的操作<center>
+
 <center>关键词：string<center>
+
 
 <center>关键词：字符串操作<center>
 
@@ -6308,4 +6311,116 @@ path.pop_back(); // 恢复现场
 6. **回溯**：在递归调用后使用 `pop_back` 进行回溯，以确保下一次递归调用的正确性。
 
 这种使用嵌套函数的方式在解决需要递归和回溯算法的问题时非常有用，尤其是在树形结构的遍历和组合问题中。
+
+## 6.29
+
+### C++删除字符串中的最后一个元素
+
+<center>关键词：字符串弹出尾元素<center>
+
+<center>关键词：删除字符串最后一个元素<center>
+
+<center>关键词：string弹出尾元素<center>
+
+在C++中，删除字符串类型元素的最后一个字符可以使用 `std::string` 类的 `pop_back()` 成员函数。这个函数是C++11标准引入的，用于从字符串末尾移除最后一个字符。
+
+以下是如何使用 `pop_back()` 函数的示例：
+
+```cpp
+#include <iostream>
+#include <string>
+
+int main() {
+    std::string str = "Hello, World!";
+
+    // 删除最后一个字符
+    if (!str.empty()) {
+        str.pop_back();
+    }
+
+    std::cout << "After removing the last character: " << str << std::endl;
+
+    return 0;
+}
+```
+
+输出将是：
+
+```
+After removing the last character: Hello, World
+```
+
+请注意，`pop_back()` 函数在尝试删除空字符串的字符时会失败，并可能导致未定义行为。因此，在调用 `pop_back()` 之前，最好检查字符串是否为空。
+
+另外，如果你使用的是旧版本的C++（C++11之前），那么可以使用 `erase()` 成员函数来删除最后一个字符：
+
+```cpp
+str.erase(str.size() - 1);
+```
+
+这种方法通过 `erase()` 函数删除指定位置的字符，其中 `str.size() - 1` 是最后一个字符的位置。这种方法在C++11之前是删除最后一个字符的标准做法。
+
+### C++把字符型数字转化为对应数字
+
+<center>关键词：char_to_int<center>
+
+<center>关键词：字符转数字<center>
+
+在C++中，将数字型字符转换为对应的整数值，可以使用以下几种方法：
+
+#### 1. `std::atoi` 函数（C++98）
+
+`std::atoi` 是一个C风格的字符串到整数的转换函数，定义在 `<cstdlib>` 头文件中。
+
+```cpp
+#include <cstdlib>
+
+char ch = '2';
+int num = std::atoi(&ch); // 将字符 '2' 转换为整数 2
+```
+
+#### 2. `std::stoi` 函数（C++11及以上）
+
+`std::stoi` 是C++11标准库中的一个函数，用于将字符串转换为整数。
+
+```cpp
+#include <string>
+
+char ch = '2';
+int num = std::stoi(&ch); // 将字符 '2' 转换为整数 2
+```
+
+#### 3. 类型转换
+
+对于单个字符，可以直接将其转换为 `int` 类型，因为字符的内部表示是基于其ASCII值的。
+
+```cpp
+char ch = '2';
+int num = ch - '0'; // 将字符 '2' 转换为整数 2
+```
+
+这种方法利用了字符的ASCII值。字符 '0' 到 '9' 在ASCII表中是连续的，并且它们与整数 0 到 9 的差值是相同的。因此，通过减去字符 '0' 的ASCII值，可以直接得到对应的整数值。
+
+#### 4. 使用 `<cctype>` 中的 `std::isdigit` 函数
+
+在转换之前，可以使用 `std::isdigit` 函数检查字符是否为数字。
+
+```cpp
+#include <cctype>
+
+char ch = '2';
+if (std::isdigit(ch)) {
+    int num = ch - '0';
+} else {
+    // 处理非数字字符的情况
+}
+```
+
+#### 注意事项
+
+- 当使用 `std::stoi` 或 `std::atoi` 时，它们期望参数是一个以数字开头的字符串。对于单个字符，可以直接传递字符的地址。
+- 直接类型转换的方法只适用于 '0' 到 '9' 之间的数字字符。
+- 如果字符不是数字字符，使用 `std::isdigit` 进行检查可以避免潜在的转换错误。
+
+在实际编程中，选择哪种方法取决于你的具体需求和使用的C++标准版本。对于C++11及以上版本，推荐使用 `std::stoi`，因为它提供了更强的类型检查和异常安全性。
 
