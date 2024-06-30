@@ -258,6 +258,8 @@ print(char_count)
 
 3. 对list类型数据的原始操作：
 
+   <center>关键词：list<center>
+
    <center>关键词：对list的操作<center>
 
    - 尾部插入数据`list.append(val)`
