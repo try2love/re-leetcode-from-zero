@@ -3074,6 +3074,7 @@ int main() {
 ### 获取子字符串substr()
 
 <center>关键词：子字符串<center>
+<center>关键词：substr<center>
 
 在C++中，`substr` 是 `std::string` 类的一个成员函数，用于从字符串中提取子字符串。这个方法返回一个 `std::string` 类型的副本，包含原始字符串中从指定位置开始的特定长度的字符序列。
 
