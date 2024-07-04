@@ -3333,3 +3333,143 @@ class MyClass:
 
 在Python中，类的变量声明和使用比C++更为灵活，但也需要程序员自觉遵守一些约定，以保持代码的清晰和可维护性。
 
+## 7.4
+
+### py对字符串的操作
+
+<center>关键词：字符串操作<center>
+
+<center>关键词：string操作<center>
+
+Python中的字符串操作非常丰富，因为字符串在Python中是不可变的（immutable），这意味着一旦创建就不能更改。但即便如此，Python提供了大量的方法来处理字符串。以下是一些常用的字符串操作：
+
+#### 1. 访问字符串中的字符
+
+可以通过索引访问字符串中的每个字符，索引从0开始。
+
+```python
+s = "Hello, World!"
+print(s[0])  # 输出: H
+```
+
+#### 2. 切片操作
+
+切片操作允许你获取字符串的一部分。
+
+```python
+print(s[1:5])  # 输出: ello
+print(s[-6:-1])  # 输出: World
+```
+
+#### 3. 字符串连接
+
+使用`+`操作符或`join()`方法连接字符串。
+
+```python
+name = "John"
+greeting = "Hello, " + name + "!"
+print(greeting)  # 输出: Hello, John!
+
+# 使用 join()
+items = ["apple", "banana", "cherry"]
+fruits = ", ".join(items)  # 输出: apple, banana, cherry
+```
+
+#### 4. 字符串长度
+
+使用`len()`函数获取字符串的长度。
+
+```python
+print(len(s))  # 输出: 13
+```
+
+#### 5. 大小写转换
+
+使用`upper()`和`lower()`方法转换字符串的大小写。
+
+```python
+print(s.upper())  # 输出: HELLO, WORLD!
+print(s.lower())  # 输出: hello, world!
+```
+
+#### 6. 字符串查找
+
+使用`find()`或`index()`方法查找子字符串的位置。
+
+```python
+pos = s.find("World")
+print(pos)  # 输出: 7
+
+# 如果子字符串不存在，index() 会抛出 ValueError
+# pos = s.index("Python")  # 抛出 ValueError
+```
+
+#### 7. 字符串替换
+
+使用`replace()`方法替换字符串中的某些字符或子字符串。
+
+```python
+modified = s.replace("World", "Python")
+print(modified)  # 输出: Hello, Python!
+```
+
+#### 8. 字符串分割
+
+使用`split()`方法按分隔符分割字符串。
+
+```python
+parts = s.split(", ")
+print(parts)  # 输出: ['Hello', 'World!']
+```
+
+#### 9. 字符串格式化
+
+使用`format()`方法或f-string（Python 3.6+）进行字符串格式化。
+
+```python
+name = "Alice"
+age = 30
+print("Name: {}, Age: {}".format(name, age))  # 输出: Name: Alice, Age: 30
+
+# 使用 f-string
+print(f"Name: {name}, Age: {age}")  # 输出: Name: Alice, Age: 30
+```
+
+#### 10. 字符串去除空白
+
+使用`strip()`, `rstrip()`, `lstrip()`去除字符串两端或一端的空白字符。
+
+```python
+s = "  Hello, World!  "
+print(s.strip())  # 输出: 'Hello, World!'
+print(s.lstrip())  # 输出: 'Hello, World!  '
+print(s.rstrip())  # 输出: '  Hello, World!'
+```
+
+#### 11. 字符串比较
+
+使用`==`和`!=`操作符比较字符串。
+
+```python
+print("Hello" == "hello")  # 输出: False
+print("Hello".lower() == "hello")  # 输出: True
+```
+
+#### 12. 字符串遍历
+
+使用循环遍历字符串中的每个字符。
+
+```python
+for char in s:
+    print(char)
+```
+
+#### 13. 字符串方法链
+
+可以像链式调用一样，连续调用字符串的方法。
+
+```python
+print(s.strip().upper()[:5])  # 输出: 'HELLO'
+```
+
+Python的字符串操作非常灵活，由于字符串的不可变性，很多操作会返回新的字符串而不是修改原始字符串。这保证了字符串操作的安全性和可预测性。
