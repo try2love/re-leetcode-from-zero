@@ -3473,3 +3473,154 @@ print(s.strip().upper()[:5])  # 输出: 'HELLO'
 ```
 
 Python的字符串操作非常灵活，由于字符串的不可变性，很多操作会返回新的字符串而不是修改原始字符串。这保证了字符串操作的安全性和可预测性。
+
+## 7.8
+
+### 对list型数据的操作
+
+<center>关键词：list<center>
+
+<center>关键词：对list的操作<center>
+
+Python中的`list`是一种非常灵活的数据结构，支持广泛的操作。以下是一些常用的列表操作：
+
+#### 创建列表
+
+```python
+empty_list = []
+number_list = [1, 2, 3]
+string_list = ["apple", "banana", "cherry"]
+```
+
+#### 访问列表元素
+
+```python
+first_element = number_list[0]  # 获取第一个元素
+last_element = number_list[-1]  # 获取最后一个元素
+```
+
+#### 修改列表元素
+
+```python
+number_list[1] = 10  # 将第二个元素修改为10
+```
+
+#### 列表切片
+
+```python
+sub_list = number_list[1:3]  # 获取从第二个到第三个元素的切片
+full_slice = number_list[:]  # 获取整个列表的副本
+```
+
+#### 添加元素
+
+```python
+number_list.append(4)  # 在列表末尾添加一个元素
+number_list.insert(1, 9)  # 在指定位置插入一个元素
+```
+
+#### 删除元素
+
+```python
+del number_list[0]  # 删除指定位置的元素
+popped_element = number_list.pop()  # 删除并返回列表的最后一个元素
+```
+
+#### 列表遍历
+
+```python
+for element in number_list:
+    print(element)
+```
+
+#### 列表长度
+
+```python
+length = len(number_list)
+```
+
+#### 列表排序
+
+```python
+number_list.sort()  # 原地排序
+sorted_list = sorted(number_list)  # 返回一个新的排序列表
+```
+
+#### 列表反转
+
+```python
+number_list.reverse()  # 原地反转
+reversed_list = number_list[::-1]  # 返回一个新的反转列表
+```
+
+#### 列表连接
+
+```python
+combined_list = number_list + [5, 6, 7]
+```
+
+#### 列表复制
+
+```python
+list_copy = number_list.copy()  # 返回列表的浅拷贝
+```
+
+#### 列表推导式
+
+```python
+squared_list = [x**2 for x in number_list]
+```
+
+#### 列表成员资格
+
+```python
+if 2 in number_list:
+    print("2 is in the list")
+```
+
+#### 列表统计
+
+```python
+count = number_list.count(2)  # 统计元素出现的次数
+```
+
+#### 列表去重
+
+```python
+unique_list = list(set(number_list))  # 使用集合去除重复元素
+```
+
+#### 列表合并与扩展
+
+```python
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+list1.extend(list2)  # 将list2的元素添加到list1的末尾
+```
+
+#### 列表元素位置
+
+```python
+position = number_list.index(2)  # 查找元素的索引位置
+```
+
+#### 列表清空
+
+```python
+number_list.clear()  # 清空列表中的所有元素
+```
+
+#### 列表乘法
+
+```python
+repeated_list = number_list * 3  # 将列表重复3次
+```
+
+#### 列表与字符串转换
+
+```python
+str_list = str(number_list)  # 将列表转换为字符串
+list_from_str = list("hello")  # 将字符串转换为字符列表
+```
+
+这些操作覆盖了列表的基本使用场景，包括创建、访问、修改、遍历、排序、筛选和转换等。Python的列表是动态类型的，可以容纳不同类型的元素，但通常最佳实践是让列表保持元素类型的一致性。
