@@ -3263,10 +3263,10 @@ int main() {
 <center>关键词：对字符串操作<center>
 
 <center>关键词：对string的操作<center>
-
+<center>关键词：字符串操作<center>
 
 <center>关键词：string<center>
-<center>关键词：字符串操作<center>
+
 
 在C++中，`std::string` 是标准库中的一个类模板，专门用于处理字符串。以下是一些常见的 `std::string` 操作：
 
