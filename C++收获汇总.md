@@ -6427,3 +6427,94 @@ if (std::isdigit(ch)) {
 
 在实际编程中，选择哪种方法取决于你的具体需求和使用的C++标准版本。对于C++11及以上版本，推荐使用 `std::stoi`，因为它提供了更强的类型检查和异常安全性。
 
+## 7.22
+
+### C++中的accumulate函数
+
+<center>关键词：accumulate<center>
+
+在C++中，`std::accumulate` 是一个函数模板，定义在 `<numeric>` 头文件中，用于计算给定范围内元素的总和。然而，`std::accumulate` 不止可以用来求和，它还可以通过指定不同的二元操作来完成其他类型的累加操作，如乘积、最大值、最小值等。
+
+#### 函数原型：
+
+```cpp
+template< class InputIt, class T >
+T accumulate( InputIt first, InputIt last, T init );
+```
+
+- `InputIt`：输入迭代器类型，可以是任意输入迭代器类型。
+- `T`：累加结果的类型，它将作为初始值和累加操作的结果类型。
+
+#### 参数说明：
+
+1. `first`：指向输入范围的开始的迭代器。
+2. `last`：指向输入范围的结束的迭代器（不包括）。
+3. `init`：初始累加值，累加操作将从这个值开始。
+
+#### 返回值：
+
+- 返回计算得到的累加结果。
+
+#### 使用示例：
+
+##### 求和：
+
+```cpp
+#include <iostream>
+#include <numeric>
+#include <vector>
+
+int main() {
+    std::vector<int> nums = {1, 2, 3, 4, 5};
+    int sum = std::accumulate(nums.begin(), nums.end(), 0);
+    std::cout << "Sum: " << sum << std::endl; // 输出: Sum: 15
+    return 0;
+}
+```
+
+##### 求乘积：
+
+```cpp
+#include <iostream>
+#include <numeric>
+
+int main() {
+    int product = std::accumulate(nums.begin(), nums.end(), 1, std::multiplies<int>());
+    std::cout << "Product: " << product << std::endl; // 输出: Product: 120
+    return 0;
+}
+```
+
+在这个例子中，我们使用 `std::multiplies<int>()` 作为二元操作，它将序列中的元素相乘。
+
+##### 求最大值：
+
+```cpp
+#include <iostream>
+#include <numeric>
+
+int main() {
+    int max_value = std::accumulate(nums.begin(), nums.end(), std::numeric_limits<int>::min(), std::greater<int>());
+    std::cout << "Max Value: " << max_value << std::endl;
+    return 0;
+}
+```
+
+在这个例子中，我们使用 `std::greater<int>()` 作为二元操作，它会找到序列中的最大值。注意，初始值设置为 `std::numeric_limits<int>::min()`，这是 `int` 类型可能的最小值。
+
+##### 求最小值：
+
+```cpp
+#include <iostream>
+#include <numeric>
+
+int main() {
+    int min_value = std::accumulate(nums.begin(), nums.end(), std::numeric_limits<int>::max(), std::less<int>());
+    std::cout << "Min Value: " << min_value << std::endl;
+    return 0;
+}
+```
+
+在这个例子中，我们使用 `std::less<int>()` 作为二元操作，它会找到序列中的最小值。初始值设置为 `std::numeric_limits<int>::max()`，这是 `int` 类型可能的最大值。
+
+`std::accumulate` 是一个非常灵活的函数，可以用于各种类型的累加操作，不仅限于数值类型。通过指定不同的初始值和二元操作，它可以完成求和、求乘积、找最大值、找最小值等多种计算。
