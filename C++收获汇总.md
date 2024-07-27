@@ -6518,3 +6518,205 @@ int main() {
 在这个例子中，我们使用 `std::less<int>()` 作为二元操作，它会找到序列中的最小值。初始值设置为 `std::numeric_limits<int>::max()`，这是 `int` 类型可能的最大值。
 
 `std::accumulate` 是一个非常灵活的函数，可以用于各种类型的累加操作，不仅限于数值类型。通过指定不同的初始值和二元操作，它可以完成求和、求乘积、找最大值、找最小值等多种计算。
+
+## 7.27
+
+### `all_of` 函数
+
+<center>关键词：all_of函数<center>
+
+在C++中，`std::all_of` 是一个算法函数，用于检查给定范围内的所有元素是否都满足某个条件。它是C++17标准引入的，因此需要使用C++17或更新的编译器版本。
+
+#### 函数原型：
+
+```cpp
+template< class InputIt, class Pred >
+bool all_of( InputIt first, InputIt last, Pred pred );
+```
+
+- `InputIt`：输入迭代器类型，可以是任意输入迭代器类型。
+- `Pred`：谓词类型，可以是函数、lambda表达式或任何可调用对象。
+
+#### 参数说明：
+
+1. `first`：指向输入范围的开始的迭代器。
+2. `last`：指向输入范围的结束的迭代器（不包括）。
+3. `pred`：一个谓词，用于检查每个元素是否满足条件。
+
+#### 返回值：
+
+- 如果范围内的所有元素都满足 `pred` 谓词的条件，则返回 `true`。
+- 如果至少有一个元素不满足 `pred` 谓词的条件，则返回 `false`。
+
+#### 使用示例：
+
+##### 示例1：检查所有元素是否为正数
+
+```cpp
+#include <algorithm> // std::all_of
+#include <vector>
+
+bool areAllPositive(const std::vector<int>& nums) {
+    return std::all_of(nums.begin(), nums.end(), [](int x) { return x > 0; });
+}
+```
+
+在这个例子中，我们使用 `std::all_of` 来检查 `nums` 中的所有元素是否都大于0。
+
+##### 示例2：检查字符串范围内的所有字符是否为小写字母
+
+```cpp
+#include <algorithm> // std::all_of
+#include <string>
+#include <cctype> // std::islower
+
+bool areAllLowercase(const std::string& str) {
+    return std::all_of(str.begin(), str.end(), [](char c) { return std::islower(c); });
+}
+```
+
+在这个例子中，我们使用 `std::all_of` 和 `std::islower` 来检查 `str` 中的所有字符是否都是小写字母。
+
+##### 示例3：使用函数作为谓词
+
+```cpp
+#include <algorithm> // std::all_of
+#include <vector>
+
+bool isEven(int x) {
+    return x % 2 == 0;
+}
+
+bool areAllEven(const std::vector<int>& nums) {
+    return std::all_of(nums.begin(), nums.end(), isEven);
+}
+```
+
+在这个例子中，我们定义了一个名为 `isEven` 的函数，用作 `std::all_of` 的谓词，来检查 `nums` 中的所有元素是否都是偶数。
+
+#### 注意事项：
+
+- `std::all_of` 是一个短路算法，如果在检查过程中发现有元素不满足条件，它将立即返回 `false` 并停止进一步的检查。
+- `std::all_of` 可以应用于任意类型的输入迭代器，包括数组、向量、列表、双端队列等。
+- 谓词 `pred` 可以是任何形式的可调用对象，包括函数、lambda表达式、函数对象等。
+
+`std::all_of` 是一个非常有用的函数，用于快速检查一个序列中的所有元素是否满足某个条件，它在需要确保数据集的一致性时非常有用。
+
+### C++中的lambda函数
+
+<center>关键词：lambda函数<center>
+
+在C++中，Lambda函数（也称为匿名函数）是一种简洁的定义函数的方式，它允许你在需要时快速编写小段代码。Lambda函数在C++11标准中被引入，并在后续标准中得到增强。
+
+#### Lambda函数的基本语法：
+
+```cpp
+[capture] (parameters) -> return_type { function_body }
+```
+
+- `[capture]`：捕获子句，用于定义Lambda函数可以访问的外部变量。可选。
+- `(parameters)`：参数列表，定义Lambda函数的输入参数。如果无参数，可以使用`()`或省略。
+- `-> return_type`：返回类型推断或指定。C++14开始，可以省略返回类型，编译器将自动推断。
+- `{ function_body }`：Lambda函数的代码体。
+
+#### Lambda函数的捕获子句：
+
+- **默认捕获**：`[=]` 表示按值捕获所有外部变量。
+- **引用捕获**：`[&]` 表示按引用捕获所有外部变量。
+- **单个变量捕获**：例如 `[a, &b]`，表示按值捕获变量`a`，按引用捕获变量`b`。
+- **无捕获**：`[]` 表示Lambda不捕获任何外部变量。
+
+#### 使用Lambda函数的示例：
+
+##### 示例1：简单的Lambda表达式
+
+```cpp
+#include <algorithm>
+#include <vector>
+
+void sortVector(std::vector<int>& v) {
+    std::sort(v.begin(), v.end(), [](int a, int b) { return a < b; });
+}
+```
+
+在这个例子中，Lambda函数用作`std::sort`的谓词参数，用于比较两个整数。
+
+##### 示例2：带有捕获子句的Lambda表达式
+
+```cpp
+int value = 10;
+auto lambda = [value] { return value * 2; };
+```
+
+在这个例子中，Lambda函数捕获了外部变量`value`，并返回它的两倍。
+
+##### 示例3：使用Lambda表达式进行累加操作
+
+```cpp
+#include <numeric>
+#include <vector>
+
+int sum = std::accumulate(vec.begin(), vec.end(), 0, [](int a, int b) { return a + b; });
+```
+
+在这个例子中，Lambda函数用作`std::accumulate`的自定义累加操作。
+
+##### 示例4：使用Lambda表达式作为回调函数
+
+```cpp
+#include <functional>
+
+void forEachEven(std::vector<int>& v, std::function<void(int)> callback) {
+    for (int num : v) {
+        if (num % 2 == 0) callback(num);
+    }
+}
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    forEachEven(vec, [](int x) { std::cout << x << " "; });
+}
+```
+
+在这个例子中，Lambda函数用作`forEachEven`函数的回调函数，用于处理偶数。
+
+#### 关键词
+
+C++中的Lambda函数是一种便捷的匿名函数声明方式，它们在标准库中通过一组特定的语法和关键词实现。以下是C++ Lambda函数中使用的一些关键词和概念：
+
+1. **`[capture]`**：捕获子句，用于指定Lambda函数内部可以访问的外部变量。可以按值（`=`）或按引用（`&`）捕获，也可以不捕获（`[]`）。
+
+2. **`(parameters)`**：参数列表，定义Lambda函数接受的输入参数。如果Lambda没有参数，可以省略括号。
+
+3. **`-> return_type`**：返回类型指定符。在C++14之前，必须指定返回类型。C++14开始，如果Lambda体中只有一条返回语句，编译器可以自动推断返回类型。
+
+4. **`mutable`**：当在捕获子句中使用`mutable`关键字时，允许Lambda函数修改按值捕获的变量。
+
+5. **`constexpr`**：如果Lambda函数是一个常量表达式，可以使用`constexpr`关键字。这意味着Lambda函数可以在编译时求值。
+
+6. **`noexcept`**：指定Lambda函数是否不应该抛出异常。如果Lambda体中没有抛出异常的操作，可以使用`noexcept`。
+
+7. **`operator()`**：Lambda函数的调用操作符，用于调用Lambda函数。
+
+8. **`auto`**：类型自动推导关键字，用于声明Lambda函数的返回类型或参数类型。
+
+9. **`[]`**：用于定义Lambda函数的捕获子句，表示不捕获任何外部变量。
+
+10. **`[=]`**：按值捕获所有外部变量，所有捕获的变量都将被复制。
+
+11. **`[&]`**：按引用捕获所有外部变量，Lambda函数将直接访问原始变量。
+
+12. **`[=, &var]`**：混合捕获，按值捕获所有变量，除了`var`，它将按引用捕获。
+
+13. **`[captures...]`**：自定义捕获列表，可以捕获特定的变量，可以是按值或按引用。
+
+Lambda函数的语法结构非常灵活，可以根据需要捕获外部变量，并且可以用于多种编程场景，如算法的自定义操作、回调函数、事件处理等。
+
+#### 注意事项：
+
+- Lambda函数可以包含零个或多个参数，并可以有零个或一个返回类型。
+- Lambda函数可以包含语句、变量声明和异常处理。
+- Lambda函数可以捕获外部作用域的变量，但它们不能捕获由值传递的参数。
+- Lambda函数可以用于任何需要函数对象的地方，例如算法、回调、事件处理等。
+
+Lambda函数是C++中一个强大的特性，它提供了一种灵活、简洁的方式来编写和使用匿名函数。
