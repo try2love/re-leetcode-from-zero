@@ -1148,6 +1148,10 @@ default_city = my_dict.setdefault('city', 'Unknown')
 
 ### py逐位获取整数的每一位（数位分离）
 
+<center>关键词：数位分离<center>
+
+<center>关键词：int数字分割<center>
+
 在Python中，逐位获取一个整数的每一位数字可以通过几种不同的方法实现。以下是一些常用的方法：
 
 #### 方法1：使用循环和模10运算
@@ -3624,3 +3628,77 @@ list_from_str = list("hello")  # 将字符串转换为字符列表
 ```
 
 这些操作覆盖了列表的基本使用场景，包括创建、访问、修改、遍历、排序、筛选和转换等。Python的列表是动态类型的，可以容纳不同类型的元素，但通常最佳实践是让列表保持元素类型的一致性。
+
+## 8.2
+
+### py实现list中数字的拼接
+
+<center>关键词：list拼接<center>
+
+<center>关键词：int数字拼接<center>
+
+在Python中，将列表中的数字合并为一个数可以通过多种方法实现。以下是一些常见的方法：
+
+#### 方法1: 使用字符串拼接
+
+```python
+s = [1, 2, 3, 4, 5]
+number = ''.join(map(str, s))
+number = int(number)  # 将合并后的字符串转换为整数
+print(number)  # 输出: 12345
+```
+
+#### 方法2: 使用`reduce()`函数
+
+```python
+from functools import reduce
+
+s = [1, 2, 3, 4, 5]
+number = reduce(lambda x, y: str(x) + str(y), s)
+number = int(number)  # 将合并后的字符串转换为整数
+print(number)  # 输出: 12345
+```
+
+#### 方法3: 使用列表推导式和`join()`
+
+```python
+s = [1, 2, 3, 4, 5]
+number = int(''.join([str(num) for num in s]))
+print(number)  # 输出: 12345
+```
+
+#### 方法4: 使用循环
+
+```python
+s = [1, 2, 3, 4, 5]
+number = 0
+for num in s:
+    number = number * 10 + num
+print(number)  # 输出: 12345
+```
+
+#### 方法5: 使用`sum()`和列表推导式
+
+这个方法适用于数字列表，其中每个数字的位数相同。
+
+```python
+s = [1, 2, 3, 4, 5]
+number = sum([num * 10**i for i, num in enumerate(s[::-1])])
+print(number)  # 输出: 12345
+```
+
+在这个例子中，我们通过计算每个数字向左移动的位数（`10**i`）来实现合并。
+
+#### 方法6: 使用`itertools.chain()`和`int()`转换
+
+如果你想要处理的数字列表很长，这种方法可以避免字符串操作的性能问题。
+
+```python
+import itertools
+
+s = [1, 2, 3, 4, 5]
+number = int(''.join(map(str, itertools.chain(*s))))
+print(number)  # 输出: 12345
+```
+
+选择哪种方法取决于你的具体需求，例如列表的长度、数字的大小以及是否需要考虑性能。对于较短的列表，使用字符串拼接或列表推导式通常是简单且直观的方法。对于更长的列表或性能敏感的应用，使用循环或`sum()`方法可能更合适。
