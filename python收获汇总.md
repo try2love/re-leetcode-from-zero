@@ -3702,3 +3702,149 @@ print(number)  # 输出: 12345
 ```
 
 选择哪种方法取决于你的具体需求，例如列表的长度、数字的大小以及是否需要考虑性能。对于较短的列表，使用字符串拼接或列表推导式通常是简单且直观的方法。对于更长的列表或性能敏感的应用，使用循环或`sum()`方法可能更合适。
+
+## 8.8
+
+### py 中的排列组合函数
+
+<center> 关键词：排列组合 <center>
+
+
+<center> 关键词：comb 函数 <center>
+
+
+<center> 关键词：perm 函数 <center>
+
+
+<center> 关键词：factorial 函数 <center>
+
+
+在 Python 中，`comb`、`perm` 和 `factorial` 是与组合数学相关的函数，它们分别用于计算组合数、排列数和阶乘。以下是对这些函数的详细介绍：
+
+#### 1. `math.factorial` 函数（阶乘）
+
+`math.factorial` 函数用于计算一个非负整数的阶乘。阶乘表示从 1 到该整数的连乘积。
+
+- **函数原型**：`factorial(x)`
+- **参数**：`x` - 一个非负整数。
+- **返回值**：返回 `x` 的阶乘。
+
+```python
+import math
+
+result = math.factorial(5)  # 计算5的阶乘，结果为120
+```
+
+#### 2. `math.comb` 函数（组合数）
+
+在 Python 中，`comb` 函数是 `math` 模块中的一个函数，用于计算组合数，即从 n 个不同元素中取出 k 个元素的组合方式数目（不考虑元素的顺序）。这个函数的全称是 "combinations"，它基于数学中的组合公式：
+
+$ \text{comb}(n, k) = \frac{n!}{k!(n-k)!} $
+
+其中，\( n! \)（n 的阶乘）表示从 1 乘到 n，\( k! \) 表示从 1 乘到 k，\( (n-k)! \) 表示从 1 乘到 \( n-k \)。
+
+##### 函数原型：
+
+```python
+math.comb(n, k)
+```
+
+- `n`：非负整数，表示总数。
+- `k`：不超过 n 的整数，表示选择的数量。
+
+##### 返回值：
+
+- 返回一个整数，表示从 n 个元素中选择 k 个元素的组合数。
+
+##### 使用示例：
+
+```python
+import math
+
+# 计算从5个元素中选择2个元素的组合数
+combinations = math.comb(5, 2)
+print(combinations)  # 输出: 10
+```
+
+在这个例子中，`math.comb(5, 2)` 计算的是 $ \frac{5!}{2!(5-2)!} = \frac{5 \times 4}{2 \times 1} = 10 $。
+
+##### 注意事项：
+
+- 如果 `k` 大于 `n`，将抛出 `ValueError` 异常，因为组合数在这种情况下没有意义。
+- 如果 `k` 是负数或不是整数，同样会抛出 `ValueError` 异常。
+- `math.comb` 函数从 Python 3.8 开始引入，如果你使用的是早期版本的 Python，需要使用其他方法来计算组合数。
+
+##### 替代方法：
+
+在 Python 3.8 之前的版本中，你可以使用 `math.factorial` 函数来手动计算组合数：
+
+```python
+import math
+
+def comb(n, k):
+    if k < 0 or k > n:
+        raise ValueError("k must be between 0 and n")
+    return math.factorial(n) // (math.factorial(k) * math.factorial(n - k))
+
+# 使用自定义的 comb 函数
+combinations = comb(5, 2)
+print(combinations)  # 输出: 10
+```
+
+在这个自定义函数中，我们首先检查 `k` 是否在有效范围内，然后使用阶乘公式计算组合数，并使用整除 `//` 来得到整数结果。
+
+`math.comb` 函数是 Python 中处理组合数的直接和高效的方法，尤其适用于需要频繁进行组合数计算的场景。
+
+`math.comb` 函数用于计算从 n 个不同元素中取出 k 个元素的组合数，不考虑元素的顺序。
+
+#### 3. `math.perm` 函数（排列数）
+
+在 Python 中，如果你想要计算排列数，应该使用 `math` 模块中的 `factorial` 函数。排列数是指从 n 个不同元素中取出 k 个元素的所有可能排列的数量，考虑了元素的顺序。排列数的计算公式是：
+
+$ P(n, k) = \frac{n!}{(n-k)!} $
+
+其中，\( n! \)（n 的阶乘）表示从 1 乘到 n，\( (n-k)! \) 表示从 1 乘到 \( n-k \)。
+
+##### 使用 `math.factorial` 计算排列数：
+
+```python
+import math
+
+def perm(n, k):
+    if k > n:
+        return 0  # 如果k大于n，排列数为0
+    return math.factorial(n) // math.factorial(n - k)
+
+# 计算从5个元素中选择2个元素的排列数
+permutation_count = perm(5, 2)
+print(permutation_count)  # 输出: 20
+```
+
+在这个例子中，`perm(5, 2)` 计算的是 $\frac{5!}{(5-2)!} = \frac{5 \times 4}{1} = 20 $。
+
+##### 注意事项：
+
+- 如果 `k` 大于 `n`，排列数为 0，因为没有足够的元素进行选择。
+- 如果 `k` 是负数或不是整数，将抛出 `ValueError` 异常。
+- `math.factorial` 函数返回一个整数，表示给定非负整数的阶乘。
+
+##### 替代方法：
+
+在 Python 3.8 之前，如果你需要计算排列数，可以使用 `math.factorial` 函数，如上所示。从 Python 3.8 开始，`math` 模块提供了 `math.perm` 函数，它直接计算排列数：
+
+```python
+import math
+
+# 从Python 3.8开始，直接使用 math.perm 函数
+permutation_count = math.perm(5, 2)
+print(permutation_count)  # 输出: 20
+```
+
+#### 注意事项：
+
+- `math.factorial` 函数从 Python 3.8 开始提供。在早期版本的 Python 中，可以使用 `math.factorial` 函数计算阶乘。
+- `math.comb` 和 `math.perm` 函数从 Python 3.8 开始提供。在早期版本的 Python 中，可以通过组合 `math.factorial` 和其他数学运算来手动计算组合数和排列数。
+- 如果 `k` 大于 `n`，`math.comb` 函数将返回 0，因为无法从较少的元素中选择更多的元素。
+- 如果 `k` 是负数或不是整数，`math.comb` 和 `math.perm` 函数将抛出 `ValueError` 异常。
+
+这些函数在处理组合和排列问题时非常有用，例如在概率论、统计学和算法设计等领域。通过使用这些内置函数，可以简化代码并提高计算效率。
