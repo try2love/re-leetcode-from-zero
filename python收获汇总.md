@@ -3848,3 +3848,58 @@ print(permutation_count)  # 输出: 20
 - 如果 `k` 是负数或不是整数，`math.comb` 和 `math.perm` 函数将抛出 `ValueError` 异常。
 
 这些函数在处理组合和排列问题时非常有用，例如在概率论、统计学和算法设计等领域。通过使用这些内置函数，可以简化代码并提高计算效率。
+
+## 8.24
+
+### 装饰器@cache
+
+<center>关键词：@cache<center>
+
+<center>关键词：装饰器<center>
+
+在Python中，`@cache` 是一个装饰器，它是 `functools.lru_cache` 装饰器的别名。`lru_cache` 代表 "Least Recently Used"（最近最少使用），它是一种缓存机制，用于存储函数的调用结果，以便在后续调用时能够快速返回结果，从而避免重复计算。这对于性能优化尤其有用，特别是对于计算成本高昂的函数。
+
+#### 如何使用 `@cache`：
+
+1. **导入装饰器**：首先，你需要从 `functools` 模块导入 `lru_cache`。
+
+   ```python
+   from functools import lru_cache
+   ```
+
+2. **应用装饰器**：将 `@cache` 装饰器应用于你想要缓存结果的函数。
+
+   ```python
+   @lru_cache(maxsize=None)  # maxsize=None 表示缓存大小没有限制
+   def your_function(args):
+       # 函数体
+       return result
+   ```
+
+3. **函数调用**：当你调用这个函数时，如果之前已经计算过相同的参数组合，它将返回缓存的结果，而不是重新执行函数体。
+
+#### 示例：
+
+```python
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fib(n):
+    if n < 2:
+        return n
+    return fib(n - 1) + fib(n - 2)
+
+# 调用 fib 函数
+print(fib(10))  # 输出: 55
+```
+
+在这个例子中，`fib` 函数计算斐波那契数列的第 `n` 项。使用 `@lru_cache` 装饰器可以缓存每一项的计算结果，从而提高计算效率。
+
+#### 注意事项：
+
+- `maxsize` 参数：你可以设置 `maxsize` 为一个正整数，以限制缓存的大小。如果设置为 `None`（默认值），缓存可以无限大，直到内存耗尽。
+- 线程安全：`lru_cache` 默认不是线程安全的。如果你需要在多线程环境中使用它，可以设置 `lru_cache` 的 `typed` 参数为 `True`，以使缓存键考虑参数的类型。
+- 缓存失效：`lru_cache` 仅缓存调用的结果，不跟踪参数对象的内部变化。如果参数是可变对象，它们的内部状态变化不会影响缓存。
+
+`@cache`（即 `lru_cache`）是一个非常有用的工具，可以显著提高具有重复计算的函数的性能，尤其是在处理递归或动态规划问题时。
+
