@@ -3903,3 +3903,81 @@ print(fib(10))  # 输出: 55
 
 `@cache`（即 `lru_cache`）是一个非常有用的工具，可以显著提高具有重复计算的函数的性能，尤其是在处理递归或动态规划问题时。
 
+## 9.6
+
+### 二分查找
+
+<center>关键词：二分查找<center>
+
+在Python中，并没有内置的二分查找函数，但是你可以轻松地使用`bisect`模块来实现二分查找的功能。`bisect`模块提供了一个用于维护有序列表的函数，同时提供了二分查找的功能。
+
+以下是如何使用`bisect`模块进行二分查找的示例：
+
+#### 1. 使用 `bisect_left` 进行二分查找
+
+`bisect_left` 函数会返回列表中第一个不小于目标值的元素的索引。
+
+```python
+import bisect
+
+def binary_search(arr, target):
+    # 找到第一个不小于目标值的元素的索引
+    index = bisect.bisect_left(arr, target)
+    if index != len(arr) and arr[index] == target:
+        return index
+    return -1
+
+# 示例
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+target = 5
+result = binary_search(arr, target)
+print("Index of", target, "is", result)
+```
+
+#### 2. 使用 `bisect_right` 进行二分查找
+
+`bisect_right` 函数会返回列表中第一个大于目标值的元素的索引。
+
+```python
+import bisect
+
+def binary_search(arr, target):
+    # 找到第一个大于目标值的元素的索引
+    index = bisect.bisect_right(arr, target)
+    if index != len(arr) and arr[index - 1] == target:
+        return index - 1
+    return -1
+
+# 示例
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+target = 5
+result = binary_search(arr, target)
+print("Index of", target, "is", result)
+```
+
+#### 3. 使用 `bisect` 进行二分插入
+
+如果你需要找到元素应该插入的位置以保持列表的有序性，可以使用 `bisect` 函数。
+
+```python
+import bisect
+
+def binary_insert(arr, target):
+    index = bisect.bisect(arr, target)
+    arr.insert(index, target)
+    return arr
+
+# 示例
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+target = 5
+result = binary_insert(arr, target)
+print("Array after insertion:", result)
+```
+
+#### 注意事项
+
+1. **列表必须是有序的**：`bisect` 模块的函数都要求列表是有序的。
+2. **返回值**：`bisect_left` 和 `bisect_right` 返回的是索引，而不是元素值。如果未找到目标值，`bisect_left` 返回数组长度，`bisect_right` 返回数组长度或最后一个元素的索引。
+3. **时间复杂度**：`bisect` 模块的函数时间复杂度为 O(log n)。
+
+`bisect` 模块是Python中处理有序列表的强大工具，它不仅可以用于二分查找，还可以用于维护有序列表的插入和删除操作。
