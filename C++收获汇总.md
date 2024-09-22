@@ -7037,3 +7037,82 @@ int main() {
 3. 如果需要自定义比较逻辑，可以提供第三个参数作为比较函数或 Lambda 表达式。
 
 `std::ranges::lower_bound` 是 C++20 中处理范围和容器的强大工具之一，它提供了一种简洁和高效的方式来执行二分查找。
+
+## 9.22
+
+### C++中的contains函数
+
+<center>关键词：contians<center>
+
+在C++中，`contains` 是一个标准库函数，它属于 `<iterator>` 头文件中的 `std` 命名空间。`contains` 函数用于检查一个范围内是否存在某个特定的值。这个函数是C++20标准引入的，因此它在C++20之前的版本中不可用。
+
+和py中的` x in list `效果一致
+
+#### 函数原型
+
+```cpp
+template <class ForwardIterator, class T>
+bool contains(ForwardIterator first, ForwardIterator last, const T& value);
+```
+
+#### 参数
+
+- `first, last`: 这是一对迭代器，定义了要搜索的范围。`first` 指向范围的开始，而 `last` 指向范围的结束（不包含在内）。
+- `value`: 这是要搜索的值。
+
+#### 返回值
+
+- 如果在由 `first` 和 `last` 定义的范围内找到了 `value`，则返回 `true`。
+- 否则返回 `false`。
+
+#### 使用示例
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+
+    // 检查是否存在值3
+    bool hasThree = std::contains(vec.begin(), vec.end(), 3);
+    std::cout << "Contains 3: " << hasThree << std::endl;
+
+    // 检查是否存在值6
+    bool hasSix = std::contains(vec.begin(), vec.end(), 6);
+    std::cout << "Contains 6: " << hasSix << std::endl;
+
+    return 0;
+}
+```
+
+也可以直接对容器（可以是数组、vector、哈希表等）进行.contains方法来查找是否有x元素。
+
+下例子对idx哈希表进行查找，查找的是键是否在哈希表中。
+
+```cpp
+unordered_map<int, int> idx;
+for (int i = 0; i < nums1.size(); i++) {
+    idx[nums1[i]] = i;
+}
+
+if (idx.contains(x)) { // x 在 nums1 中
+    st.push(x); // 只需把在 nums1 中的元素入栈
+}
+```
+
+#### 输出
+
+```
+Contains 3: 1
+Contains 6: 0
+```
+
+#### 注意事项
+
+1. **性能**：`contains` 函数的时间复杂度通常是 O(n)，因为它需要遍历整个范围来检查值是否存在。
+2. **C++20**：这个函数是C++20中引入的，如果你使用的是C++20之前的编译器，你需要使用其他方法来实现相同的功能，例如使用 `std::find` 来检查值是否存在。
+3. **迭代器类型**：`contains` 需要前向迭代器（ForwardIterator），这意味着它适用于大多数容器，如 `std::vector`、`std::list`、`std::deque` 等，但不适用于像 `std::array` 这样的数组类型，因为它们不提供迭代器。
+
+这个函数提供了一种简洁的方式来检查容器中是否存在某个元素，使得代码更加直观和易于理解。

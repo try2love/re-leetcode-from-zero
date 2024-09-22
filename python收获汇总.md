@@ -3981,3 +3981,61 @@ print("Array after insertion:", result)
 3. **时间复杂度**：`bisect` 模块的函数时间复杂度为 O(log n)。
 
 `bisect` 模块是Python中处理有序列表的强大工具，它不仅可以用于二分查找，还可以用于维护有序列表的插入和删除操作。
+
+## 9.22
+
+### py实现把列表元素和索引映射到哈希表
+
+<center>关键词：列表的哈希映射<center>
+
+<center>关键词：list的哈希映射<center>
+
+```python
+idx = {x: i for i, x in enumerate(nums1)}
+```
+
+
+
+在Python中，可以使用字典（`dict`）来实现一个哈希表，将列表中的元素及其索引映射到哈希表中。下面是一个简单的示例代码，它将列表中的每个元素及其对应的索引存储到一个字典中：
+
+```python
+def map_elements_to_hashtable(lst):
+    hashtable = {}
+    for index, element in enumerate(lst):
+        hashtable[element] = index
+    return hashtable
+
+# 示例列表
+my_list = ['apple', 'banana', 'cherry', 'date']
+
+# 调用函数并打印结果
+hashtable = map_elements_to_hashtable(my_list)
+print(hashtable)
+```
+
+在这个例子中，`map_elements_to_hashtable` 函数接受一个列表 `lst` 作为参数，然后使用 `enumerate` 函数遍历列表，`enumerate` 会同时返回元素的索引和值。然后，将元素作为键，索引作为值，存储到字典 `hashtable` 中。
+
+请注意，如果列表中有重复的元素，字典中只会保留最后一个元素的索引，因为字典的键是唯一的。
+
+如果你需要保留所有元素及其索引，可以使用列表作为字典的值：
+
+```python
+def map_elements_to_hashtable_with_duplicates(lst):
+    hashtable = {}
+    for index, element in enumerate(lst):
+        if element in hashtable:
+            hashtable[element].append(index)
+        else:
+            hashtable[element] = [index]
+    return hashtable
+
+# 示例列表
+my_list = ['apple', 'banana', 'cherry', 'apple']
+
+# 调用函数并打印结果
+hashtable = map_elements_to_hashtable_with_duplicates(my_list)
+print(hashtable)
+```
+
+在这个修改后的版本中，如果遇到重复的元素，我们会将索引追加到该元素对应的列表中，这样就可以保留所有元素及其索引了。
+
