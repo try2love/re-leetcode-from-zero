@@ -4039,3 +4039,212 @@ print(hashtable)
 
 在这个修改后的版本中，如果遇到重复的元素，我们会将索引追加到该元素对应的列表中，这样就可以保留所有元素及其索引了。
 
+## 9.30
+
+从py中获取int输入（中间用空格隔开）的做法：
+
+`n, m = map(int, input().split())`
+
+py打印的时候如果使用format，则默认是换行输出的。如果想要打印一个路径中的所有数字并以空格隔开，使用`print(' '.join(map(str, pa)))`
+
+### python中的map函数
+
+在Python中，`map()` 函数是一个非常有用的高阶函数，它允许你对可迭代对象（如列表、元组等）的每个元素应用一个给定的函数，并返回一个新的迭代器。
+
+#### 函数原型
+
+```python
+map(func, *iterables)
+```
+
+#### 参数
+
+- `func`: 一个函数，它会被应用到每个元素上。
+- `*iterables`: 一个或多个可迭代对象，函数 `func` 将依次应用于这些可迭代对象的元素。
+
+#### 返回值
+
+- `map()` 返回一个 `map` 对象，这是一个迭代器，可以被转换为列表或其他数据结构。
+
+#### 使用示例
+
+```python
+def square(x):
+    return x * x
+
+numbers = [1, 2, 3, 4, 5]
+
+# 使用 map 函数
+squared_numbers = map(square, numbers)
+
+# 将结果转换为列表
+print(list(squared_numbers))
+```
+
+#### 输出
+
+```
+[1, 4, 9, 16, 25]
+```
+
+#### 多个可迭代对象
+
+`map()` 也可以接受多个可迭代对象，并将函数应用于每个可迭代对象的对应元素。
+
+```python
+def add(a, b):
+    return a + b
+
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+
+# 使用 map 函数
+result = map(add, list1, list2)
+
+# 将结果转换为列表
+print(list(result))
+```
+
+#### 输出
+
+```
+[5, 7, 9]
+```
+
+#### 注意事项
+
+1. **Lambda 表达式**：你可以使用 `lambda` 表达式作为 `map()` 的第一个参数，这样可以在一行代码内定义和应用函数。
+
+   ```python
+   numbers = [1, 2, 3, 4, 5]
+   squared_numbers = map(lambda x: x * x, numbers)
+   print(list(squared_numbers))
+   ```
+
+2. **惰性求值**：`map()` 返回的是一个迭代器，这意味着它不会立即计算所有结果，而是在迭代时才计算。这可以提高效率，特别是处理大数据集时。
+
+3. **空可迭代对象**：如果任何一个可迭代对象是空的，那么 `map()` 返回的结果也将是空的。
+
+4. **类型限制**：`map()` 只能用于可迭代对象，不能用于非可迭代对象。
+
+5. **性能**：对于简单的操作，使用 `map()` 通常比使用列表推导式更快。
+
+6. **错误处理**：如果 `func` 函数抛出异常，`map()` 会停止执行并抛出异常。
+
+7. **Python 3**：在Python 3中，`map()` 不再返回列表，而是返回一个迭代器。如果你需要一个列表，可以使用 `list()` 函数来转换。
+
+8. **与 `filter()` 结合**：`map()` 经常与 `filter()` 函数结合使用，以过滤和转换数据。
+
+`map()` 函数是Python中实现函数式编程风格的强大工具之一，它可以使代码更加简洁和高效。
+
+### python中的defaultdict
+
+<center>关键词：defaultdict<center>
+
+<center>关键词：图的邻接表存储<center>
+
+在Python中，`defaultdict` 是 `collections` 模块中的一个非常有用的类，它继承自内置的 `dict` 类。`defaultdict` 解决了普通字典在访问不存在的键时会抛出 `KeyError` 的问题。它允许你为字典提供一个默认值，当访问一个不存在的键时，会返回这个默认值。
+
+#### 如何导入
+
+首先，你需要从 `collections` 模块导入 `defaultdict`：
+
+```python
+from collections import defaultdict
+```
+
+#### 基本用法
+
+当你创建一个 `defaultdict` 对象时，你需要提供一个函数，这个函数会在访问不存在的键时被调用，以生成默认值：
+
+```python
+# 创建一个默认值为int的defaultdict
+dd = defaultdict(int)
+```
+
+在上面的例子中，如果尝试访问一个不存在的键，`defaultdict` 将使用 `int()` 函数（返回0）作为默认值。
+
+#### 示例代码
+
+```python
+from collections import defaultdict
+
+# 创建一个默认值为int的defaultdict
+dd = defaultdict(int)
+
+# 访问不存在的键，不会抛出KeyError，而是返回默认值0
+print(dd['apple'])  # 输出: 0
+
+# 更新键的值
+dd['apple'] += 1
+print(dd['apple'])  # 输出: 1
+
+# 另一个不存在的键
+print(dd['banana'])  # 输出: 0
+
+# 创建一个默认值为list的defaultdict
+dd_list = defaultdict(list)
+
+# 访问不存在的键，返回一个空列表
+print(dd_list['orange'])  # 输出: []
+
+# 添加元素到列表
+dd_list['orange'].append(1)
+print(dd_list['orange'])  # 输出: [1]
+```
+
+#### 常用默认值类型
+
+- **int**：用于计数。
+- **list**：用于累积元素。
+- **dict**：用于嵌套字典。
+- **set**：用于累积不重复的元素。
+
+#### 更多示例
+
+##### 计数示例
+
+```python
+# 计数示例
+word_count = defaultdict(int)
+
+for word in ['apple', 'orange', 'apple', 'pear', 'orange', 'banana']:
+    word_count[word] += 1
+
+print(word_count)
+# 输出: defaultdict(<class 'int'>, {'apple': 2, 'orange': 2, 'pear': 1, 'banana': 1})
+```
+
+##### 累积列表
+
+```python
+# 累积列表示例
+items = defaultdict(list)
+
+items['apple'].append(1)
+items['apple'].append(2)
+items['orange'].append(3)
+
+print(items)
+# 输出: defaultdict(<class 'list'>, {'apple': [1, 2], 'orange': [3]})
+```
+
+##### 嵌套字典
+
+```python
+# 嵌套字典示例
+nested_dict = defaultdict(lambda: defaultdict(int))
+
+nested_dict['apple']['color'] = 1
+nested_dict['orange']['color'] = 1
+
+print(nested_dict)
+# 输出: defaultdict(<function <lambda> at 0x...>, {'apple': defaultdict(<class 'int'>, {'color': 1}), 'orange': defaultdict(<class 'int'>, {'color': 1})})
+```
+
+#### 注意事项
+
+1. **默认值是可变的**：默认值（如列表和字典）是可变的，所以如果你不小心修改了默认值，它会影响所有后续的默认值生成。
+2. **性能**：`defaultdict` 在访问不存在的键时，性能开销比普通字典稍高，因为它需要调用默认值生成函数。
+
+`defaultdict` 是处理字典时非常有用的工具，特别是在你需要自动初始化默认值的情况下。
