@@ -3827,8 +3827,10 @@ Back element: 20
 ### 优先队列 priority_queue
 
 <center>关键词：优先队列<center>
-
 <center>关键词：priority_queue<center>
+
+<center>关键词：堆<center>
+
 
 在 C++中，`std::priority_queue` 是标准模板库（STL）中的一个容器适配器，它提供了一个优先队列的功能，其中元素按照特定的顺序自动排列。默认情况下，`std::priority_queue` 是一个最大堆，这意味着队列顶部（通过 `top()` 函数访问）的元素始终是最大的。
 
